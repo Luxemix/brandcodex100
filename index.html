@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Codex 100 — The Aesthetic Index</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --bg: #FAF9F6;
+    --card-bg: #FFFFFF;
+    --text: #1A1A2E;
+    --text-muted: #6B6B7B;
+    --accent: #C9A96E;
+    --accent-light: #E8DCC8;
+    --border: #EDE9E1;
+    --tag-bg: #F3F0EA;
+    --luxury: #7B2D8E;
+    --mid: #2E6B9C;
+    --budget: #3A7D44;
+    --shadow: 0 2px 16px rgba(26,26,46,0.06);
+    --shadow-hover: 0 12px 40px rgba(26,26,46,0.14);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--text);
+    color: white;
+    padding: 48px 0 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 50%, #1A1A2E 100%);
+  }
+  .header-content { position: relative; z-index: 1; }
+  .site-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .site-header h1 span { color: var(--accent); }
+  .site-header .tagline {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .container { max-width: 1360px; margin: 0 auto; padding: 0 24px; }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .stat { text-align: center; }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== L1 CAROUSEL ===== */
+  .worlds-carousel-section {
+    margin-bottom: 32px;
+  }
+  .worlds-carousel-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .worlds-carousel-wrap {
+    position: relative;
+  }
+  .worlds-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 4px 0 16px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .worlds-carousel::-webkit-scrollbar { display: none; }
+
+  .world-pill {
+    flex-shrink: 0;
+    width: 200px;
+    height: 120px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2.5px solid transparent;
+  }
+  .world-pill:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+  }
+  .world-pill.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(201,169,110,0.25), var(--shadow-hover);
+  }
+  .world-pill img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.65) saturate(0.9);
+    transition: all 0.3s;
+  }
+  .world-pill:hover img,
+  .world-pill.active img {
+    filter: brightness(0.55) saturate(1);
+  }
+  .world-pill-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 14px;
+    color: white;
+    z-index: 2;
+  }
+  .world-pill-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  .world-pill-sub {
+    font-size: 0.68rem;
+    opacity: 0.8;
+    margin-top: 2px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-60%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+  .carousel-arrow:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: var(--shadow-hover);
+  }
+  .carousel-arrow.left { left: -12px; }
+  .carousel-arrow.right { right: -12px; }
+
+  /* ACTIVE WORLD BANNER */
+  .active-world-banner {
+    display: none;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .active-world-banner.visible { display: block; }
+  .awb-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .awb-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+  .awb-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .awb-close:hover { border-color: var(--accent); color: var(--accent); }
+  .awb-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 800px;
+  }
+
+  /* L2 SUB-AESTHETIC CHIPS */
+  .sub-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .sub-chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sub-chip:hover, .sub-chip.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(201,169,110,0.06);
+  }
+  .sub-chip.active {
+    background: rgba(201,169,110,0.12);
+    font-weight: 600;
+  }
+
+  /* L2 SECTION HEADERS */
+  .l2-section-header {
+    margin: 32px 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .l2-section-header:first-of-type {
+    margin-top: 8px;
+  }
+  .l2-section-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .l2-section-header p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  /* FILTERS */
+  .filters-section {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .filters-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .search-box { flex: 1; position: relative; }
+  .search-box input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    background: var(--bg);
+    transition: all 0.2s;
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(201,169,110,0.15); }
+  .search-box input::placeholder { color: #B0AEA6; }
+  .search-box svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #B0AEA6; }
+  .result-count { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; font-weight: 500; }
+  .result-count span { color: var(--accent); font-weight: 700; }
+
+  .filter-groups { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+  .filter-group { flex: 1; min-width: 160px; }
+  .filter-group label {
+    display: block; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px; font-weight: 600;
+  }
+
+  /* === PRICE RANGE SLIDER === */
+  .price-slider-wrap { position: relative; padding: 0 4px; }
+  .price-track {
+    position: relative; height: 8px; background: var(--border); border-radius: 99px;
+    overflow: hidden; cursor: pointer;
+  }
+  .price-track-fill {
+    position: absolute; top: 0; left: 0; height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--budget), var(--mid), var(--luxury));
+    transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .price-thumb {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 24px; height: 24px; border-radius: 50%;
+    background: white; border: 3px solid var(--accent);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: grab; z-index: 2;
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .price-thumb:hover { box-shadow: 0 3px 14px rgba(201,169,110,0.35); transform: translate(-50%, -50%) scale(1.15); }
+  .price-thumb:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.2); }
+  .price-thumb::after {
+    content: ''; position: absolute; inset: 5px; border-radius: 50%;
+    background: var(--accent); transition: transform 0.2s;
+  }
+  .price-labels {
+    display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.72rem;
+    color: var(--text-muted); font-weight: 500; user-select: none;
+  }
+  .price-labels span { cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: all 0.2s; }
+  .price-labels span:hover { color: var(--accent); }
+  .price-labels span.active { color: var(--accent); font-weight: 700; }
+  .price-current {
+    text-align: center; margin-top: 6px; font-size: 0.78rem; font-weight: 600;
+    color: var(--accent); min-height: 1.2em; transition: opacity 0.2s;
+  }
+
+  /* === TOGGLE PILL GROUPS (Category, Size) === */
+  .pill-group {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .pill-btn {
+    padding: 7px 14px; border: 1.5px solid var(--border); border-radius: 99px;
+    font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 500;
+    background: var(--card-bg); color: var(--text-muted); cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); user-select: none;
+    position: relative; overflow: hidden;
+  }
+  .pill-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.04));
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .pill-btn:hover { border-color: var(--accent-light); color: var(--text); transform: translateY(-1px); }
+  .pill-btn:hover::before { opacity: 1; }
+  .pill-btn.active {
+    border-color: var(--accent); background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(201,169,110,0.05));
+    color: var(--text); font-weight: 600; box-shadow: 0 2px 10px rgba(201,169,110,0.2);
+  }
+  .pill-btn.active::after {
+    content: '✓'; margin-left: 5px; font-size: 0.7rem;
+  }
+  .pill-btn:active { transform: scale(0.95); }
+
+  /* Size pills with icons */
+  .pill-btn .pill-icon { margin-right: 4px; font-size: 0.9rem; }
+
+  /* === ORIGIN SCROLL BAR === */
+  .origin-scroll-wrap { position: relative; }
+  .origin-scroll {
+    display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 8px;
+    scrollbar-width: thin; scrollbar-color: var(--accent-light) transparent;
+    -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
+  }
+  .origin-scroll::-webkit-scrollbar { height: 4px; }
+  .origin-scroll::-webkit-scrollbar-track { background: transparent; }
+  .origin-scroll::-webkit-scrollbar-thumb { background: var(--accent-light); border-radius: 99px; }
+  .origin-pill {
+    flex-shrink: 0; padding: 6px 14px; border: 1.5px solid var(--border); border-radius: 99px;
+    font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500;
+    background: var(--card-bg); color: var(--text-muted); cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); white-space: nowrap; user-select: none;
+  }
+  .origin-pill:hover { border-color: var(--accent-light); color: var(--text); transform: translateY(-1px); }
+  .origin-pill.active {
+    border-color: var(--accent); background: var(--accent); color: white;
+    font-weight: 600; box-shadow: 0 2px 10px rgba(201,169,110,0.3);
+  }
+  .origin-pill:active { transform: scale(0.95); }
+  .origin-fade {
+    position: absolute; top: 0; bottom: 8px; width: 40px; pointer-events: none; z-index: 1;
+  }
+  .origin-fade.right { right: 0; background: linear-gradient(90deg, transparent, var(--bg)); }
+
+  /* === CLEAR BUTTON === */
+  .clear-filters {
+    align-self: flex-end; padding: 8px 18px; background: none;
+    border: 1.5px dashed var(--border); border-radius: 99px;
+    font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500;
+    color: var(--text-muted); cursor: pointer; transition: all 0.25s;
+    display: flex; align-items: center; gap: 5px; white-space: nowrap;
+  }
+  .clear-filters:hover { border-color: #E57373; color: #E57373; background: rgba(229,115,115,0.04); }
+  .clear-filters svg { transition: transform 0.3s; }
+  .clear-filters:hover svg { transform: rotate(90deg); }
+
+  /* Active filter count badge */
+  .filter-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%; background: var(--accent);
+    color: white; font-size: 0.65rem; font-weight: 700;
+    margin-left: 6px; opacity: 0; transform: scale(0);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .filter-count.visible { opacity: 1; transform: scale(1); }
+
+  /* SORT */
+  .sort-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .view-toggles { display: flex; gap: 8px; }
+  .view-btn {
+    width: 36px; height: 36px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--card-bg); cursor: pointer; display: flex; align-items: center;
+    justify-content: center; transition: all 0.2s; color: var(--text-muted);
+  }
+  .view-btn.active, .view-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(201,169,110,0.06); }
+
+  /* BRAND CARDS */
+  .brand-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 28px;
+    margin-bottom: 60px;
+  }
+  .brand-grid.list-view { grid-template-columns: 1fr; gap: 16px; }
+
+  /* L2 headers span full grid */
+  .brand-grid .l2-section-header {
+    grid-column: 1 / -1;
+  }
+
+  .brand-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+  .brand-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
+    border-color: var(--accent-light);
+  }
+
+  .card-image {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: #E8E4DC;
+  }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, filter 0.5s ease;
+    filter: saturate(0.85) brightness(1.02);
+  }
+  .brand-card:hover .card-image img {
+    transform: scale(1.04);
+    filter: saturate(1) brightness(1);
+  }
+  .card-image-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to top, rgba(26,26,46,0.45), transparent);
+    pointer-events: none;
+  }
+  .card-image .price-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .card-image .status-badge-img {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .status-badge-rising { background: rgba(212,118,58,0.85); color: white; }
+  .status-badge-established { background: rgba(255,255,255,0.8); color: var(--text); }
+
+  .card-image-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.05em;
+  }
+
+  .card-body { padding: 22px 26px 24px; }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .brand-origin {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+  .brand-origin .flag { margin-right: 3px; }
+
+  .price-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .price-luxury { background: rgba(123,45,142,0.1); color: var(--luxury); }
+  .price-mid { background: rgba(46,107,156,0.1); color: var(--mid); }
+  .price-budget { background: rgba(58,125,68,0.1); color: var(--budget); }
+
+  .vibe {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .meta-chip {
+    font-size: 0.7rem; font-weight: 500; padding: 3px 9px;
+    border-radius: 6px; background: var(--tag-bg); color: var(--text-muted);
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .tag {
+    font-size: 0.66rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: #908E86;
+    font-weight: 400;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .related { font-size: 0.76rem; color: var(--text-muted); }
+  .related strong { color: var(--text); font-weight: 600; }
+  .shop-link {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px;
+    background: var(--text); color: white; text-decoration: none; border-radius: 8px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.03em; transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .shop-link:hover { background: var(--accent); color: var(--text); }
+
+  /* LIST VIEW */
+  .list-view .brand-card { display: grid; grid-template-columns: 260px 1fr; }
+  .list-view .card-image { height: 100%; min-height: 200px; }
+  .list-view .card-body { padding: 20px 24px; }
+  .list-view .vibe { margin-bottom: 10px; }
+
+  .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); }
+  .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 8px; color: var(--text); }
+
+  .site-footer {
+    text-align: center; padding: 40px 0;
+    border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem;
+  }
+  .site-footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 860px) {
+    .site-header h1 { font-size: 2rem; }
+    .brand-grid { grid-template-columns: 1fr; }
+    .list-view .brand-card { grid-template-columns: 1fr; }
+    .list-view .card-image { height: 200px; }
+    .stats-bar { gap: 24px; }
+    .filter-groups { flex-direction: column; }
+    .filters-section { padding: 20px; }
+    .card-footer { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .world-pill { width: 160px; height: 100px; }
+    .carousel-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-content">
+    <h1>BRAND CODEX <span>100</span></h1>
+    <p class="tagline">The Aesthetic Index</p>
+  </div>
+</header>
+
+<main class="container" style="padding-top: 32px;">
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-number" id="brandCount">35</div><div class="stat-label">Curated Brands</div></div>
+    <div class="stat"><div class="stat-number">9</div><div class="stat-label">Aesthetic Worlds</div></div>
+    <div class="stat"><div class="stat-number">3</div><div class="stat-label">Price Tiers</div></div>
+    <div class="stat"><div class="stat-number">12</div><div class="stat-label">Countries</div></div>
+  </div>
+
+  <!-- L1 AESTHETIC WORLDS CAROUSEL -->
+  <div class="worlds-carousel-section">
+    <h2>Aesthetic Worlds</h2>
+    <div class="worlds-carousel-wrap">
+      <button class="carousel-arrow left" onclick="scrollCarousel(-1)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="worlds-carousel" id="worldsCarousel"></div>
+      <button class="carousel-arrow right" onclick="scrollCarousel(1)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ACTIVE WORLD DETAIL BANNER -->
+  <div class="active-world-banner" id="worldBanner">
+    <div class="awb-top">
+      <div class="awb-title" id="awbTitle"></div>
+      <button class="awb-close" onclick="clearWorldFilter()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="awb-desc" id="awbDesc"></div>
+    <div class="sub-chips" id="subChips"></div>
+  </div>
+
+  <div class="filters-section">
+    <div class="filters-top">
+      <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="searchInput" placeholder="Search brands, tags, vibes...">
+      </div>
+      <div class="result-count"><span id="resultCount">35</span> brands</div>
+    </div>
+    <div class="filter-groups">
+      <div class="filter-group" style="min-width:200px">
+        <label>Price Tier</label>
+        <div class="price-slider-wrap">
+          <div class="price-track" id="priceTrack">
+            <div class="price-track-fill" id="priceTrackFill"></div>
+          </div>
+          <div class="price-thumb" id="priceThumb"></div>
+          <div class="price-labels">
+            <span data-val="0" onclick="setPriceSlider(0)">All</span>
+            <span data-val="1" onclick="setPriceSlider(1)">Budget</span>
+            <span data-val="2" onclick="setPriceSlider(2)">Mid</span>
+            <span data-val="3" onclick="setPriceSlider(3)">Luxury</span>
+          </div>
+          <div class="price-current" id="priceLabel"></div>
+        </div>
+        <input type="hidden" id="filterPrice" value="">
+      </div>
+
+      <div class="filter-group">
+        <label>Category</label>
+        <div class="pill-group" id="categoryPills">
+          <button class="pill-btn active" data-val="" onclick="setCategoryFilter(this)">All</button>
+          <button class="pill-btn" data-val="Full Wardrobe" onclick="setCategoryFilter(this)"><span class="pill-icon">👗</span>Full Wardrobe</button>
+          <button class="pill-btn" data-val="Apparel" onclick="setCategoryFilter(this)"><span class="pill-icon">👚</span>Apparel</button>
+          <button class="pill-btn" data-val="Accessories" onclick="setCategoryFilter(this)"><span class="pill-icon">👜</span>Accessories</button>
+        </div>
+        <input type="hidden" id="filterCategory" value="">
+      </div>
+
+      <div class="filter-group" style="min-width:140px">
+        <label>Size Range</label>
+        <div class="pill-group" id="sizePills">
+          <button class="pill-btn active" data-val="" onclick="setSizeFilter(this)">All</button>
+          <button class="pill-btn" data-val="Standard" onclick="setSizeFilter(this)">Standard</button>
+          <button class="pill-btn" data-val="Inclusive" onclick="setSizeFilter(this)"><span class="pill-icon">✨</span>Inclusive</button>
+        </div>
+        <input type="hidden" id="filterSize" value="">
+      </div>
+
+      <div class="filter-group" style="flex:1.5">
+        <label>Origin</label>
+        <div class="origin-scroll-wrap">
+          <div class="origin-scroll" id="originScroll"></div>
+          <div class="origin-fade right"></div>
+        </div>
+        <input type="hidden" id="filterOrigin" value="">
+      </div>
+
+      <button class="clear-filters" onclick="clearFilters()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        Clear all
+        <span class="filter-count" id="filterCount">0</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="sort-bar">
+    <div style="font-size:0.8rem; color:var(--text-muted);">
+      Sort by:
+      <select id="sortBy" style="border:none; font-family:Inter; font-size:0.8rem; color:var(--accent); font-weight:600; cursor:pointer; background:none; outline:none;">
+        <option value="name">Name A-Z</option>
+        <option value="name-desc">Name Z-A</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="founded">Newest first</option>
+        <option value="founded-asc">Oldest first</option>
+      </select>
+    </div>
+    <div class="view-toggles">
+      <button class="view-btn active" onclick="setView('grid')" id="gridBtn" title="Grid view">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="7" height="7" rx="1"/><rect x="9" y="0" width="7" height="7" rx="1"/><rect x="0" y="9" width="7" height="7" rx="1"/><rect x="9" y="9" width="7" height="7" rx="1"/></svg>
+      </button>
+      <button class="view-btn" onclick="setView('list')" id="listBtn" title="List view">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="1" width="16" height="3" rx="1"/><rect x="0" y="6.5" width="16" height="3" rx="1"/><rect x="0" y="12" width="16" height="3" rx="1"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="brand-grid" id="brandGrid"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <h3>No brands match your filters</h3>
+    <p>Try adjusting your search or clearing filters</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <p>Brand Codex 100 — The Aesthetic Index</p>
+  <p style="margin-top:6px;">Curated with intention. Built for discovery.</p>
+</footer>
+
+<script>
+// ===== FLAGS =====
+const FLAGS = {"Sweden":"\u{1F1F8}\u{1F1EA}","United States":"\u{1F1FA}\u{1F1F8}","United Kingdom":"\u{1F1EC}\u{1F1E7}","France":"\u{1F1EB}\u{1F1F7}","Australia":"\u{1F1E6}\u{1F1FA}","Canada":"\u{1F1E8}\u{1F1E6}","Hungary":"\u{1F1ED}\u{1F1FA}","Japan":"\u{1F1EF}\u{1F1F5}","Germany":"\u{1F1E9}\u{1F1EA}","Denmark":"\u{1F1E9}\u{1F1F0}","Spain":"\u{1F1EA}\u{1F1F8}"};
+
+// ===== BRANDS (all 35) =====
+const brands = {
+  "The Row":{origin:"United States",founded:2006,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Understated luxury tailoring that whispers rather than shouts — the gold standard of quiet luxury",tags:["quiet luxury","minimalist","elevated basics","timeless","investment pieces","old money"],related:["Toteme","Lemaire","Khaite"],img:"https://images.unsplash.com/photo-1544957992-20514f595d6f?w=600&h=500&fit=crop",url:"https://www.therow.com"},
+  "Toteme":{origin:"Sweden",founded:2014,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Effortless Scandinavian minimalism with a luxe edge and quiet confidence",tags:["minimalist","Scandinavian","quiet luxury","timeless","investment pieces"],related:["The Row","Lemaire","COS"],img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"https://www.toteme.com"},
+  "COS":{origin:"United Kingdom",founded:2007,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Scandinavian-inspired minimalism made accessible — clean-lined architecture in fabric form",tags:["minimalist","Scandinavian","architectural","accessible luxury"],related:["& Other Stories","Uniqlo","Arket"],img:"https://plus.unsplash.com/premium_photo-1764601209691-7bbdc1456641?w=600&h=500&fit=crop",url:"https://www.cos.com"},
+  "Lemaire":{origin:"France",founded:1991,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Low-key luxury through meticulous craft — refined simplicity that rewards attention to detail",tags:["quiet luxury","minimalist","impeccable tailoring","timeless"],related:["The Row","Toteme","Jil Sander"],img:"https://images.unsplash.com/photo-1508427953056-b00b8d78ebf5?w=600&h=500&fit=crop",url:"https://www.lemaire.fr"},
+  "Khaite":{origin:"United States",founded:2016,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"New York sensibility with intentional luxury — modern essentials that feel effortless yet elevated",tags:["quiet luxury","minimalist","New York","investment pieces"],related:["The Row","Vince","Nanushka"],img:"https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&h=500&fit=crop",url:"https://khaite.com"},
+  "Sezane":{origin:"France",founded:2013,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Digital-native Parisian elegance — effortless French girl style without the gatekeeping",tags:["French girl","minimalist","quiet luxury","sustainable"],related:["Rouje","Dissh","Loulou Studio"],img:"https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=600&h=500&fit=crop",url:"https://www.sezane.com"},
+  "Ganni":{origin:"Denmark",founded:2000,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Scandinavian sustainability that doesn't feel preachy — cool-girl minimalism with purpose",tags:["Scandinavian","sustainable","contemporary","bold prints"],related:["Stine Goya","Saks Potts","Reformation"],img:"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&h=500&fit=crop",url:"https://www.ganni.com"},
+  "Everlane":{origin:"United States",founded:2011,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Transparent luxury without the price tag — ethical minimalism for the conscious consumer",tags:["minimalist","ethical","sustainable","clean girl"],related:["Uniqlo","COS","Reformation"],img:"https://plus.unsplash.com/premium_photo-1726750926760-2e31bfdaded2?w=600&h=500&fit=crop",url:"https://www.everlane.com"},
+  "Uniqlo":{origin:"Japan",founded:1984,price:"Budget",category:"Full Wardrobe",size:"Inclusive",vibe:"Japanese minimalism elevated — functional basics that feel like luxury fundamentals",tags:["minimalist","Japanese","functional","sustainable"],related:["COS","Everlane","Arket"],img:"https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&h=500&fit=crop",url:"https://www.uniqlo.com"},
+  "Jil Sander":{origin:"Germany",founded:1968,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Minimalist pioneer defining modern luxury — precision and purity as a design philosophy",tags:["minimalist pioneer","quiet luxury","impeccable tailoring"],related:["Toteme","Lemaire","The Row"],img:"https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&h=500&fit=crop",url:"https://www.jilsander.com"},
+  "Reformation":{origin:"United States",founded:2009,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Sustainability meets style — cool-girl minimalism that doesn't compromise on ethics",tags:["sustainable","clean girl","ethical","contemporary"],related:["Ganni","Sezane","Christy Dawn"],img:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&h=500&fit=crop",url:"https://www.thereformation.com"},
+  "Isabel Marant":{origin:"France",founded:1994,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Parisian cool with effortless edge — contemporary luxury that feels lived-in and real",tags:["French girl","effortless luxury","boho edge"],related:["Musier Paris","Nanushka"],img:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=500&fit=crop",url:"https://www.isabelmarant.com"},
+  "A.P.C.":{origin:"France",founded:1987,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Parisian minimalism as a lifestyle — timeless basics that anchor a lifetime of wardrobing",tags:["minimalist","French","denim","timeless"],related:["Lemaire","Nanushka","COS"],img:"https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&h=500&fit=crop",url:"https://www.apc-us.com"},
+  "Vince":{origin:"United States",founded:2002,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"California cool in luxury basics — effortless minimalism rooted in West Coast ease",tags:["minimalist","California","quiet luxury","investment pieces"],related:["Khaite","Everlane","Loulou Studio"],img:"https://images.unsplash.com/photo-1506152983158-b4a74a01c721?w=600&h=500&fit=crop",url:"https://www.vince.com"},
+  "Musier Paris":{origin:"France",founded:2018,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"90s French minimalism with edgy details — understated cool girl energy",tags:["French girl","90s","edgy details","quiet luxury"],related:["Sezane","Loulou Studio","Rouje"],img:"https://images.unsplash.com/photo-1645963053605-25f01c33ca02?w=600&h=500&fit=crop",url:"https://musier-paris.com"},
+  "Loulou Studio":{origin:"France",founded:2019,price:"Luxury",category:"Apparel",size:"Standard",vibe:"Parisian cashmere dreams — cozy luxury that never tries too hard",tags:["cashmere","French","quiet luxury","investment pieces"],related:["Musier Paris","Sezane","Vince"],img:"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=500&fit=crop",url:"https://loulouthebrand.com"},
+  "Nanushka":{origin:"Hungary",founded:2005,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Precision craftsmanship meets understated edge — vegan leather innovation with global appeal",tags:["minimalist","vegan leather","architectural","innovative"],related:["Acne Studios","Toteme","Khaite"],img:"https://images.unsplash.com/photo-1536992266094-82847e1fd431?w=600&h=500&fit=crop",url:"https://www.nanushka.com"},
+  "& Other Stories":{origin:"Sweden",founded:2013,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Scandinavian storytelling through fashion — experimental minimalism at accessible prices",tags:["Scandinavian","editorial","accessible luxury"],related:["COS","Everlane","Ganni"],img:"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&h=500&fit=crop",url:"https://www.stories.com"},
+  "Dissh":{origin:"Australia",founded:2001,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Effortless coastal elegance with a quiet luxury edge — the clean girl blueprint",tags:["clean girl","coastal","minimalist","linen"],related:["Sezane","Faithfull the Brand","COS"],img:"https://images.unsplash.com/photo-1520466809213-7b9a56adcd45?w=600&h=500&fit=crop",url:"https://dissh.com"},
+  "Aesther Ekme":{origin:"Denmark",founded:2016,price:"Luxury",category:"Accessories",size:"Standard",vibe:"Nordic minimalism meets artisanal accessories — understated luxury leather goods",tags:["Scandinavian","luxury accessories","architectural"],related:["Hereu","Toteme"],img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&h=500&fit=crop",url:"https://aestherekme.com"},
+  "Hereu":{origin:"Spain",founded:2014,price:"Luxury",category:"Accessories",size:"Standard",vibe:"Mediterranean craft meets minimalist design — Spanish luxury with understated elegance",tags:["Spanish craftsmanship","quiet luxury","leather goods","Mediterranean"],related:["Aesther Ekme","Stouls"],img:"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&h=500&fit=crop",url:"https://hereustudio.com"},
+  "Stouls":{origin:"France",founded:2004,price:"Luxury",category:"Apparel",size:"Standard",vibe:"Luxury leather innovation — machine-washable pieces that redefine quiet luxury",tags:["luxury leather","innovative","French craftsmanship"],related:["Aesther Ekme","Hereu","A.P.C."],img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=500&fit=crop",url:"https://stouls.paris"},
+  "Ille de Cocos":{origin:"United Kingdom",founded:2014,price:"Luxury",category:"Apparel",size:"Standard",vibe:"London-born knitwear luxury — soft minimalism with edgy details",tags:["luxury knitwear","quiet luxury","edgy details"],related:["Loulou Studio","Stouls"],img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=500&fit=crop",url:"https://illedecocos.com"},
+  "ASOS":{origin:"United Kingdom",founded:2000,price:"Budget",category:"Full Wardrobe",size:"Inclusive",vibe:"Trend-savvy accessibility — digital-first fashion with minimalist sensibilities",tags:["accessible","trend-aware","inclusive sizing","digital native"],related:["Everlane","Uniqlo","& Other Stories"],img:"https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&h=500&fit=crop",url:"https://www.asos.com"},
+  "Aritzia Babaton":{origin:"Canada",founded:1994,price:"Mid",category:"Apparel",size:"Standard",vibe:"Modern power dressing with minimalist precision — elevated workwear essentials",tags:["minimalist","power tailoring","contemporary luxury"],related:["COS","Reiss","& Other Stories"],img:"https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=500&fit=crop",url:"https://www.aritzia.com"},
+  "Rouje":{origin:"France",founded:2016,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Vintage Parisian femininity — Jeanne Damas's vision of effortless French romance",tags:["French girl","vintage","feminine","romantic"],related:["Sezane","Musier Paris"],img:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&h=500&fit=crop",url:"https://www.rouje.com"},
+  "Zimmermann":{origin:"Australia",founded:1991,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Australian bohemian luxury — romantic florals and resort-ready silhouettes",tags:["boho","romantic","resort","luxury florals"],related:["Ulla Johnson","Doen","LoveShackFancy"],img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"https://www.zimmermann.com"},
+  "Free People":{origin:"United States",founded:1970,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Bohemian spirit made mainstream — free-spirited fashion for the modern wanderer",tags:["boho","free-spirited","romantic","layered"],related:["Spell","Auguste the Label","Christy Dawn"],img:"https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=600&h=500&fit=crop",url:"https://www.freepeople.com"},
+  "Alo Yoga":{origin:"United States",founded:2007,price:"Mid",category:"Apparel",size:"Standard",vibe:"Studio-to-street luxury — fashion-forward activewear for visible living",tags:["athleisure","studio-to-street","performance luxury"],related:["Lululemon","Sporty & Rich"],img:"https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=500&fit=crop",url:"https://www.aloyoga.com"},
+  "Sporty & Rich":{origin:"United States",founded:2014,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Vintage sportswear meets old-money lifestyle — the aesthetic that became a brand",tags:["sporty","vintage","old money","lifestyle"],related:["Alo Yoga","New Balance"],img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",url:"https://www.sportyandrich.com"},
+  "Schiaparelli":{origin:"France",founded:1927,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Surrealist haute couture reborn — fearless maximalism as high art",tags:["maximalist","surrealist","bold","haute couture"],related:["Balmain","Valentino"],img:"https://images.unsplash.com/photo-1770777351893-4a71409517a3?w=600&h=500&fit=crop",url:"https://www.schiaparelli.com"},
+  "Sandy Liang":{origin:"United States",founded:2014,price:"Luxury",category:"Apparel",size:"Standard",vibe:"NYC cool-girl meets coquette — bows, fleece, and feminine edge",tags:["coquette","cool girl","feminine","NYC"],related:["Simone Rocha","Shushu/Tong"],img:"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=500&fit=crop",url:"https://sandyliang.info"},
+  "Doen":{origin:"United States",founded:2015,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"California pastoral romance — prairie dresses for the modern dreamer",tags:["cottagecore","romantic","prairie","sustainable"],related:["Christy Dawn","Selkie","LoveShackFancy"],img:"https://images.unsplash.com/photo-1648971627285-f4d0478b7f47?w=600&h=500&fit=crop",url:"https://shopdoen.com"},
+  "Christy Dawn":{origin:"United States",founded:2013,price:"Mid",category:"Apparel",size:"Inclusive",vibe:"Farm-to-closet fashion — deadstock fabrics and regenerative cotton for conscious romantics",tags:["sustainable","cottagecore","artisan","farm-to-closet"],related:["Doen","Reformation"],img:"https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=600&h=500&fit=crop",url:"https://christydawn.com"},
+  "LoveShackFancy":{origin:"United States",founded:2013,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Hyper-romantic ruffles and pastels — maximalist femininity in floral form",tags:["romantic ruffles","maximalist feminine","pastel","floral"],related:["Selkie","Zimmermann"],img:"https://plus.unsplash.com/premium_photo-1763392945516-9a9743ce9fdf?w=600&h=500&fit=crop",url:"https://www.loveshackfancy.com"}
+};
+
+// ===== L1 AESTHETIC WORLDS =====
+const worlds = [
+  {name:"Quiet Luxury",desc:"Understated elegance",color:"#9C7C5C",img:"https://images.unsplash.com/photo-1676716184677-02c58a869b98?w=900&h=600&fit=crop",fullDesc:"Refined minimalism where whisper-quiet fabrics and invisible seams communicate wealth more eloquently than logos ever could.",subs:[
+    {name:"Pristine Minimalism",desc:"Architecturally precise pieces in premium neutral palettes",brands:["The Row","Toteme","Lemaire","Jil Sander","COS"]},
+    {name:"Clean Girl Essentials",desc:"Pared-back wardrobe staples in soft neutrals",brands:["Everlane","Uniqlo","COS","Dissh","ASOS"]},
+    {name:"Old Money Codes",desc:"Stealth wealth signifiers — cashmere and heirloom accessories",brands:["Khaite","Vince","A.P.C.","Aritzia Babaton"]},
+    {name:"Lazy Luxury",desc:"Oversized shirting, buttery knitwear, slouchy totes",brands:["The Row","Toteme","Loulou Studio","Vince"]}
+  ]},
+  {name:"New Scandi",desc:"Minimalist refinement",color:"#6A8E8E",img:"https://images.unsplash.com/photo-1722013339441-2adacb14c889?w=900&h=600&fit=crop",fullDesc:"Hygge meets high fashion — texture collision, body-conscious knitwear, and Copenhagen eccentricity.",subs:[
+    {name:"Copenhagen Eccentricity",desc:"Statement-making Scandi with funky headwear and bold color",brands:["Ganni","& Other Stories"]},
+    {name:"Stockholm Refined",desc:"Cleaner, sharper lines with animal-print shoes and fluid coats",brands:["Toteme","COS","& Other Stories"]},
+    {name:"Nordic Craft",desc:"Artisanal accessories and conceptual knitwear",brands:["Aesther Ekme","Ille de Cocos"]}
+  ]},
+  {name:"Parisian Chic",desc:"Timeless sophistication",color:"#B5968A",img:"https://images.unsplash.com/photo-1624178319268-a5873aa6388e?w=900&h=600&fit=crop",fullDesc:"The art of looking like you didn't try — evolving into hyper-elegance and messy chic for 2026.",subs:[
+    {name:"French Girl Essentials",desc:"White button-downs, dark denim, loafers",brands:["Sezane","A.P.C.","Isabel Marant","COS"]},
+    {name:"Parisian Edge",desc:"90s-inflected French minimalism with cool-girl attitude",brands:["Musier Paris","Isabel Marant","Loulou Studio"]},
+    {name:"French Artisan",desc:"Mediterranean-French craft in luxury leather and accessories",brands:["Hereu","Stouls","A.P.C.","Lemaire"]},
+    {name:"Digital Parisienne",desc:"Internet-era French style — curated and shareable",brands:["Sezane","Rouje","Musier Paris"]}
+  ]},
+  {name:"Coastal Ease",desc:"Relaxed luxury",color:"#6A9EB5",img:"https://images.unsplash.com/photo-1623421536321-f4036ba3fe6b?w=900&h=600&fit=crop",fullDesc:"Seaside sophistication — coastal grandmother evolved into coastal granddaughter and Mediterranean luxe.",subs:[
+    {name:"Coastal Granddaughter",desc:"Refined seaside elegance — cleaner, more sophisticated",brands:["Sezane","COS","Everlane","Dissh"]},
+    {name:"Coastal Boho",desc:"Minimalism meets bohemian with flowing fabrics",brands:["Free People","Dissh"]},
+    {name:"Mediterranean Luxe",desc:"Italian and Spanish coastal elegance",brands:["Hereu","Zimmermann"]},
+    {name:"Resort Minimalism",desc:"Crisp linens for languid seaside days",brands:["Vince","Dissh","COS","Loulou Studio"]}
+  ]},
+  {name:"Boho Wanderer",desc:"Free-spirited artistry",color:"#A8866B",img:"https://images.unsplash.com/photo-1511252219759-231266709b11?w=900&h=600&fit=crop",fullDesc:"Not ironic, not nostalgic — boho is genuinely BACK. Refined boho and bohemian minimalism are 2026 trends.",subs:[
+    {name:"Refined Boho",desc:"Well-heeled sophistication — counterculture with class",brands:["Isabel Marant","Zimmermann"]},
+    {name:"Bohemian Minimalism",desc:"One statement piece + clean neutrals",brands:["Christy Dawn","Reformation","COS","Dissh"]},
+    {name:"Artisan Boho",desc:"Hand-crafted details, natural dyes, ethically sourced textiles",brands:["Christy Dawn","Doen"]}
+  ]},
+  {name:"Dark Romance",desc:"Dramatic sophistication",color:"#4A3F3F",img:"https://images.unsplash.com/photo-1574797953310-b7cb9fd481a0?w=900&h=600&fit=crop",fullDesc:"Dark academia and dark romance are both thriving. Dark Coquette surged 331% in searches.",subs:[
+    {name:"Modern Dark Academia",desc:"Sleek blazers, ankle trousers, loafers — not dusty Tumblr energy",brands:["COS","& Other Stories","Jil Sander"]},
+    {name:"Dark Coquette",desc:"331% search surge — black lace, corset tops, burgundy/crimson",brands:["Sandy Liang"]},
+    {name:"Moody Minimalism",desc:"Clean lines in deep, saturated hues — quiet luxury's shadow self",brands:["Lemaire","The Row","Nanushka","Toteme","Jil Sander"]}
+  ]},
+  {name:"Pastoral Dreamer",desc:"Romantic naturalism",color:"#C4A882",img:"https://images.unsplash.com/photo-1683832837105-4683ce8da263?w=900&h=600&fit=crop",fullDesc:"Coquette is the mega-evolution (15.3B TikTok views). Cottagecore now luxury-focused. Regencycore surging.",subs:[
+    {name:"Coquette",desc:"15.3B TikTok views — bows, lace, soft pinks, lingerie-inspired",brands:["Sandy Liang"]},
+    {name:"Cottagecore Craft",desc:"Evolved from escapism to luxury craft",brands:["Doen","Christy Dawn"]},
+    {name:"Romantic Ruffles",desc:"Hyper-feminine layering in lace, ruffles, pastels",brands:["LoveShackFancy","Zimmermann"]}
+  ]},
+  {name:"Athletic Luxury",desc:"Performance elegance",color:"#5C8A7A",img:"https://images.unsplash.com/photo-1637875891040-90677c6b3d37?w=900&h=600&fit=crop",fullDesc:"$257B market. Split into quiet performance, gorpcore lite, and Sporty & Rich lifestyle.",subs:[
+    {name:"Studio-to-Street",desc:"Fashion-forward activewear for visible living",brands:["Alo Yoga","Sporty & Rich"]},
+    {name:"Luxury Leisure",desc:"Cashmere joggers and silk-blend hoodies — comfort as couture",brands:["Vince","Loulou Studio","Khaite"]},
+    {name:"Sporty & Rich",desc:"Vintage sportswear + old-money lifestyle aesthetic",brands:["Sporty & Rich","ASOS"]}
+  ]},
+  {name:"Maximalist Muse",desc:"Bold expressionism",color:"#C4566A",img:"https://images.unsplash.com/photo-1674156395389-2574986a9c50?w=900&h=600&fit=crop",fullDesc:"THE counter-movement. Quiet luxury down 60%. Gen Z dresses to look MORE, not rich. Loud luxury is surging.",subs:[
+    {name:"Loud Luxury",desc:"Gold jewelry, 80s power shoulders, vibrant palettes",brands:["Schiaparelli"]},
+    {name:"Dopamine Dressing",desc:"Bold mood-boosting color as emotional expression",brands:["Ganni","Zimmermann","Reformation"]},
+    {name:"Eclectic Vintage",desc:"One-of-a-kind finds mixed fearlessly",brands:["Rouje","Ganni"]}
+  ]}
+];
+
+// ===== STATE =====
+let activeWorldIdx = -1;
+let activeSubIdx = -1;
+
+// ===== POPULATE ORIGIN FILTER =====
+const allBrandNames = Object.keys(brands);
+const origins = [...new Set(allBrandNames.map(n => brands[n].origin))].sort();
+const originScroll = document.getElementById('originScroll');
+// Country flag emoji lookup
+const countryFlags = {"Australia":"🇦🇺","Denmark":"🇩🇰","France":"🇫🇷","Germany":"🇩🇪","Hungary":"🇭🇺","Italy":"🇮🇹","Japan":"🇯🇵","South Korea":"🇰🇷","Spain":"🇪🇸","Sweden":"🇸🇪","United Kingdom":"🇬🇧","United States":"🇺🇸"};
+originScroll.innerHTML = `<button class="origin-pill active" data-val="" onclick="setOriginFilter(this)">🌍 All</button>` +
+  origins.map(o => `<button class="origin-pill" data-val="${o}" onclick="setOriginFilter(this)">${countryFlags[o]||'🏳️'} ${o}</button>`).join('');
+
+// ===== RENDER CAROUSEL =====
+function renderCarousel() {
+  const el = document.getElementById('worldsCarousel');
+  el.innerHTML = worlds.map((w, i) => `
+    <div class="world-pill ${i === activeWorldIdx ? 'active' : ''}" onclick="selectWorld(${i})">
+      <img src="${w.img}" alt="${w.name}" loading="lazy">
+      <div class="world-pill-content">
+        <div class="world-pill-name">${w.name}</div>
+        <div class="world-pill-sub">${w.desc}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function scrollCarousel(dir) {
+  const el = document.getElementById('worldsCarousel');
+  el.scrollBy({ left: dir * 240, behavior: 'smooth' });
+}
+
+// ===== WORLD SELECTION =====
+function selectWorld(idx) {
+  if (activeWorldIdx === idx) { clearWorldFilter(); return; }
+  activeWorldIdx = idx;
+  activeSubIdx = -1;
+  const w = worlds[idx];
+
+  // Update carousel pills
+  document.querySelectorAll('.world-pill').forEach((pill, i) => pill.classList.toggle('active', i === idx));
+
+  // Show banner
+  const banner = document.getElementById('worldBanner');
+  document.getElementById('awbTitle').textContent = w.name;
+  document.getElementById('awbDesc').textContent = w.fullDesc;
+  banner.classList.add('visible');
+
+  // Render sub-aesthetic chips
+  const chips = document.getElementById('subChips');
+  chips.innerHTML = `<span class="sub-chip active" onclick="selectSub(-1)">All</span>` +
+    w.subs.map((s, si) => `<span class="sub-chip" onclick="selectSub(${si})">${s.name}</span>`).join('');
+
+  renderCards();
+}
+
+function selectSub(idx) {
+  activeSubIdx = idx;
+  document.querySelectorAll('.sub-chip').forEach((chip, i) => chip.classList.toggle('active', i === idx + 1));
+  renderCards();
+}
+
+function clearWorldFilter() {
+  activeWorldIdx = -1;
+  activeSubIdx = -1;
+  document.querySelectorAll('.world-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('worldBanner').classList.remove('visible');
+  renderCards();
+}
+
+// ===== FILTERING + SORTING =====
+const priceOrder = { 'Budget': 1, 'Mid': 2, 'Luxury': 3 };
+
+function getWorldBrands() {
+  if (activeWorldIdx < 0) return null;
+  const w = worlds[activeWorldIdx];
+  if (activeSubIdx >= 0) {
+    return { grouped: false, brands: new Set(w.subs[activeSubIdx].brands) };
+  }
+  return { grouped: true, subs: w.subs };
+}
+
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const price = document.getElementById('filterPrice').value;
+  const cat = document.getElementById('filterCategory').value;
+  const size = document.getElementById('filterSize').value;
+  const origin = document.getElementById('filterOrigin').value;
+  const sort = document.getElementById('sortBy').value;
+
+  let namesToFilter = allBrandNames;
+  const wb = getWorldBrands();
+  if (wb && !wb.grouped) {
+    namesToFilter = allBrandNames.filter(n => wb.brands.has(n));
+  } else if (wb && wb.grouped) {
+    const allWorldBrands = new Set();
+    wb.subs.forEach(s => s.brands.forEach(b => allWorldBrands.add(b)));
+    namesToFilter = allBrandNames.filter(n => allWorldBrands.has(n));
+  }
+
+  let results = namesToFilter.filter(name => {
+    const b = brands[name];
+    if (!b) return false;
+    if (price && b.price !== price) return false;
+    if (cat && b.category !== cat) return false;
+    if (size && b.size !== size) return false;
+    if (origin && b.origin !== origin) return false;
+    if (q) {
+      const haystack = [name, b.vibe, b.origin, b.category, ...b.tags, ...b.related].join(' ').toLowerCase();
+      return haystack.includes(q);
+    }
+    return true;
+  });
+
+  results.sort((a, bName) => {
+    const aB = brands[a], bB = brands[bName];
+    switch(sort) {
+      case 'name': return a.localeCompare(bName);
+      case 'name-desc': return bName.localeCompare(a);
+      case 'price-asc': return priceOrder[aB.price] - priceOrder[bB.price];
+      case 'price-desc': return priceOrder[bB.price] - priceOrder[aB.price];
+      case 'founded': return bB.founded - aB.founded;
+      case 'founded-asc': return aB.founded - bB.founded;
+      default: return 0;
+    }
+  });
+  return results;
+}
+
+function renderBrandCard(name) {
+  const b = brands[name];
+  if (!b) return '';
+  const flag = FLAGS[b.origin] || '';
+  const priceClass = b.price === 'Luxury' ? 'price-luxury' : b.price === 'Mid' ? 'price-mid' : 'price-budget';
+  const priceLabel = b.price === 'Budget' ? 'Under $100' : b.price === 'Mid' ? '$100-500' : '$500+';
+  const status = b.founded >= 2014 ? 'Rising' : 'Established';
+  const statusClass = status === 'Rising' ? 'status-badge-rising' : 'status-badge-established';
+  const initials = name.replace(/[^A-Z]/g,'').slice(0,2) || name.slice(0,2).toUpperCase();
+
+  return `<div class="brand-card">
+    <div class="card-image">
+      <img src="${b.img}" alt="${name} style" loading="lazy"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="card-image-fallback" style="display:none; background:linear-gradient(135deg,#D4C5A9,#E8DCC8);">${initials}</div>
+      <div class="card-image-overlay"></div>
+      <span class="price-badge ${priceClass}">${b.price} \u00B7 ${priceLabel}</span>
+      <span class="status-badge-img ${statusClass}">${status}</span>
+    </div>
+    <div class="card-body">
+      <div class="card-top">
+        <div>
+          <div class="brand-name">${name}</div>
+          <div class="brand-origin"><span class="flag">${flag}</span> ${b.origin} \u00B7 Est. ${b.founded}</div>
+        </div>
+      </div>
+      <p class="vibe">\u201C${b.vibe}\u201D</p>
+      <div class="card-meta">
+        <span class="meta-chip">${b.category}</span>
+        <span class="meta-chip">${b.size} sizing</span>
+      </div>
+      <div class="card-tags">${b.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-footer">
+        <div class="related">If you love this, try <strong>${b.related[0]}</strong>${b.related[1] ? ' & <strong>' + b.related[1] + '</strong>' : ''}</div>
+        <a class="shop-link" href="${b.url}" target="_blank" rel="noopener">Shop</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCards() {
+  const results = getFiltered();
+  const grid = document.getElementById('brandGrid');
+  const empty = document.getElementById('emptyState');
+  document.getElementById('resultCount').textContent = results.length;
+  document.getElementById('brandCount').textContent = results.length;
+
+  if (!results.length) { grid.style.display = 'none'; empty.style.display = 'block'; return; }
+  grid.style.display = ''; empty.style.display = 'none';
+
+  const wb = getWorldBrands();
+  const resultSet = new Set(results);
+
+  // If world selected + showing all subs + no text search, group by L2
+  if (wb && wb.grouped && !document.getElementById('searchInput').value) {
+    let html = '';
+    wb.subs.forEach(sub => {
+      const subBrands = sub.brands.filter(n => resultSet.has(n));
+      if (subBrands.length === 0) return;
+      html += `<div class="l2-section-header"><h3>${sub.name}</h3><p>${sub.desc}</p></div>`;
+      subBrands.forEach(n => { html += renderBrandCard(n); });
+    });
+    grid.innerHTML = html;
+  } else {
+    grid.innerHTML = results.map(n => renderBrandCard(n)).join('');
+  }
+}
+
+// ===== SLIDER & PILL FILTER LOGIC =====
+const priceSteps = ['', 'Budget', 'Mid', 'Luxury'];
+const priceLabels = ['All Prices', 'Budget (under $100)', 'Mid ($100–500)', 'Luxury ($500+)'];
+let currentPriceStep = 0;
+
+function setPriceSlider(step, skipRender) {
+  currentPriceStep = step;
+  const pct = step === 0 ? 0 : (step / 3) * 100;
+  document.getElementById('priceTrackFill').style.width = pct + '%';
+  const thumb = document.getElementById('priceThumb');
+  thumb.style.left = pct + '%';
+  thumb.style.opacity = step === 0 ? '0' : '1';
+  document.getElementById('priceLabel').textContent = step === 0 ? '' : priceLabels[step];
+  document.getElementById('filterPrice').value = priceSteps[step];
+  // Update label highlights
+  document.querySelectorAll('.price-labels span').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.val) === step);
+  });
+  if (!skipRender) { renderCards(); updateFilterCount(); }
+}
+
+// Price slider drag
+(function initPriceSlider() {
+  const track = document.getElementById('priceTrack');
+  const thumb = document.getElementById('priceThumb');
+  function getStep(e) {
+    const rect = track.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    return Math.round(pct * 3);
+  }
+  track.addEventListener('click', e => setPriceSlider(getStep(e)));
+  let dragging = false;
+  thumb.addEventListener('mousedown', e => { dragging = true; e.preventDefault(); });
+  document.addEventListener('mousemove', e => { if (dragging) setPriceSlider(getStep(e)); });
+  document.addEventListener('mouseup', () => dragging = false);
+  // Touch support
+  thumb.addEventListener('touchstart', e => { dragging = true; e.preventDefault(); });
+  document.addEventListener('touchmove', e => { if (dragging) setPriceSlider(getStep(e.touches[0])); });
+  document.addEventListener('touchend', () => dragging = false);
+  setPriceSlider(0, true);
+})();
+
+function setCategoryFilter(btn) {
+  document.querySelectorAll('#categoryPills .pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('filterCategory').value = btn.dataset.val;
+  renderCards(); updateFilterCount();
+}
+
+function setSizeFilter(btn) {
+  document.querySelectorAll('#sizePills .pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('filterSize').value = btn.dataset.val;
+  renderCards(); updateFilterCount();
+}
+
+function setOriginFilter(btn) {
+  document.querySelectorAll('#originScroll .origin-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('filterOrigin').value = btn.dataset.val;
+  renderCards(); updateFilterCount();
+}
+
+function updateFilterCount() {
+  let count = 0;
+  if (document.getElementById('filterPrice').value) count++;
+  if (document.getElementById('filterCategory').value) count++;
+  if (document.getElementById('filterSize').value) count++;
+  if (document.getElementById('filterOrigin').value) count++;
+  const badge = document.getElementById('filterCount');
+  badge.textContent = count;
+  badge.classList.toggle('visible', count > 0);
+}
+
+function clearFilters() {
+  document.getElementById('searchInput').value = '';
+  setPriceSlider(0, true);
+  document.querySelectorAll('#categoryPills .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.getElementById('filterCategory').value = '';
+  document.querySelectorAll('#sizePills .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.getElementById('filterSize').value = '';
+  document.querySelectorAll('#originScroll .origin-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.getElementById('filterOrigin').value = '';
+  updateFilterCount();
+  clearWorldFilter();
+}
+
+function setView(type) {
+  const grid = document.getElementById('brandGrid');
+  document.getElementById('gridBtn').classList.toggle('active', type === 'grid');
+  document.getElementById('listBtn').classList.toggle('active', type === 'list');
+  grid.classList.toggle('list-view', type === 'list');
+}
+
+// ===== EVENT LISTENERS =====
+document.getElementById('searchInput').addEventListener('input', () => { renderCards(); updateFilterCount(); });
+document.getElementById('sortBy').addEventListener('change', renderCards);
+
+// ===== INIT =====
+renderCarousel();
+renderCards();
+</script>
+</body>
+</html>
