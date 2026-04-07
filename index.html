@@ -25,6 +25,7 @@
 <link rel="canonical" href="https://brandcodex100.com">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%231A1A2E'/><text x='50' y='62' font-size='48' font-family='serif' font-weight='bold' fill='%23C9A96E' text-anchor='middle'>BC</text></svg>">
 <style>
+
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
   :root {
@@ -801,295 +802,418 @@
     .world-pill { width: 160px; height: 100px; }
     .carousel-arrow { display: none; }
   }
+
+
+  /* === NEW FILTER SECTIONS === */
+  .tag-filter-section { margin-bottom: 1rem; }
+  .tag-filter-section h4 {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  .tag-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag-pill {
+    padding: 0.35rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  .tag-pill:hover { border-color: var(--gold); color: var(--gold); }
+  .tag-pill.active { background: var(--gold); color: white; border-color: var(--gold); }
+  .tier-badge {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+  .tier-codex-pick {
+    background: linear-gradient(135deg, #C9A96E, #B8943F);
+    color: white;
+  }
+  .tier-cultural-staple {
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .aesthetic-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: rgba(26, 26, 46, 0.75);
+    color: white;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+  }
+  .card-vibes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+  }
+  .vibe-chip {
+    padding: 0.15rem 0.45rem;
+    border-radius: 100px;
+    font-size: 0.6rem;
+    font-weight: 500;
+    background: rgba(201, 169, 110, 0.1);
+    color: var(--gold);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+  }
+  .filter-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0.8rem 0;
+  }
+
 </style>
 </head>
 <body>
-
-<header class="site-header">
-  <div class="header-content">
-    <h1>BRAND CODEX <span>100</span></h1>
-    <p class="tagline">The Aesthetic Index</p>
+<header>
+  <div class="header-inner">
+    <div class="logo-group">
+      <div class="logo-mark">BC</div>
+      <div>
+        <div class="logo-text">Brand Codex</div>
+        <div class="logo-sub">The Aesthetic Index</div>
+      </div>
+    </div>
+    <div class="search-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search brands, vibes, tags...">
+    </div>
   </div>
 </header>
 
-<main class="container" style="padding-top: 32px;">
+<div class="stats-bar">
+  <div class="stat"><span class="stat-num">113</span><span class="stat-label">Curated Brands</span></div>
+  <div class="stat"><span class="stat-num">10</span><span class="stat-label">Aesthetic Worlds</span></div>
+  <div class="stat"><span class="stat-num">3</span><span class="stat-label">Price Tiers</span></div>
+  <div class="stat"><span class="stat-num">18</span><span class="stat-label">Countries</span></div>
+</div>
 
-  <div class="stats-bar">
-    <div class="stat"><div class="stat-number" id="brandCount">35</div><div class="stat-label">Curated Brands</div></div>
-    <div class="stat"><div class="stat-number">9</div><div class="stat-label">Aesthetic Worlds</div></div>
-    <div class="stat"><div class="stat-number">3</div><div class="stat-label">Price Tiers</div></div>
-    <div class="stat"><div class="stat-number">12</div><div class="stat-label">Countries</div></div>
-  </div>
-
-  <!-- L1 AESTHETIC WORLDS CAROUSEL -->
-  <div class="worlds-carousel-section">
-    <h2>Aesthetic Worlds</h2>
-    <div class="worlds-carousel-wrap">
-      <button class="carousel-arrow left" onclick="scrollCarousel(-1)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <div class="worlds-carousel" id="worldsCarousel"></div>
-      <button class="carousel-arrow right" onclick="scrollCarousel(1)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
+<section class="worlds-section">
+  <div class="worlds-header">
+    <h2>Explore Aesthetic Worlds</h2>
+    <div class="carousel-nav">
+      <button onclick="scrollCarousel(-1)" aria-label="Scroll left">&larr;</button>
+      <button onclick="scrollCarousel(1)" aria-label="Scroll right">&rarr;</button>
     </div>
   </div>
-
-  <!-- ACTIVE WORLD DETAIL BANNER -->
-  <div class="active-world-banner" id="worldBanner">
-    <div class="awb-top">
-      <div class="awb-title" id="awbTitle"></div>
-      <button class="awb-close" onclick="clearWorldFilter()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
+  <div class="worlds-carousel" id="worldsCarousel"></div>
+  <div class="world-banner" id="worldBanner">
+    <div class="world-banner-inner">
+      <h3 id="awbTitle"></h3>
+      <p id="awbDesc"></p>
     </div>
-    <div class="awb-desc" id="awbDesc"></div>
-    <div class="sub-chips" id="subChips"></div>
+    <button class="close-banner" onclick="clearWorldFilter()">&times;</button>
+  </div>
+</section>
+
+<section class="filters-section">
+  <div class="filters-header">
+    <span class="filters-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      Filters <span class="filter-badge" id="filterCount">0</span>
+    </span>
+    <button class="clear-btn" onclick="clearFilters()">Clear all</button>
   </div>
 
-  <div class="filters-section">
-    <div class="filters-top">
-      <div class="search-box">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="searchInput" placeholder="Search brands, tags, vibes...">
+  <input type="hidden" id="filterPrice" value="">
+  <input type="hidden" id="filterCategory" value="">
+  <input type="hidden" id="filterSize" value="">
+  <input type="hidden" id="filterOrigin" value="">
+  <input type="hidden" id="filterVibe" value="">
+  <input type="hidden" id="filterMoment" value="">
+  <input type="hidden" id="filterStage" value="">
+  <input type="hidden" id="filterTier" value="">
+
+  <div class="filter-row">
+    <div class="price-slider-wrap">
+      <div class="price-track" id="priceTrack">
+        <div class="price-track-fill" id="priceTrackFill"></div>
+        <div class="price-thumb" id="priceThumb"></div>
       </div>
-      <div class="result-count"><span id="resultCount">35</span> brands</div>
-    </div>
-    <div class="filter-groups">
-      <div class="filter-group" style="min-width:200px">
-        <label>Price Tier</label>
-        <div class="price-slider-wrap">
-          <div class="price-track" id="priceTrack">
-            <div class="price-track-fill" id="priceTrackFill"></div>
-          </div>
-          <div class="price-thumb" id="priceThumb"></div>
-          <div class="price-labels">
-            <span data-val="0" onclick="setPriceSlider(0)">All</span>
-            <span data-val="1" onclick="setPriceSlider(1)">Budget</span>
-            <span data-val="2" onclick="setPriceSlider(2)">Mid</span>
-            <span data-val="3" onclick="setPriceSlider(3)">Luxury</span>
-          </div>
-          <div class="price-current" id="priceLabel"></div>
-        </div>
-        <input type="hidden" id="filterPrice" value="">
+      <div class="price-labels">
+        <span data-val="0" class="active" onclick="setPriceSlider(0)">All</span>
+        <span data-val="1" onclick="setPriceSlider(1)">Budget</span>
+        <span data-val="2" onclick="setPriceSlider(2)">Mid</span>
+        <span data-val="3" onclick="setPriceSlider(3)">Luxury</span>
       </div>
-
-      <div class="filter-group">
-        <label>Category</label>
-        <div class="pill-group" id="categoryPills">
-          <button class="pill-btn active" data-val="" onclick="setCategoryFilter(this)">All</button>
-          <button class="pill-btn" data-val="Full Wardrobe" onclick="setCategoryFilter(this)"><span class="pill-icon">👗</span>Full Wardrobe</button>
-          <button class="pill-btn" data-val="Apparel" onclick="setCategoryFilter(this)"><span class="pill-icon">👚</span>Apparel</button>
-          <button class="pill-btn" data-val="Accessories" onclick="setCategoryFilter(this)"><span class="pill-icon">👜</span>Accessories</button>
-        </div>
-        <input type="hidden" id="filterCategory" value="">
-      </div>
-
-      <div class="filter-group" style="min-width:140px">
-        <label>Size Range</label>
-        <div class="pill-group" id="sizePills">
-          <button class="pill-btn active" data-val="" onclick="setSizeFilter(this)">All</button>
-          <button class="pill-btn" data-val="Standard" onclick="setSizeFilter(this)">Standard</button>
-          <button class="pill-btn" data-val="Inclusive" onclick="setSizeFilter(this)"><span class="pill-icon">✨</span>Inclusive</button>
-        </div>
-        <input type="hidden" id="filterSize" value="">
-      </div>
-
-      <div class="filter-group" style="flex:1.5">
-        <label>Origin</label>
-        <div class="origin-scroll-wrap">
-          <div class="origin-scroll" id="originScroll"></div>
-          <div class="origin-fade right"></div>
-        </div>
-        <input type="hidden" id="filterOrigin" value="">
-      </div>
-
-      <button class="clear-filters" onclick="clearFilters()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-        Clear all
-        <span class="filter-count" id="filterCount">0</span>
-      </button>
+      <div class="price-label-display" id="priceLabel"></div>
     </div>
   </div>
 
-  <div class="sort-bar">
-    <div style="font-size:0.8rem; color:var(--text-muted);">
-      Sort by:
-      <select id="sortBy" style="border:none; font-family:Inter; font-size:0.8rem; color:var(--accent); font-weight:600; cursor:pointer; background:none; outline:none;">
-        <option value="name">Name A-Z</option>
-        <option value="name-desc">Name Z-A</option>
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
-        <option value="founded">Newest first</option>
-        <option value="founded-asc">Oldest first</option>
-      </select>
-    </div>
-    <div class="view-toggles">
-      <button class="view-btn active" onclick="setView('grid')" id="gridBtn" title="Grid view">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="7" height="7" rx="1"/><rect x="9" y="0" width="7" height="7" rx="1"/><rect x="0" y="9" width="7" height="7" rx="1"/><rect x="9" y="9" width="7" height="7" rx="1"/></svg>
-      </button>
-      <button class="view-btn" onclick="setView('list')" id="listBtn" title="List view">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="1" width="16" height="3" rx="1"/><rect x="0" y="6.5" width="16" height="3" rx="1"/><rect x="0" y="12" width="16" height="3" rx="1"/></svg>
-      </button>
-    </div>
+  <div class="tag-filter-section">
+    <h4>Vibe</h4>
+    <div class="tag-pills" id="vibePills"></div>
   </div>
 
-  <div class="brand-grid" id="brandGrid"></div>
-  <div class="empty-state" id="emptyState" style="display:none;">
-    <h3>No brands match your filters</h3>
-    <p>Try adjusting your search or clearing filters</p>
+  <div class="tag-filter-section">
+    <h4>Life Moment</h4>
+    <div class="tag-pills" id="momentPills"></div>
   </div>
 
-</main>
+  <div class="tag-filter-section">
+    <h4>Life Stage</h4>
+    <div class="tag-pills" id="stagePills"></div>
+  </div>
 
-<footer class="site-footer">
+  <div class="tag-filter-section">
+    <h4>Curation Tier</h4>
+    <div class="tag-pills" id="tierPills"></div>
+  </div>
+
+  <div class="filter-divider"></div>
+
+  <div class="origin-filter" id="originScroll"></div>
+</section>
+
+<div class="sort-bar">
+  <div class="result-info"><span id="brandCount">0</span> brands <span class="result-sub">(<span id="resultCount">0</span> shown)</span></div>
+  <div class="sort-controls">
+    <select id="sortBy">
+      <option value="">Featured</option>
+      <option value="name">A &rarr; Z</option>
+      <option value="name-desc">Z &rarr; A</option>
+      <option value="price-asc">Price: Low &rarr; High</option>
+      <option value="price-desc">Price: High &rarr; Low</option>
+      <option value="founded">Newest first</option>
+      <option value="founded-asc">Oldest first</option>
+    </select>
+    <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Grid view">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    </button>
+    <button class="view-btn" id="listBtn" onclick="setView('list')" title="List view">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="brand-grid" id="brandGrid"></div>
+<div class="empty-state" id="emptyState" style="display:none;">
+  <p>No brands match your filters.</p>
+  <button onclick="clearFilters()">Reset filters</button>
+</div>
+
+<footer>
   <div class="footer-inner">
-    <div class="footer-brand">
-      <h3>BRAND CODEX <span>100</span></h3>
-      <p>A curated directory of aesthetic brands across fashion, beauty, and lifestyle. Discover your next favorite brand.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="#" onclick="openLegal('privacy'); return false;">Privacy Policy</a>
-      <a href="#" onclick="openLegal('terms'); return false;">Terms of Use</a>
-      <a href="#" onclick="openLegal('cookies'); return false;">Cookie Policy</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <a href="mailto:hello@brandcodex100.com">hello@brandcodex100.com</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 Brand Codex 100. All rights reserved.</span>
-    <div class="footer-legal">
+    <div class="footer-logo">Brand Codex 100</div>
+    <div class="footer-links">
       <a href="#" onclick="openLegal('privacy'); return false;">Privacy</a>
       <a href="#" onclick="openLegal('terms'); return false;">Terms</a>
+      <a href="#" onclick="openLegal('cookies'); return false;">Cookies</a>
+      <a href="mailto:hello@brandcodex100.com">Contact</a>
     </div>
+    <div class="footer-note">An independent editorial directory. Not affiliated with listed brands.</div>
   </div>
 </footer>
 
-<!-- COOKIE CONSENT BANNER -->
 <div class="cookie-banner" id="cookieBanner">
-  <span>We use cookies to analyze site traffic and improve your experience. <a href="#" onclick="openLegal('cookies'); return false;">Learn more</a></span>
-  <button class="cookie-btn cookie-accept" onclick="acceptCookies()">Accept</button>
-  <button class="cookie-btn cookie-decline" onclick="declineCookies()">Decline</button>
+  <span>We use cookies for analytics. <a href="#" onclick="openLegal('cookies'); return false;">Learn more</a></span>
+  <div>
+    <button class="cookie-btn decline" onclick="declineCookies()">Decline</button>
+    <button class="cookie-btn accept" onclick="acceptCookies()">Accept</button>
+  </div>
 </div>
 
-<!-- LEGAL MODALS -->
-<div class="legal-modal-overlay" id="legalModal">
-  <div class="legal-modal">
-    <button class="close-modal" onclick="closeLegal()">&times;</button>
+<div class="legal-modal" id="legalModal">
+  <div class="legal-modal-content">
+    <button class="legal-close" onclick="closeLegal()">&times;</button>
     <div id="legalContent"></div>
   </div>
 </div>
 
 <script>
 // ===== FLAGS =====
-const FLAGS = {"Sweden":"\u{1F1F8}\u{1F1EA}","United States":"\u{1F1FA}\u{1F1F8}","United Kingdom":"\u{1F1EC}\u{1F1E7}","France":"\u{1F1EB}\u{1F1F7}","Australia":"\u{1F1E6}\u{1F1FA}","Canada":"\u{1F1E8}\u{1F1E6}","Hungary":"\u{1F1ED}\u{1F1FA}","Japan":"\u{1F1EF}\u{1F1F5}","Germany":"\u{1F1E9}\u{1F1EA}","Denmark":"\u{1F1E9}\u{1F1F0}","Spain":"\u{1F1EA}\u{1F1F8}"};
+const FLAGS = {"Australia":"\u{1F1E6}\u{1F1FA}","Brazil":"\u{1F1E7}\u{1F1F7}","Canada":"\u{1F1E8}\u{1F1E6}","Colombia":"\u{1F1E8}\u{1F1F4}","Denmark":"\u{1F1E9}\u{1F1F0}","France":"\u{1F1EB}\u{1F1F7}","Germany":"\u{1F1E9}\u{1F1EA}","Hungary":"\u{1F1ED}\u{1F1FA}","Indonesia":"\u{1F1EE}\u{1F1E9}","Italy":"\u{1F1EE}\u{1F1F9}","Japan":"\u{1F1EF}\u{1F1F5}","Lebanon":"\u{1F1F1}\u{1F1E7}","South Korea":"\u{1F1F0}\u{1F1F7}","Spain":"\u{1F1EA}\u{1F1F8}","Sweden":"\u{1F1F8}\u{1F1EA}","Ukraine":"\u{1F1FA}\u{1F1E6}","United Kingdom":"\u{1F1EC}\u{1F1E7}","United States":"\u{1F1FA}\u{1F1F8}"};
 
-// ===== BRANDS (all 35) =====
+// ===== BRAND DATA =====
 const brands = {
-  "The Row":{origin:"United States",founded:2006,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Understated luxury tailoring that whispers rather than shouts — the gold standard of quiet luxury",tags:["quiet luxury","minimalist","elevated basics","timeless","investment pieces","old money"],related:["Toteme","Lemaire","Khaite"],img:"https://images.unsplash.com/photo-1544957992-20514f595d6f?w=600&h=500&fit=crop",url:"https://www.therow.com"},
-  "Toteme":{origin:"Sweden",founded:2014,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Effortless Scandinavian minimalism with a luxe edge and quiet confidence",tags:["minimalist","Scandinavian","quiet luxury","timeless","investment pieces"],related:["The Row","Lemaire","COS"],img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"https://www.toteme.com"},
-  "COS":{origin:"United Kingdom",founded:2007,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Scandinavian-inspired minimalism made accessible — clean-lined architecture in fabric form",tags:["minimalist","Scandinavian","architectural","accessible luxury"],related:["& Other Stories","Uniqlo","Arket"],img:"https://plus.unsplash.com/premium_photo-1764601209691-7bbdc1456641?w=600&h=500&fit=crop",url:"https://www.cos.com"},
-  "Lemaire":{origin:"France",founded:1991,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Low-key luxury through meticulous craft — refined simplicity that rewards attention to detail",tags:["quiet luxury","minimalist","impeccable tailoring","timeless"],related:["The Row","Toteme","Jil Sander"],img:"https://images.unsplash.com/photo-1508427953056-b00b8d78ebf5?w=600&h=500&fit=crop",url:"https://www.lemaire.fr"},
-  "Khaite":{origin:"United States",founded:2016,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"New York sensibility with intentional luxury — modern essentials that feel effortless yet elevated",tags:["quiet luxury","minimalist","New York","investment pieces"],related:["The Row","Vince","Nanushka"],img:"https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&h=500&fit=crop",url:"https://khaite.com"},
-  "Sezane":{origin:"France",founded:2013,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Digital-native Parisian elegance — effortless French girl style without the gatekeeping",tags:["French girl","minimalist","quiet luxury","sustainable"],related:["Rouje","Dissh","Loulou Studio"],img:"https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=600&h=500&fit=crop",url:"https://www.sezane.com"},
-  "Ganni":{origin:"Denmark",founded:2000,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Scandinavian sustainability that doesn't feel preachy — cool-girl minimalism with purpose",tags:["Scandinavian","sustainable","contemporary","bold prints"],related:["Stine Goya","Saks Potts","Reformation"],img:"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&h=500&fit=crop",url:"https://www.ganni.com"},
-  "Everlane":{origin:"United States",founded:2011,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Transparent luxury without the price tag — ethical minimalism for the conscious consumer",tags:["minimalist","ethical","sustainable","clean girl"],related:["Uniqlo","COS","Reformation"],img:"https://plus.unsplash.com/premium_photo-1726750926760-2e31bfdaded2?w=600&h=500&fit=crop",url:"https://www.everlane.com"},
-  "Uniqlo":{origin:"Japan",founded:1984,price:"Budget",category:"Full Wardrobe",size:"Inclusive",vibe:"Japanese minimalism elevated — functional basics that feel like luxury fundamentals",tags:["minimalist","Japanese","functional","sustainable"],related:["COS","Everlane","Arket"],img:"https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&h=500&fit=crop",url:"https://www.uniqlo.com"},
-  "Jil Sander":{origin:"Germany",founded:1968,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Minimalist pioneer defining modern luxury — precision and purity as a design philosophy",tags:["minimalist pioneer","quiet luxury","impeccable tailoring"],related:["Toteme","Lemaire","The Row"],img:"https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&h=500&fit=crop",url:"https://www.jilsander.com"},
-  "Reformation":{origin:"United States",founded:2009,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Sustainability meets style — cool-girl minimalism that doesn't compromise on ethics",tags:["sustainable","clean girl","ethical","contemporary"],related:["Ganni","Sezane","Christy Dawn"],img:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&h=500&fit=crop",url:"https://www.thereformation.com"},
-  "Isabel Marant":{origin:"France",founded:1994,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Parisian cool with effortless edge — contemporary luxury that feels lived-in and real",tags:["French girl","effortless luxury","boho edge"],related:["Musier Paris","Nanushka"],img:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=500&fit=crop",url:"https://www.isabelmarant.com"},
-  "A.P.C.":{origin:"France",founded:1987,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Parisian minimalism as a lifestyle — timeless basics that anchor a lifetime of wardrobing",tags:["minimalist","French","denim","timeless"],related:["Lemaire","Nanushka","COS"],img:"https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&h=500&fit=crop",url:"https://www.apc-us.com"},
-  "Vince":{origin:"United States",founded:2002,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"California cool in luxury basics — effortless minimalism rooted in West Coast ease",tags:["minimalist","California","quiet luxury","investment pieces"],related:["Khaite","Everlane","Loulou Studio"],img:"https://images.unsplash.com/photo-1506152983158-b4a74a01c721?w=600&h=500&fit=crop",url:"https://www.vince.com"},
-  "Musier Paris":{origin:"France",founded:2018,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"90s French minimalism with edgy details — understated cool girl energy",tags:["French girl","90s","edgy details","quiet luxury"],related:["Sezane","Loulou Studio","Rouje"],img:"https://images.unsplash.com/photo-1645963053605-25f01c33ca02?w=600&h=500&fit=crop",url:"https://musier-paris.com"},
-  "Loulou Studio":{origin:"France",founded:2019,price:"Luxury",category:"Apparel",size:"Standard",vibe:"Parisian cashmere dreams — cozy luxury that never tries too hard",tags:["cashmere","French","quiet luxury","investment pieces"],related:["Musier Paris","Sezane","Vince"],img:"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=500&fit=crop",url:"https://loulouthebrand.com"},
-  "Nanushka":{origin:"Hungary",founded:2005,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Precision craftsmanship meets understated edge — vegan leather innovation with global appeal",tags:["minimalist","vegan leather","architectural","innovative"],related:["Acne Studios","Toteme","Khaite"],img:"https://images.unsplash.com/photo-1536992266094-82847e1fd431?w=600&h=500&fit=crop",url:"https://www.nanushka.com"},
-  "& Other Stories":{origin:"Sweden",founded:2013,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Scandinavian storytelling through fashion — experimental minimalism at accessible prices",tags:["Scandinavian","editorial","accessible luxury"],related:["COS","Everlane","Ganni"],img:"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&h=500&fit=crop",url:"https://www.stories.com"},
-  "Dissh":{origin:"Australia",founded:2001,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Effortless coastal elegance with a quiet luxury edge — the clean girl blueprint",tags:["clean girl","coastal","minimalist","linen"],related:["Sezane","Faithfull the Brand","COS"],img:"https://images.unsplash.com/photo-1520466809213-7b9a56adcd45?w=600&h=500&fit=crop",url:"https://dissh.com"},
-  "Aesther Ekme":{origin:"Denmark",founded:2016,price:"Luxury",category:"Accessories",size:"Standard",vibe:"Nordic minimalism meets artisanal accessories — understated luxury leather goods",tags:["Scandinavian","luxury accessories","architectural"],related:["Hereu","Toteme"],img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&h=500&fit=crop",url:"https://aestherekme.com"},
-  "Hereu":{origin:"Spain",founded:2014,price:"Luxury",category:"Accessories",size:"Standard",vibe:"Mediterranean craft meets minimalist design — Spanish luxury with understated elegance",tags:["Spanish craftsmanship","quiet luxury","leather goods","Mediterranean"],related:["Aesther Ekme","Stouls"],img:"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&h=500&fit=crop",url:"https://hereustudio.com"},
-  "Stouls":{origin:"France",founded:2004,price:"Luxury",category:"Apparel",size:"Standard",vibe:"Luxury leather innovation — machine-washable pieces that redefine quiet luxury",tags:["luxury leather","innovative","French craftsmanship"],related:["Aesther Ekme","Hereu","A.P.C."],img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=500&fit=crop",url:"https://stouls.paris"},
-  "Ille de Cocos":{origin:"United Kingdom",founded:2014,price:"Luxury",category:"Apparel",size:"Standard",vibe:"London-born knitwear luxury — soft minimalism with edgy details",tags:["luxury knitwear","quiet luxury","edgy details"],related:["Loulou Studio","Stouls"],img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=500&fit=crop",url:"https://illedecocos.com"},
-  "ASOS":{origin:"United Kingdom",founded:2000,price:"Budget",category:"Full Wardrobe",size:"Inclusive",vibe:"Trend-savvy accessibility — digital-first fashion with minimalist sensibilities",tags:["accessible","trend-aware","inclusive sizing","digital native"],related:["Everlane","Uniqlo","& Other Stories"],img:"https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&h=500&fit=crop",url:"https://www.asos.com"},
-  "Aritzia Babaton":{origin:"Canada",founded:1994,price:"Mid",category:"Apparel",size:"Standard",vibe:"Modern power dressing with minimalist precision — elevated workwear essentials",tags:["minimalist","power tailoring","contemporary luxury"],related:["COS","Reiss","& Other Stories"],img:"https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=500&fit=crop",url:"https://www.aritzia.com"},
-  "Rouje":{origin:"France",founded:2016,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Vintage Parisian femininity — Jeanne Damas's vision of effortless French romance",tags:["French girl","vintage","feminine","romantic"],related:["Sezane","Musier Paris"],img:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&h=500&fit=crop",url:"https://www.rouje.com"},
-  "Zimmermann":{origin:"Australia",founded:1991,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Australian bohemian luxury — romantic florals and resort-ready silhouettes",tags:["boho","romantic","resort","luxury florals"],related:["Ulla Johnson","Doen","LoveShackFancy"],img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"https://www.zimmermann.com"},
-  "Free People":{origin:"United States",founded:1970,price:"Mid",category:"Full Wardrobe",size:"Inclusive",vibe:"Bohemian spirit made mainstream — free-spirited fashion for the modern wanderer",tags:["boho","free-spirited","romantic","layered"],related:["Spell","Auguste the Label","Christy Dawn"],img:"https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=600&h=500&fit=crop",url:"https://www.freepeople.com"},
-  "Alo Yoga":{origin:"United States",founded:2007,price:"Mid",category:"Apparel",size:"Standard",vibe:"Studio-to-street luxury — fashion-forward activewear for visible living",tags:["athleisure","studio-to-street","performance luxury"],related:["Lululemon","Sporty & Rich"],img:"https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=500&fit=crop",url:"https://www.aloyoga.com"},
-  "Sporty & Rich":{origin:"United States",founded:2014,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"Vintage sportswear meets old-money lifestyle — the aesthetic that became a brand",tags:["sporty","vintage","old money","lifestyle"],related:["Alo Yoga","New Balance"],img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",url:"https://www.sportyandrich.com"},
-  "Schiaparelli":{origin:"France",founded:1927,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Surrealist haute couture reborn — fearless maximalism as high art",tags:["maximalist","surrealist","bold","haute couture"],related:["Balmain","Valentino"],img:"https://images.unsplash.com/photo-1770777351893-4a71409517a3?w=600&h=500&fit=crop",url:"https://www.schiaparelli.com"},
-  "Sandy Liang":{origin:"United States",founded:2014,price:"Luxury",category:"Apparel",size:"Standard",vibe:"NYC cool-girl meets coquette — bows, fleece, and feminine edge",tags:["coquette","cool girl","feminine","NYC"],related:["Simone Rocha","Shushu/Tong"],img:"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=500&fit=crop",url:"https://sandyliang.info"},
-  "Doen":{origin:"United States",founded:2015,price:"Mid",category:"Full Wardrobe",size:"Standard",vibe:"California pastoral romance — prairie dresses for the modern dreamer",tags:["cottagecore","romantic","prairie","sustainable"],related:["Christy Dawn","Selkie","LoveShackFancy"],img:"https://images.unsplash.com/photo-1648971627285-f4d0478b7f47?w=600&h=500&fit=crop",url:"https://shopdoen.com"},
-  "Christy Dawn":{origin:"United States",founded:2013,price:"Mid",category:"Apparel",size:"Inclusive",vibe:"Farm-to-closet fashion — deadstock fabrics and regenerative cotton for conscious romantics",tags:["sustainable","cottagecore","artisan","farm-to-closet"],related:["Doen","Reformation"],img:"https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=600&h=500&fit=crop",url:"https://christydawn.com"},
-  "LoveShackFancy":{origin:"United States",founded:2013,price:"Luxury",category:"Full Wardrobe",size:"Standard",vibe:"Hyper-romantic ruffles and pastels — maximalist femininity in floral form",tags:["romantic ruffles","maximalist feminine","pastel","floral"],related:["Selkie","Zimmermann"],img:"https://plus.unsplash.com/premium_photo-1763392945516-9a9743ce9fdf?w=600&h=500&fit=crop",url:"https://www.loveshackfancy.com"}
+  "& Other Stories":{origin:"Sweden",hq:"Sweden",founded:2013,price:"Mid",vibe:"Scandinavian storytelling through fashion\u2014experimental minimalism at accessible prices",tags:["Chill"],vibeTags:["Chill"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&h=500&fit=crop",url:"https://www.stories.com"},
+  "A.P.C.":{origin:"France",hq:"France",founded:1987,price:"Luxury",vibe:"Parisian minimalism as a lifestyle. Timeless denim, clean lines, and the half-moon bag that never goes out of style.",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Work Mode", "Weekend Vibes", "Off Duty"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Parisian Chic"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&h=500&fit=crop",url:"https://www.apc-us.com"},
+  "ASOS":{origin:"United Kingdom",hq:"United Kingdom",founded:2000,price:"Budget",vibe:"The everything marketplace for Gen Z fashion. Trend-fast, size-inclusive, and the gateway to a thousand aesthetics.",tags:["Chill"],vibeTags:["Chill"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&h=500&fit=crop",url:"https://www.asos.com"},
+  "Adanola":{origin:"United Kingdom",hq:"United Kingdom",founded:2015,price:"Budget",vibe:"UK-born athleisure with clean branding. The 'I woke up like this' uniform for Gen Z.",tags:["Chill"],vibeTags:["Chill"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Athletic Luxe"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",url:"https://adanola.com"},
+  "Aesther Ekme":{origin:"Denmark",hq:"Denmark",founded:2016,price:"Luxury",vibe:"Nordic minimalism meets artisanal leather. Sculptural bags with clean geometry and understated luxury.",tags:["Polished", "Indie Find"],vibeTags:["Polished", "Indie Find"],lifeMoment:["Work Mode", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&h=500&fit=crop",url:"https://aestherekme.com"},
+  "Agua Bendita":{origin:"Colombia",hq:"Medell\u00edn, Colombia",founded:2020,price:"Luxury",vibe:"Colombian artisan swimwear and resort. Hand-painted prints, hand-embroidered details, tropical maximalism.",tags:["Playful", "Culture Mix", "Indie Find"],vibeTags:["Playful", "Culture Mix", "Indie Find"],lifeMoment:["Vacation", "Special Occasion"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Aim\u00e9 Leon Dore":{origin:"United States",hq:"United States",founded:2014,price:"Mid",vibe:"Queens-born prep-meets-street. New Balance collabs that sell out in seconds. The blueprint for tasteful streetwear.",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Weekend Vibes", "Date Night", "Off Duty"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"https://www.aimeleondore.com"},
+  "Aje":{origin:"Australia",hq:"Sydney, Australia",founded:2020,price:"Luxury",vibe:"Australian coastal luxury with sculptural details. Where the ocean meets the art gallery.",tags:["Polished", "Indie Find"],vibeTags:["Polished", "Indie Find"],lifeMoment:["Vacation", "Date Night", "Weekend Vibes"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Alemais":{origin:"Australia",hq:"Sydney, Australia",founded:2020,price:"Luxury",vibe:"Hand-painted, hand-beaded Australian resort maximalism. Wearable art with a sustainability conscience.",tags:["Playful", "Sustainable", "Indie Find"],vibeTags:["Playful", "Sustainable", "Indie Find"],lifeMoment:["Vacation", "Special Occasion", "Weekend Vibes"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Alo Yoga":{origin:"United States",hq:"United States",founded:2007,price:"Mid",vibe:"Studio-to-street luxury activewear. Celebrity-backed athleisure that blurred the line between gym and going out.",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Athletic Luxe"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=500&fit=crop",url:"https://www.aloyoga.com"},
+  "Ami Paris":{origin:"France",hq:"France",founded:2011,price:"Luxury",vibe:"The heart logo brand. Accessible French luxury with relaxed gender-fluid energy.",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Work Mode", "Weekend Vibes", "Off Duty"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",url:"https://www.amiparis.com"},
+  "Arch The":{origin:"South Korea",hq:"Seoul, South Korea",founded:2020,price:"Mid",vibe:"",tags:["Polished", "Indie Find", "Culture Mix"],vibeTags:["Polished", "Indie Find", "Culture Mix"],lifeMoment:["Work Mode", "Weekend Vibes"],lifeStage:["Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",url:"#"},
+  "Are You Am I":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Luxury",vibe:"LA\u2019s original Instagram luxury brand. Barely-there silks and the going-out top your favorite model is wearing.",tags:["Moody", "Main Character"],vibeTags:["Moody", "Main Character"],lifeMoment:["Date Night", "Girls' Night"],lifeStage:["Late 20s & 30s"],aesthetics:["Dark Romance"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"#"},
+  "Aritzia Babaton":{origin:"Canada",hq:"Canada",founded:1994,price:"Mid",vibe:"Modern power dressing with minimalist precision\u2014elevated workwear essentials",tags:["Polished"],vibeTags:["Polished"],lifeMoment:["Work Mode", "First Impression"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=500&fit=crop",url:"https://www.aritzia.com/us/en/brands/t-babaton"},
+  "Arket":{origin:"Sweden",hq:"Sweden",founded:2017,price:"Budget",vibe:"H&M's elevated sibling. Clean lines, quality materials, honest pricing. The budget entry to minimalism.",tags:["Chill", "Sustainable"],vibeTags:["Chill", "Sustainable"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",url:"https://www.arket.com"},
+  "Auralee":{origin:"Japan",hq:"Tokyo, Japan",founded:2020,price:"Mid",vibe:"",tags:["Chill", "Polished", "Indie Find"],vibeTags:["Chill", "Polished", "Indie Find"],lifeMoment:["Off Duty", "Weekend Vibes", "Work Mode"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Awake NY":{origin:"United States",hq:"New York, US",founded:2020,price:"Mid",vibe:"Angelo Baque\u2019s NYC streetwear rooted in community, culture, and activism. Bold graphics with substance.",tags:["Playful", "Culture Mix", "Indie Find"],vibeTags:["Playful", "Culture Mix", "Indie Find"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"#"},
+  "Ba&sh":{origin:"France",hq:"Paris, France",founded:2020,price:"Budget",vibe:"",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Work Mode", "Weekend Vibes"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Parisian Chic"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",url:"#"},
+  "Baserange":{origin:"France",hq:"Biarritz, France",founded:2020,price:"Budget",vibe:"",tags:["Chill", "Sustainable", "Indie Find"],vibeTags:["Chill", "Sustainable", "Indie Find"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Clean Girl"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",url:"#"},
+  "Batsheva":{origin:"United States",hq:"New York, US",founded:2020,price:"Budget",vibe:"",tags:["Playful", "Main Character", "Indie Find"],vibeTags:["Playful", "Main Character", "Indie Find"],lifeMoment:["Weekend Vibes", "Special Occasion"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Bode":{origin:"United States",hq:"New York, US",founded:2020,price:"Luxury",vibe:"One-of-a-kind pieces from antique textiles. Quilts, tablecloths, and grain sacks reborn as wearable heirlooms.",tags:["Indie Find", "Sustainable"],vibeTags:["Indie Find", "Sustainable"],lifeMoment:["Weekend Vibes", "Date Night", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Brain Dead":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Mid",vibe:"Creative collective turned streetwear brand. Psychedelic graphics, art collabs, and anti-corporate cool.",tags:["Playful", "Indie Find"],vibeTags:["Playful", "Indie Find"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"#"},
+  "COS":{origin:"United Kingdom",hq:"United Kingdom",founded:2007,price:"Mid",vibe:"Scandinavian-inspired minimalism made accessible\u2014clean-lined architecture in fabric form",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Work Mode", "Weekend Vibes", "Off Duty"],lifeStage:["Ageless"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://plus.unsplash.com/premium_photo-1764601209691-7bbdc1456641?w=600&h=500&fit=crop",url:"https://www.cos.com"},
+  "Chopova Lowena":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Luxury",vibe:"Bulgarian folklore meets London punk. Carabiner-belted pleated skirts that launched a thousand imitators.",tags:["Playful", "Culture Mix", "Indie Find"],vibeTags:["Playful", "Culture Mix", "Indie Find"],lifeMoment:["Weekend Vibes", "Girls' Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Christy Dawn":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Budget",vibe:"",tags:["Chill", "Sustainable", "Indie Find"],vibeTags:["Chill", "Sustainable", "Indie Find"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=600&h=500&fit=crop",url:"#"},
+  "Cider":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Budget",vibe:"",tags:["Playful"],vibeTags:["Playful"],lifeMoment:["Girls' Night", "Weekend Vibes"],lifeStage:["College & Early 20s"],aesthetics:["Going Out"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"#"},
+  "Collina Strada":{origin:"United States",hq:"United States",founded:2008,price:"Mid",vibe:"Upcycled maximalism meets downtown cool. Tie-dye, deadstock fabrics, and a radically sustainable approach to statement fashion.",tags:["Playful", "Sustainable", "Indie Find"],vibeTags:["Playful", "Sustainable", "Indie Find"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"https://collinastrada.com"},
+  "Commission":{origin:"United States",hq:"New York, US",founded:2020,price:"Mid",vibe:"Asian-American identity through the lens of working mothers in the \u201980s and \u201990s. Smart, subversive, beautiful.",tags:["Polished", "Culture Mix", "Indie Find"],vibeTags:["Polished", "Culture Mix", "Indie Find"],lifeMoment:["Date Night", "Work Mode", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"#"},
+  "Corteiz":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Mid",vibe:"London\u2019s most hyped underground label. Guerrilla drops, cultural community, and the Rules The World mantra.",tags:["Main Character", "Indie Find"],vibeTags:["Main Character", "Indie Find"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"#"},
+  "Cult Gaia":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Luxury",vibe:"The Ark bag brand that became a full resort lifestyle. Sculptural accessories and goddess dressing.",tags:["Main Character", "Playful"],vibeTags:["Main Character", "Playful"],lifeMoment:["Vacation", "Girls' Night", "Special Occasion"],lifeStage:["Late 20s & 30s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Damson Madder":{origin:"United Kingdom",hq:"United Kingdom",founded:2020,price:"Mid",vibe:"London-based colorful embroidery and pattern-clashing with longevity. Indie maximalism done right.",tags:["Playful", "Sustainable", "Indie Find"],vibeTags:["Playful", "Sustainable", "Indie Find"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"https://damsonmadder.com"},
+  "Danielle Guizio":{origin:"United States",hq:"United States",founded:2014,price:"Mid",vibe:"NYC downtown meets Y2K nostalgia. Low-rise, corseted, and unapologetically going-out.",tags:["Moody", "Main Character"],vibeTags:["Moody", "Main Character"],lifeMoment:["Girls' Night", "Date Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Dark Romance"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"https://danielleguizio.com"},
+  "Deiji Studios":{origin:"Australia",hq:"Sydney, Australia",founded:2020,price:"Budget",vibe:"",tags:["Chill", "Indie Find"],vibeTags:["Chill", "Indie Find"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",url:"#"},
+  "Destree":{origin:"France",hq:"Paris, France",founded:2020,price:"Budget",vibe:"",tags:["Polished", "Indie Find"],vibeTags:["Polished", "Indie Find"],lifeMoment:["Work Mode", "Weekend Vibes"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",url:"#"},
+  "Dissh":{origin:"Australia",hq:"Australia",founded:2001,price:"Mid",vibe:"Effortless coastal elegance with a quiet luxury edge\u2014the blueprint for clean girl aesthetic",tags:["Chill"],vibeTags:["Chill"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1520466809213-7b9a56adcd45?w=600&h=500&fit=crop",url:"https://dissh.com"},
+  "D\u00f4en":{origin:"United States",hq:"United States",founded:2016,price:"Mid",vibe:"California prairie romance. Hand-done details, heirloom quality, dreamy prints that live in your closet for a decade.",tags:["Chill", "Indie Find", "Sustainable"],vibeTags:["Chill", "Indie Find", "Sustainable"],lifeMoment:["Weekend Vibes", "Off Duty", "Vacation"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1648971627285-f4d0478b7f47?w=600&h=500&fit=crop",url:"https://shopdoen.com"},
+  "Edikted":{origin:"United States",hq:"United States",founded:2020,price:"Budget",vibe:"TikTok-viral going-out pieces at prices Gen Z can actually afford. Trend-fast, high energy.",tags:["Playful"],vibeTags:["Playful"],lifeMoment:["Girls' Night", "Weekend Vibes"],lifeStage:["College & Early 20s"],aesthetics:["Going Out"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"https://edikted.com"},
+  "Esse Studios":{origin:"Australia",hq:"Australia",founded:2018,price:"Mid",vibe:"Pared-back wardrobe essentials from Melbourne. Soft tailoring, muted tones, understated luxury.",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Work Mode", "Weekend Vibes", "Off Duty"],lifeStage:["Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",url:"https://essestudios.com"},
+  "Everlane":{origin:"United States",hq:"United States",founded:2011,price:"Mid",vibe:"Transparent luxury without the price tag\u2014ethical minimalism for the conscious consumer",tags:["Chill", "Sustainable"],vibeTags:["Chill", "Sustainable"],lifeMoment:["Off Duty", "Work Mode"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://plus.unsplash.com/premium_photo-1726750926760-2e31bfdaded2?w=600&h=500&fit=crop",url:"https://www.everlane.com"},
+  "Faithfull the Brand":{origin:"Indonesia",hq:"Bali, Indonesia",founded:2020,price:"Mid",vibe:"Bali-born vacation dressing. Vintage floral prints and relaxed silhouettes made for warm-weather living.",tags:["Chill"],vibeTags:["Chill"],lifeMoment:["Vacation", "Weekend Vibes"],lifeStage:["Late 20s & 30s"],aesthetics:["Coastal / Boho"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Farm Rio":{origin:"Brazil",hq:"Brazil",founded:1997,price:"Mid",vibe:"Brazilian tropical maximalism. Jungle prints, bold color, and relentless joy.",tags:["Playful", "Culture Mix"],vibeTags:["Playful", "Culture Mix"],lifeMoment:["Vacation", "Weekend Vibes", "Girls' Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"https://www.farmrio.com"},
+  "Fiorucci":{origin:"Italy",hq:"Milan, Italy",founded:2020,price:"Mid",vibe:"Italian pop-art denim heritage reborn for Gen Z. The angel logo is back and clubbier than ever.",tags:["Playful", "Main Character"],vibeTags:["Playful", "Main Character"],lifeMoment:["Girls' Night", "Weekend Vibes", "Vacation"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Going Out"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"#"},
+  "For Love & Lemons":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Mid",vibe:"Lace, ribbons, and unapologetic femininity. The brand that made the floral mini dress a wardrobe essential.",tags:["Playful"],vibeTags:["Playful"],lifeMoment:["Date Night", "Girls' Night", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"#"},
+  "Frankie Collective":{origin:"Canada",hq:"Vancouver, Canada",founded:2020,price:"Budget",vibe:"",tags:["Playful", "Sustainable", "Indie Find"],vibeTags:["Playful", "Sustainable", "Indie Find"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"#"},
+  "Free People":{origin:"United States",hq:"United States",founded:1970,price:"Mid",vibe:"Bohemian spirit made mainstream. Free-spirited layering, vintage-inspired prints, and the brand that defined festival dressing.",tags:["Playful", "Chill"],vibeTags:["Playful", "Chill"],lifeMoment:["Weekend Vibes", "Off Duty", "Vacation"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Coastal / Boho"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=600&h=500&fit=crop",url:"https://www.freepeople.com"},
+  "Ganni":{origin:"Denmark",hq:"Copenhagen, Denmark",founded:2020,price:"Mid",vibe:"Copenhagen\u2019s happy maximalism. Prints, colors, and a sustainability commitment that actually has teeth.",tags:["Playful", "Sustainable"],vibeTags:["Playful", "Sustainable"],lifeMoment:["Weekend Vibes", "Off Duty", "Vacation"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&h=500&fit=crop",url:"#"},
+  "Hereu":{origin:"Spain",hq:"Spain",founded:2014,price:"Luxury",vibe:"Mediterranean craft meets minimalist design. Spanish leather goods with understated sculptural elegance.",tags:["Polished", "Culture Mix", "Indie Find"],vibeTags:["Polished", "Culture Mix", "Indie Find"],lifeMoment:["Work Mode", "Date Night", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&h=500&fit=crop",url:"https://hereustudio.com"},
+  "House of CB":{origin:"United Kingdom",hq:"United Kingdom",founded:2010,price:"Mid",vibe:"Corseted femininity at a price Gen Z can reach. TikTok-viral structured glamour.",tags:["Main Character"],vibeTags:["Main Character"],lifeMoment:["Date Night", "Girls' Night", "Special Occasion"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"https://www.houseofcb.com"},
+  "I.AM.GIA":{origin:"Australia",hq:"Melbourne, Australia",founded:2020,price:"Budget",vibe:"",tags:["Main Character"],vibeTags:["Main Character"],lifeMoment:["Girls' Night", "Date Night"],lifeStage:["College & Early 20s"],aesthetics:["Going Out"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"#"},
+  "Ille de Cocos":{origin:"United Kingdom",hq:"United Kingdom",founded:2014,price:"Luxury",vibe:"London-born luxury knitwear. Soft minimalism with edgy details \u2014 cashmere for women who don't do boring basics.",tags:["Chill", "Polished", "Indie Find"],vibeTags:["Chill", "Polished", "Indie Find"],lifeMoment:["Off Duty", "Weekend Vibes", "Work Mode"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=500&fit=crop",url:"https://illedecocos.com"},
+  "Isabel Marant":{origin:"France",hq:"France",founded:1994,price:"Luxury",vibe:"Parisian cool with effortless edge\u2014contemporary luxury that feels lived-in and real",tags:["Chill", "Main Character"],vibeTags:["Chill", "Main Character"],lifeMoment:["Weekend Vibes", "Off Duty", "Date Night"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=500&fit=crop",url:"https://www.isabelmarant.com"},
+  "Jacquemus":{origin:"France",hq:"France",founded:2009,price:"Luxury",vibe:"Proven\u00e7al sensuality meets Parisian edge. Le Chiquito launched a thousand dupes.",tags:["Playful", "Main Character"],vibeTags:["Playful", "Main Character"],lifeMoment:["Vacation", "Date Night", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",url:"https://www.jacquemus.com"},
+  "Jil Sander":{origin:"Germany",hq:"Germany",founded:1968,price:"Luxury",vibe:"The original minimalist. Precision tailoring and purity as a design philosophy since the '60s.",tags:["Polished"],vibeTags:["Polished"],lifeMoment:["Work Mode", "First Impression", "Date Night"],lifeStage:["30s & 40s", "Ageless"],aesthetics:["Quiet Luxury"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&h=500&fit=crop",url:"https://www.jilsander.com"},
+  "Khaite":{origin:"United States",hq:"United States",founded:2016,price:"Luxury",vibe:"New York sensibility with intentional luxury\u2014modern essentials that feel effortless yet elevated",tags:["Polished", "Moody"],vibeTags:["Polished", "Moody"],lifeMoment:["Work Mode", "Date Night", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&h=500&fit=crop",url:"https://khaite.com"},
+  "Kith Women":{origin:"United States",hq:"New York, US",founded:2020,price:"Mid",vibe:"Premium streetwear meets lifestyle retail. Elevated basics, major brand collabs, and the coolest flagship stores.",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Athletic Luxe"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",url:"#"},
+  "La DoubleJ":{origin:"Italy",hq:"Italy",founded:2015,price:"Luxury",vibe:"Vintage Italian prints, maximalist joy. Dopamine dressing with heritage fabrics.",tags:["Playful", "Main Character", "Culture Mix"],vibeTags:["Playful", "Main Character", "Culture Mix"],lifeMoment:["Vacation", "Special Occasion", "Weekend Vibes"],lifeStage:["30s & 40s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"https://www.ladoublej.com"},
+  "LaQuan Smith":{origin:"United States",hq:"New York, US",founded:2020,price:"Luxury",vibe:"Queens-born designer who dresses Beyonc\u00e9 and Kim K. Body-con glamour, latex, and unapologetic nightlife energy.",tags:["Main Character", "Culture Mix"],vibeTags:["Main Character", "Culture Mix"],lifeMoment:["Girls' Night", "Special Occasion", "Date Night"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Dark Romance"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"#"},
+  "Lazy Oaf":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Budget",vibe:"",tags:["Playful"],vibeTags:["Playful"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s"],aesthetics:["Eclectic Maximalist"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Lemaire":{origin:"France",hq:"France",founded:1991,price:"Luxury",vibe:"Low-key luxury through meticulous craft. Former Herm\u00e8s creative director's own label \u2014 refined simplicity that rewards attention.",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Work Mode", "Date Night", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s", "Ageless"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1508427953056-b00b8d78ebf5?w=600&h=500&fit=crop",url:"https://www.lemaire.fr"},
+  "Loulou Studio":{origin:"France",hq:"France",founded:2019,price:"Luxury",vibe:"Parisian cashmere dreams with Instagrammable simplicity\u2014cozy luxury that never tries too hard",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Off Duty", "Weekend Vibes", "Work Mode"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=500&fit=crop",url:"https://loulouthebrand.com"},
+  "LoveShackFancy":{origin:"United States",hq:"New York, US",founded:2020,price:"Luxury",vibe:"Vintage-inspired ruffles and florals turned into a lifestyle empire. Garden party dressing at its peak.",tags:["Playful"],vibeTags:["Playful"],lifeMoment:["Vacation", "Weekend Vibes", "Girls' Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://plus.unsplash.com/premium_photo-1763392945516-9a9743ce9fdf?w=600&h=500&fit=crop",url:"#"},
+  "Madhappy":{origin:"United States",hq:"United States",founded:2017,price:"Mid",vibe:"Optimistic streetwear with a mental health mission. Pastel hoodies with purpose.",tags:["Chill", "Playful"],vibeTags:["Chill", "Playful"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"https://www.madhappy.com"},
+  "Maison Cl\u00e9o":{origin:"France",hq:"France",founded:2018,price:"Mid",vibe:"Mother-daughter made-to-order Parisian pieces. Each drop sells out in minutes.",tags:["Polished", "Indie Find", "Culture Mix"],vibeTags:["Polished", "Indie Find", "Culture Mix"],lifeMoment:["Date Night", "Work Mode", "First Impression"],lifeStage:["Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"https://maisoncleo.com"},
+  "Maje":{origin:"France",hq:"Paris, France",founded:2020,price:"Budget",vibe:"",tags:["Polished"],vibeTags:["Polished"],lifeMoment:["Work Mode", "Weekend Vibes", "Date Night"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Parisian Chic"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",url:"#"},
+  "Marni":{origin:"Italy",hq:"Milan, Italy",founded:2020,price:"Luxury",vibe:"Italian luxury\u2019s eccentric sister. Clashing prints, offbeat color combos, and fashion for people who think.",tags:["Playful", "Main Character"],vibeTags:["Playful", "Main Character"],lifeMoment:["Weekend Vibes", "Special Occasion"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Matteau":{origin:"Australia",hq:"Melbourne, Australia",founded:2020,price:"Luxury",vibe:"Pared-back swim and resort from Melbourne. Clean lines, earth tones, the anti-trend beach brand.",tags:["Chill", "Polished", "Indie Find"],vibeTags:["Chill", "Polished", "Indie Find"],lifeMoment:["Vacation", "Weekend Vibes"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Miaou":{origin:"United States",hq:"United States",founded:2016,price:"Mid",vibe:"Y2K-coded corset tops, vintage-print skirts, and the going-out wardrobe your older sister wished she had.",tags:["Playful", "Moody"],vibeTags:["Playful", "Moody"],lifeMoment:["Girls' Night", "Date Night", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Going Out"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"https://miaou.com"},
+  "Mirror Palais":{origin:"United States",hq:"United States",founded:2020,price:"Mid",vibe:"Vintage-inspired going-out pieces with old Hollywood glamour. Draped, gathered, impossibly romantic.",tags:["Moody", "Main Character", "Indie Find"],vibeTags:["Moody", "Main Character", "Indie Find"],lifeMoment:["Date Night", "Girls' Night", "Special Occasion"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"https://www.mirrorpalais.com"},
+  "Molly Goddard":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Luxury",vibe:"Giant tulle confections that made Killing Eve famous. Whimsical volume that takes up space unapologetically.",tags:["Main Character", "Playful", "Indie Find"],vibeTags:["Main Character", "Playful", "Indie Find"],lifeMoment:["Special Occasion", "Girls' Night"],lifeStage:["Late 20s & 30s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Museum of Peace & Quiet":{origin:"United States",hq:"United States",founded:2020,price:"Mid",vibe:"Quiet streetwear with intention. Thoughtful basics, muted palette, wellness-coded comfort.",tags:["Chill", "Indie Find"],vibeTags:["Chill", "Indie Find"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"https://museumofpeaceandquiet.com"},
+  "Musier Paris":{origin:"France",hq:"France",founded:2018,price:"Luxury",vibe:"90s French minimalism with edgy details\u2014understated cool girl energy",tags:["Moody", "Polished"],vibeTags:["Moody", "Polished"],lifeMoment:["Date Night", "Girls' Night", "Work Mode"],lifeStage:["Late 20s & 30s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1645963053605-25f01c33ca02?w=600&h=500&fit=crop",url:"https://musier-paris.com"},
+  "M\u00f4not":{origin:"Lebanon",hq:"Lebanon",founded:2019,price:"Luxury",vibe:"Lebanese designer's sculptural cutouts. Red carpet Y2K with serious fashion credibility.",tags:["Moody", "Main Character", "Culture Mix"],vibeTags:["Moody", "Main Character", "Culture Mix"],lifeMoment:["Date Night", "Special Occasion", "Girls' Night"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Dark Romance"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"https://www.monfrfrofficial.com"},
+  "Nana Jacqueline":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Mid",vibe:"Event dressing for the TikTok era. Corsets, feathers, and statement pieces that own the room.",tags:["Main Character", "Playful"],vibeTags:["Main Character", "Playful"],lifeMoment:["Special Occasion", "Girls' Night", "Date Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Going Out"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"#"},
+  "Nanushka":{origin:"Hungary",hq:"Hungary",founded:2005,price:"Luxury",vibe:"Precision craftsmanship meets understated edge\u2014Eastern European luxury with global appeal",tags:["Polished", "Indie Find", "Culture Mix"],vibeTags:["Polished", "Indie Find", "Culture Mix"],lifeMoment:["Work Mode", "Date Night", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1536992266094-82847e1fd431?w=600&h=500&fit=crop",url:"https://www.nanushka.com"},
+  "Needle & Thread":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Luxury",vibe:"Embellished tulle and sequin artistry. Ethereal occasion wear that feels like wearing a fairy tale.",tags:["Polished", "Main Character"],vibeTags:["Polished", "Main Character"],lifeMoment:["Special Occasion", "Date Night"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"#"},
+  "Nensi Dojaka":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Luxury",vibe:"LVMH Prize winner. Sheer, strappy, deconstructed lingerie-as-outerwear that redefined the going-out dress.",tags:["Moody", "Main Character", "Indie Find"],vibeTags:["Moody", "Main Character", "Indie Find"],lifeMoment:["Date Night", "Girls' Night", "Special Occasion"],lifeStage:["Late 20s & 30s"],aesthetics:["Dark Romance"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"#"},
+  "Odd Muse":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Mid",vibe:"Power dressing meets going-out culture. Structured blazers and mini dresses that went viral on TikTok.",tags:["Polished", "Main Character"],vibeTags:["Polished", "Main Character"],lifeMoment:["Work Mode", "Girls' Night", "First Impression"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Going Out"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"#"},
+  "Online Ceramics":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Mid",vibe:"Deadhead tie-dye with a fashion-world cosign. Spiritual, psychedelic, and unexpectedly everywhere.",tags:["Playful", "Indie Find"],vibeTags:["Playful", "Indie Find"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"#"},
+  "Orseund Iris":{origin:"United States",hq:"New York, US",founded:2020,price:"Mid",vibe:"90s minimalism with a sultry twist. Balconette tops, low-rise trousers, and quiet seduction.",tags:["Moody", "Polished", "Indie Find"],vibeTags:["Moody", "Polished", "Indie Find"],lifeMoment:["Date Night", "Girls' Night", "Work Mode"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Dark Romance"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"#"},
+  "Paloma Wool":{origin:"Spain",hq:"Spain",founded:2014,price:"Mid",vibe:"Barcelona-born art-meets-fashion. Bold prints, sculptural knitwear, and a cult Instagram following.",tags:["Playful", "Indie Find", "Culture Mix"],vibeTags:["Playful", "Indie Find", "Culture Mix"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"https://palomawool.com"},
+  "Pangaia":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Budget",vibe:"",tags:["Chill", "Sustainable"],vibeTags:["Chill", "Sustainable"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Athletic Luxe"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",url:"#"},
+  "Peachy Den":{origin:"United Kingdom",hq:"United Kingdom",founded:2019,price:"Mid",vibe:"Gen Z's coquette darling. Mesh, bows, and softness with an edge of cool.",tags:["Playful", "Indie Find"],vibeTags:["Playful", "Indie Find"],lifeMoment:["Date Night", "Girls' Night", "Weekend Vibes"],lifeStage:["College & Early 20s"],aesthetics:["Going Out"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"https://peachyden.com"},
+  "Petite Mendigote":{origin:"France",hq:"Paris, France",founded:2020,price:"Budget",vibe:"",tags:["Chill", "Playful"],vibeTags:["Chill", "Playful"],lifeMoment:["Weekend Vibes", "Off Duty"],lifeStage:["Late 20s & 30s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",url:"#"},
+  "Poster Girl":{origin:"United Kingdom",hq:"United Kingdom",founded:2017,price:"Mid",vibe:"Ruched, stretchy, second-skin dresses and tops. The going-out brand that went from Depop to Selfridges.",tags:["Main Character", "Playful", "Indie Find"],vibeTags:["Main Character", "Playful", "Indie Find"],lifeMoment:["Girls' Night", "Date Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Going Out"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",url:"https://postergirl.co.uk"},
+  "Rachel Comey":{origin:"United States",hq:"New York, US",founded:2020,price:"Luxury",vibe:"The creative class uniform. Art-world adjacent fashion with unexpected proportions and indie sensibility.",tags:["Polished", "Indie Find"],vibeTags:["Polished", "Indie Find"],lifeMoment:["Work Mode", "Weekend Vibes", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Rat & Boa":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Budget",vibe:"",tags:["Moody", "Main Character"],vibeTags:["Moody", "Main Character"],lifeMoment:["Date Night", "Girls' Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"#"},
+  "Realisation Par":{origin:"Australia",hq:"Australia",founded:2015,price:"Mid",vibe:"Silk everything. The brand that made the Naomi dress a cultural moment.",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Date Night", "Weekend Vibes", "Vacation"],lifeStage:["Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"https://realisationpar.com"},
+  "Reformation":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Mid",vibe:"Sustainable sexy. Vintage-inspired dresses with a carbon footprint tracker and a cult celebrity following.",tags:["Polished", "Sustainable"],vibeTags:["Polished", "Sustainable"],lifeMoment:["Date Night", "Weekend Vibes", "Vacation"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&h=500&fit=crop",url:"#"},
+  "Rixo":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Budget",vibe:"",tags:["Playful", "Polished"],vibeTags:["Playful", "Polished"],lifeMoment:["Weekend Vibes", "Date Night", "Work Mode"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",url:"#"},
+  "Rouje":{origin:"France",hq:"France",founded:2016,price:"Mid",vibe:"Jeanne Damas' French girl fantasy \u2014 wrap dresses, red lips, vintage Parisian charm.",tags:["Polished", "Playful"],vibeTags:["Polished", "Playful"],lifeMoment:["Date Night", "Weekend Vibes", "Girls' Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&h=500&fit=crop",url:"https://www.rouje.com"},
+  "Sandy Liang":{origin:"United States",hq:"United States",founded:2014,price:"Luxury",vibe:"NYC cool-girl meets coquette. Bows, fleece, and feminine edge rooted in Chinatown heritage.",tags:["Playful", "Indie Find", "Culture Mix"],vibeTags:["Playful", "Indie Find", "Culture Mix"],lifeMoment:["Girls' Night", "Weekend Vibes", "Date Night"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Going Out"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=500&fit=crop",url:"https://sandyliang.info"},
+  "Schiaparelli":{origin:"France",hq:"France",founded:1927,price:"Luxury",vibe:"Surrealist haute couture reborn. Daniel Roseberry's fearless maximalism turned gold body armor into the most talked-about fashion moments of the decade.",tags:["Main Character", "Culture Mix"],vibeTags:["Main Character", "Culture Mix"],lifeMoment:["Special Occasion"],lifeStage:["30s & 40s", "Ageless"],aesthetics:["Eclectic Maximalist"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1770777351893-4a71409517a3?w=600&h=500&fit=crop",url:"https://www.schiaparelli.com"},
+  "Selkie":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Mid",vibe:"The puff dress that broke the internet. Size-inclusive princess energy for the TikTok generation.",tags:["Playful", "Main Character"],vibeTags:["Playful", "Main Character"],lifeMoment:["Girls' Night", "Special Occasion", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"#"},
+  "Show Me Your Mumu":{origin:"United States",hq:"Los Angeles, US",founded:2020,price:"Budget",vibe:"Accessible boho for every occasion \u2014 bachelorette weekends, beach vacations, and Sunday brunches.",tags:["Playful"],vibeTags:["Playful"],lifeMoment:["Vacation", "Girls' Night", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Coastal / Boho"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Sir The Label":{origin:"Australia",hq:"Sydney, Australia",founded:2020,price:"Luxury",vibe:"Refined Australian resort wear. Linen tailoring meets coastal ease \u2014 minimal but never boring.",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Vacation", "Weekend Vibes", "Work Mode"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Sleeper":{origin:"Ukraine",hq:"Kyiv, Ukraine",founded:2020,price:"Budget",vibe:"",tags:["Playful", "Indie Find", "Culture Mix"],vibeTags:["Playful", "Indie Find", "Culture Mix"],lifeMoment:["Weekend Vibes", "Vacation", "Off Duty"],lifeStage:["Late 20s & 30s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"#"},
+  "Spell":{origin:"Australia",hq:"Byron Bay, Australia",founded:2020,price:"Mid",vibe:"Byron Bay bohemia incarnate. Flowing floral dresses, festival-ready layers, and Australian coastal romance.",tags:["Playful", "Chill"],vibeTags:["Playful", "Chill"],lifeMoment:["Vacation", "Weekend Vibes", "Off Duty"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Sporty & Rich":{origin:"United States",hq:"United States",founded:2014,price:"Mid",vibe:"Vintage wellness club energy. Started as a mood board, became the uniform for a generation.",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Off Duty", "Weekend Vibes", "Vacation"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Athletic Luxe"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",url:"https://sportyandrich.com"},
+  "Stine Goya":{origin:"Denmark",hq:"Denmark",founded:2006,price:"Luxury",vibe:"Copenhagen maximalism. Bold prints, happy colors, and Scandi design with zero minimalism.",tags:["Playful", "Main Character"],vibeTags:["Playful", "Main Character"],lifeMoment:["Weekend Vibes", "Girls' Night", "Date Night"],lifeStage:["Late 20s & 30s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"https://stinegoya.com"},
+  "Stouls":{origin:"France",hq:"France",founded:2004,price:"Luxury",vibe:"Luxury leather innovation from Paris. Machine-washable leather pieces that redefine what quiet luxury feels like on skin.",tags:["Polished", "Indie Find"],vibeTags:["Polished", "Indie Find"],lifeMoment:["Work Mode", "Date Night"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=500&fit=crop",url:"https://stouls.paris"},
+  "Studio Nicholson":{origin:"United Kingdom",hq:"United Kingdom",founded:2010,price:"Luxury",vibe:"Architectural minimalism with Japanese-influenced proportions. The designer alternative to COS.",tags:["Polished", "Indie Find"],vibeTags:["Polished", "Indie Find"],lifeMoment:["Work Mode", "Weekend Vibes", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"https://www.studionicholson.com"},
+  "St\u00fcssy":{origin:"United States",hq:"United States",founded:1980,price:"Mid",vibe:"Heritage surf-to-street brand. Four decades of cultural relevance, still setting the pace.",tags:["Chill"],vibeTags:["Chill"],lifeMoment:["Off Duty", "Weekend Vibes", "Vacation"],lifeStage:["Ageless"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"https://www.stussy.com"},
+  "S\u00e9zane":{origin:"France",hq:"France",founded:2013,price:"Mid",vibe:"Digital-native Parisian elegance\u2014effortless French girl style without the gatekeeping",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Work Mode", "Date Night", "Weekend Vibes"],lifeStage:["Late 20s & 30s"],aesthetics:["Parisian Chic"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=600&h=500&fit=crop",url:"https://www.sezane.com"},
+  "The Frankie Shop":{origin:"France",hq:"France",founded:2014,price:"Mid",vibe:"Gaelle Drevet's curated minimalism \u2014 oversized blazers, relaxed tailoring, and the art of looking effortlessly put together.",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Work Mode", "Weekend Vibes", "First Impression"],lifeStage:["Late 20s & 30s"],aesthetics:["Clean Girl"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",url:"https://thefrankieshop.com"},
+  "The Row":{origin:"United States",hq:"United States",founded:2006,price:"Luxury",vibe:"Understated luxury tailoring that whispers rather than shouts\u2014the gold standard of quiet luxury",tags:["Polished"],vibeTags:["Polished"],lifeMoment:["Work Mode", "Date Night", "First Impression"],lifeStage:["30s & 40s", "Ageless"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1544957992-20514f595d6f?w=600&h=500&fit=crop",url:"https://www.therow.com"},
+  "Tigerlily":{origin:"Australia",hq:"Sydney, Australia",founded:2020,price:"Mid",vibe:"Free-spirited Australian swim and bohemian prints inspired by global travel and island life.",tags:["Playful", "Chill"],vibeTags:["Playful", "Chill"],lifeMoment:["Vacation", "Weekend Vibes"],lifeStage:["College & Early 20s", "Late 20s & 30s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",url:"#"},
+  "Tot\u00eame":{origin:"Sweden",hq:"Sweden",founded:2014,price:"Luxury",vibe:"Effortless Scandinavian minimalism with a luxe edge and quiet confidence",tags:["Polished", "Chill"],vibeTags:["Polished", "Chill"],lifeMoment:["Work Mode", "Date Night", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",url:"https://www.toteme.com"},
+  "Ulla Johnson":{origin:"United States",hq:"New York, US",founded:2020,price:"Luxury",vibe:"Globally-sourced artisan craft meets NYC sophistication. Tie-dye, embroidery, and bohemian layering done luxe.",tags:["Polished", "Culture Mix"],vibeTags:["Polished", "Culture Mix"],lifeMoment:["Weekend Vibes", "Date Night", "Work Mode"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Eclectic Maximalist"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",url:"#"},
+  "Uniqlo":{origin:"Japan",hq:"Japan",founded:1984,price:"Budget",vibe:"Japanese minimalism elevated\u2014functional basics that feel like luxury fundamentals",tags:["Chill"],vibeTags:["Chill"],lifeMoment:["Off Duty", "Weekend Vibes"],lifeStage:["Ageless"],aesthetics:["Clean Girl"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&h=500&fit=crop",url:"https://www.uniqlo.com"},
+  "Vince":{origin:"United States",hq:"United States",founded:2002,price:"Luxury",vibe:"California cool in luxury basics. Effortless minimalism rooted in West Coast ease \u2014 cashmere, silk, and soft tailoring.",tags:["Chill", "Polished"],vibeTags:["Chill", "Polished"],lifeMoment:["Work Mode", "Weekend Vibes", "Off Duty"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Quiet Luxury"],curationTier:"Cultural Staple",img:"https://images.unsplash.com/photo-1506152983158-b4a74a01c721?w=600&h=500&fit=crop",url:"https://www.vince.com"},
+  "Wales Bonner":{origin:"United Kingdom",hq:"London, UK",founded:2020,price:"Luxury",vibe:"Afro-Atlantic diaspora fashion elevated to luxury. Her Adidas Sambas are the most coveted sneaker collab alive.",tags:["Polished", "Culture Mix", "Indie Find"],vibeTags:["Polished", "Culture Mix", "Indie Find"],lifeMoment:["Date Night", "Special Occasion", "First Impression"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Cool Girl Streetwear"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",url:"#"},
+  "With J\u00e9an":{origin:"Australia",hq:"Sydney, Australia",founded:2020,price:"Budget",vibe:"",tags:["Playful", "Chill"],vibeTags:["Playful", "Chill"],lifeMoment:["Weekend Vibes", "Vacation"],lifeStage:["College & Early 20s"],aesthetics:["Romantic Feminine"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"#"},
+  "Zimmermann":{origin:"Australia",hq:"Sydney, Australia",founded:2020,price:"Luxury",vibe:"Australian resort luxury that owns the beach-to-dinner transition. Linen, lace, and sun-drenched prints.",tags:["Polished"],vibeTags:["Polished"],lifeMoment:["Vacation", "Special Occasion", "Date Night"],lifeStage:["Late 20s & 30s", "30s & 40s"],aesthetics:["Coastal / Boho"],curationTier:"Codex Pick",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",url:"#"},
 };
 
-// ===== L1 AESTHETIC WORLDS =====
+
+// ===== AESTHETIC WORLDS =====
 const worlds = [
-  {name:"Quiet Luxury",desc:"Understated elegance",color:"#9C7C5C",img:"https://images.unsplash.com/photo-1676716184677-02c58a869b98?w=900&h=600&fit=crop",fullDesc:"Refined minimalism where whisper-quiet fabrics and invisible seams communicate wealth more eloquently than logos ever could.",subs:[
-    {name:"Pristine Minimalism",desc:"Architecturally precise pieces in premium neutral palettes",brands:["The Row","Toteme","Lemaire","Jil Sander","COS"]},
-    {name:"Clean Girl Essentials",desc:"Pared-back wardrobe staples in soft neutrals",brands:["Everlane","Uniqlo","COS","Dissh","ASOS"]},
-    {name:"Old Money Codes",desc:"Stealth wealth signifiers — cashmere and heirloom accessories",brands:["Khaite","Vince","A.P.C.","Aritzia Babaton"]},
-    {name:"Lazy Luxury",desc:"Oversized shirting, buttery knitwear, slouchy totes",brands:["The Row","Toteme","Loulou Studio","Vince"]}
-  ]},
-  {name:"New Scandi",desc:"Minimalist refinement",color:"#6A8E8E",img:"https://images.unsplash.com/photo-1722013339441-2adacb14c889?w=900&h=600&fit=crop",fullDesc:"Hygge meets high fashion — texture collision, body-conscious knitwear, and Copenhagen eccentricity.",subs:[
-    {name:"Copenhagen Eccentricity",desc:"Statement-making Scandi with funky headwear and bold color",brands:["Ganni","& Other Stories"]},
-    {name:"Stockholm Refined",desc:"Cleaner, sharper lines with animal-print shoes and fluid coats",brands:["Toteme","COS","& Other Stories"]},
-    {name:"Nordic Craft",desc:"Artisanal accessories and conceptual knitwear",brands:["Aesther Ekme","Ille de Cocos"]}
-  ]},
-  {name:"Parisian Chic",desc:"Timeless sophistication",color:"#B5968A",img:"https://images.unsplash.com/photo-1624178319268-a5873aa6388e?w=900&h=600&fit=crop",fullDesc:"The art of looking like you didn't try — evolving into hyper-elegance and messy chic for 2026.",subs:[
-    {name:"French Girl Essentials",desc:"White button-downs, dark denim, loafers",brands:["Sezane","A.P.C.","Isabel Marant","COS"]},
-    {name:"Parisian Edge",desc:"90s-inflected French minimalism with cool-girl attitude",brands:["Musier Paris","Isabel Marant","Loulou Studio"]},
-    {name:"French Artisan",desc:"Mediterranean-French craft in luxury leather and accessories",brands:["Hereu","Stouls","A.P.C.","Lemaire"]},
-    {name:"Digital Parisienne",desc:"Internet-era French style — curated and shareable",brands:["Sezane","Rouje","Musier Paris"]}
-  ]},
-  {name:"Coastal Ease",desc:"Relaxed luxury",color:"#6A9EB5",img:"https://images.unsplash.com/photo-1623421536321-f4036ba3fe6b?w=900&h=600&fit=crop",fullDesc:"Seaside sophistication — coastal grandmother evolved into coastal granddaughter and Mediterranean luxe.",subs:[
-    {name:"Coastal Granddaughter",desc:"Refined seaside elegance — cleaner, more sophisticated",brands:["Sezane","COS","Everlane","Dissh"]},
-    {name:"Coastal Boho",desc:"Minimalism meets bohemian with flowing fabrics",brands:["Free People","Dissh"]},
-    {name:"Mediterranean Luxe",desc:"Italian and Spanish coastal elegance",brands:["Hereu","Zimmermann"]},
-    {name:"Resort Minimalism",desc:"Crisp linens for languid seaside days",brands:["Vince","Dissh","COS","Loulou Studio"]}
-  ]},
-  {name:"Boho Wanderer",desc:"Free-spirited artistry",color:"#A8866B",img:"https://images.unsplash.com/photo-1511252219759-231266709b11?w=900&h=600&fit=crop",fullDesc:"Not ironic, not nostalgic — boho is genuinely BACK. Refined boho and bohemian minimalism are 2026 trends.",subs:[
-    {name:"Refined Boho",desc:"Well-heeled sophistication — counterculture with class",brands:["Isabel Marant","Zimmermann"]},
-    {name:"Bohemian Minimalism",desc:"One statement piece + clean neutrals",brands:["Christy Dawn","Reformation","COS","Dissh"]},
-    {name:"Artisan Boho",desc:"Hand-crafted details, natural dyes, ethically sourced textiles",brands:["Christy Dawn","Doen"]}
-  ]},
-  {name:"Dark Romance",desc:"Dramatic sophistication",color:"#4A3F3F",img:"https://images.unsplash.com/photo-1574797953310-b7cb9fd481a0?w=900&h=600&fit=crop",fullDesc:"Dark academia and dark romance are both thriving. Dark Coquette surged 331% in searches.",subs:[
-    {name:"Modern Dark Academia",desc:"Sleek blazers, ankle trousers, loafers — not dusty Tumblr energy",brands:["COS","& Other Stories","Jil Sander"]},
-    {name:"Dark Coquette",desc:"331% search surge — black lace, corset tops, burgundy/crimson",brands:["Sandy Liang"]},
-    {name:"Moody Minimalism",desc:"Clean lines in deep, saturated hues — quiet luxury's shadow self",brands:["Lemaire","The Row","Nanushka","Toteme","Jil Sander"]}
-  ]},
-  {name:"Pastoral Dreamer",desc:"Romantic naturalism",color:"#C4A882",img:"https://images.unsplash.com/photo-1683832837105-4683ce8da263?w=900&h=600&fit=crop",fullDesc:"Coquette is the mega-evolution (15.3B TikTok views). Cottagecore now luxury-focused. Regencycore surging.",subs:[
-    {name:"Coquette",desc:"15.3B TikTok views — bows, lace, soft pinks, lingerie-inspired",brands:["Sandy Liang"]},
-    {name:"Cottagecore Craft",desc:"Evolved from escapism to luxury craft",brands:["Doen","Christy Dawn"]},
-    {name:"Romantic Ruffles",desc:"Hyper-feminine layering in lace, ruffles, pastels",brands:["LoveShackFancy","Zimmermann"]}
-  ]},
-  {name:"Athletic Luxury",desc:"Performance elegance",color:"#5C8A7A",img:"https://images.unsplash.com/photo-1637875891040-90677c6b3d37?w=900&h=600&fit=crop",fullDesc:"$257B market. Split into quiet performance, gorpcore lite, and Sporty & Rich lifestyle.",subs:[
-    {name:"Studio-to-Street",desc:"Fashion-forward activewear for visible living",brands:["Alo Yoga","Sporty & Rich"]},
-    {name:"Luxury Leisure",desc:"Cashmere joggers and silk-blend hoodies — comfort as couture",brands:["Vince","Loulou Studio","Khaite"]},
-    {name:"Sporty & Rich",desc:"Vintage sportswear + old-money lifestyle aesthetic",brands:["Sporty & Rich","ASOS"]}
-  ]},
-  {name:"Maximalist Muse",desc:"Bold expressionism",color:"#C4566A",img:"https://images.unsplash.com/photo-1674156395389-2574986a9c50?w=900&h=600&fit=crop",fullDesc:"THE counter-movement. Quiet luxury down 60%. Gen Z dresses to look MORE, not rich. Loud luxury is surging.",subs:[
-    {name:"Loud Luxury",desc:"Gold jewelry, 80s power shoulders, vibrant palettes",brands:["Schiaparelli"]},
-    {name:"Dopamine Dressing",desc:"Bold mood-boosting color as emotional expression",brands:["Ganni","Zimmermann","Reformation"]},
-    {name:"Eclectic Vintage",desc:"One-of-a-kind finds mixed fearlessly",brands:["Rouje","Ganni"]}
-  ]}
+  {name:"Quiet Luxury",desc:"Understated elegance",color:"#9C7C5C",img:"https://images.unsplash.com/photo-1676716184677-02c58a869b98?w=900&h=600&fit=crop",fullDesc:"High-end minimalism as philosophy \u2014 architecturally precise pieces in premium neutral palettes. The Row, Khaite, Tot\u00eame territory."},
+  {name:"Clean Girl",desc:"Accessible minimalism",color:"#B8AFA0",img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=900&h=600&fit=crop",fullDesc:"The everyday version of quiet luxury \u2014 clean lines, neutral palettes, and smart basics at prices that don't require a trust fund."},
+  {name:"Parisian Chic",desc:"Timeless sophistication",color:"#B5968A",img:"https://images.unsplash.com/photo-1624178319268-a5873aa6388e?w=900&h=600&fit=crop",fullDesc:"The art of looking like you didn't try \u2014 effortless French girl energy, wrap dresses, red lips, and je ne sais quoi."},
+  {name:"Romantic Feminine",desc:"Soft & dreamy",color:"#D4A5A5",img:"https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=900&h=600&fit=crop",fullDesc:"Soft silhouettes, florals, prairie details, delicate fabrics \u2014 where coquette meets timeless femininity."},
+  {name:"Cool Girl Streetwear",desc:"Urban edge",color:"#6B7B8D",img:"https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=900&h=600&fit=crop",fullDesc:"Oversized silhouettes, sneaker culture, gender-fluid energy \u2014 where skate, hip-hop, and high fashion collide."},
+  {name:"Going Out",desc:"Party-ready",color:"#C4566A",img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=900&h=600&fit=crop",fullDesc:"Party-ready energy \u2014 Y2K nostalgia, corseted silhouettes, TikTok-viral pieces, and the fun side of nightlife dressing."},
+  {name:"Dark Romance",desc:"Dramatic sophistication",color:"#4A3F3F",img:"https://images.unsplash.com/photo-1574797953310-b7cb9fd481a0?w=900&h=600&fit=crop",fullDesc:"Dramatic sophistication \u2014 sultry silhouettes, sheer fabrics, sculptural cutouts. Where nightlife meets high fashion."},
+  {name:"Eclectic Maximalist",desc:"Bold expressionism",color:"#C4566A",img:"https://images.unsplash.com/photo-1674156395389-2574986a9c50?w=900&h=600&fit=crop",fullDesc:"Bold expressionism \u2014 art-world adjacent fashion, clashing prints, maximalist joy, and fashion for people who think."},
+  {name:"Coastal / Boho",desc:"Relaxed luxury",color:"#6A9EB5",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&h=600&fit=crop",fullDesc:"Relaxed, sun-kissed style inspired by beach culture and bohemian freedom. Linen, flowing silhouettes, warm earth tones."},
+  {name:"Athletic Luxe",desc:"Performance elegance",color:"#5C8A7A",img:"https://images.unsplash.com/photo-1637875891040-90677c6b3d37?w=900&h=600&fit=crop",fullDesc:"Performance elegance \u2014 studio-to-street athleisure with clean branding and wellness-coded comfort."},
 ];
+
 
 // ===== STATE =====
 let activeWorldIdx = -1;
-let activeSubIdx = -1;
 
-// ===== POPULATE ORIGIN FILTER =====
+// ===== POPULATE FILTERS =====
 const allBrandNames = Object.keys(brands);
 const origins = [...new Set(allBrandNames.map(n => brands[n].origin))].sort();
 const originScroll = document.getElementById('originScroll');
-// Country flag emoji lookup
-const countryFlags = {"Australia":"🇦🇺","Denmark":"🇩🇰","France":"🇫🇷","Germany":"🇩🇪","Hungary":"🇭🇺","Italy":"🇮🇹","Japan":"🇯🇵","South Korea":"🇰🇷","Spain":"🇪🇸","Sweden":"🇸🇪","United Kingdom":"🇬🇧","United States":"🇺🇸"};
-originScroll.innerHTML = `<button class="origin-pill active" data-val="" onclick="setOriginFilter(this)">🌍 All</button>` +
-  origins.map(o => `<button class="origin-pill" data-val="${o}" onclick="setOriginFilter(this)">${countryFlags[o]||'🏳️'} ${o}</button>`).join('');
+originScroll.innerHTML = `<button class="origin-pill active" data-val="" onclick="setOriginFilter(this)">\u{1F30D} All</button>` +
+  origins.map(o => `<button class="origin-pill" data-val="${o}" onclick="setOriginFilter(this)">${FLAGS[o]||'\u{1F3F3}\u{FE0F}'} ${o}</button>`).join('');
+
+function populateTagFilter(containerId, values, filterType) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `<span class="tag-pill active" data-val="" onclick="setTagFilter('${filterType}', this)">All</span>` +
+    values.map(v => `<span class="tag-pill" data-val="${v}" onclick="setTagFilter('${filterType}', this)">${v}</span>`).join('');
+}
+
+const vibeValues = ["Chill", "Culture Mix", "Indie Find", "Main Character", "Moody", "Playful", "Polished", "Sustainable"];
+const momentValues = ["Date Night", "First Impression", "Girls' Night", "Off Duty", "Special Occasion", "Vacation", "Weekend Vibes", "Work Mode"];
+const stageValues = ["30s & 40s", "Ageless", "College & Early 20s", "Late 20s & 30s"];
+const tierValues = ["Codex Pick", "Cultural Staple"];
+
+populateTagFilter('vibePills', vibeValues, 'vibe');
+populateTagFilter('momentPills', momentValues, 'moment');
+populateTagFilter('stagePills', stageValues, 'stage');
+populateTagFilter('tierPills', tierValues, 'tier');
+
+function setTagFilter(type, btn) {
+  const containerId = type === 'vibe' ? 'vibePills' : type === 'moment' ? 'momentPills' : type === 'stage' ? 'stagePills' : 'tierPills';
+  const filterId = type === 'vibe' ? 'filterVibe' : type === 'moment' ? 'filterMoment' : type === 'stage' ? 'filterStage' : 'filterTier';
+  document.querySelectorAll(`#${containerId} .tag-pill`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(filterId).value = btn.dataset.val;
+  renderCards(); updateFilterCount();
+}
 
 // ===== RENDER CAROUSEL =====
 function renderCarousel() {
@@ -1114,35 +1238,17 @@ function scrollCarousel(dir) {
 function selectWorld(idx) {
   if (activeWorldIdx === idx) { clearWorldFilter(); return; }
   activeWorldIdx = idx;
-  activeSubIdx = -1;
   const w = worlds[idx];
-
-  // Update carousel pills
   document.querySelectorAll('.world-pill').forEach((pill, i) => pill.classList.toggle('active', i === idx));
-
-  // Show banner
   const banner = document.getElementById('worldBanner');
   document.getElementById('awbTitle').textContent = w.name;
   document.getElementById('awbDesc').textContent = w.fullDesc;
   banner.classList.add('visible');
-
-  // Render sub-aesthetic chips
-  const chips = document.getElementById('subChips');
-  chips.innerHTML = `<span class="sub-chip active" onclick="selectSub(-1)">All</span>` +
-    w.subs.map((s, si) => `<span class="sub-chip" onclick="selectSub(${si})">${s.name}</span>`).join('');
-
-  renderCards();
-}
-
-function selectSub(idx) {
-  activeSubIdx = idx;
-  document.querySelectorAll('.sub-chip').forEach((chip, i) => chip.classList.toggle('active', i === idx + 1));
   renderCards();
 }
 
 function clearWorldFilter() {
   activeWorldIdx = -1;
-  activeSubIdx = -1;
   document.querySelectorAll('.world-pill').forEach(p => p.classList.remove('active'));
   document.getElementById('worldBanner').classList.remove('visible');
   renderCards();
@@ -1151,42 +1257,34 @@ function clearWorldFilter() {
 // ===== FILTERING + SORTING =====
 const priceOrder = { 'Budget': 1, 'Mid': 2, 'Luxury': 3 };
 
-function getWorldBrands() {
-  if (activeWorldIdx < 0) return null;
-  const w = worlds[activeWorldIdx];
-  if (activeSubIdx >= 0) {
-    return { grouped: false, brands: new Set(w.subs[activeSubIdx].brands) };
-  }
-  return { grouped: true, subs: w.subs };
-}
-
 function getFiltered() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   const price = document.getElementById('filterPrice').value;
-  const cat = document.getElementById('filterCategory').value;
-  const size = document.getElementById('filterSize').value;
   const origin = document.getElementById('filterOrigin').value;
+  const vibe = document.getElementById('filterVibe').value;
+  const moment = document.getElementById('filterMoment').value;
+  const stage = document.getElementById('filterStage').value;
+  const tier = document.getElementById('filterTier').value;
   const sort = document.getElementById('sortBy').value;
 
   let namesToFilter = allBrandNames;
-  const wb = getWorldBrands();
-  if (wb && !wb.grouped) {
-    namesToFilter = allBrandNames.filter(n => wb.brands.has(n));
-  } else if (wb && wb.grouped) {
-    const allWorldBrands = new Set();
-    wb.subs.forEach(s => s.brands.forEach(b => allWorldBrands.add(b)));
-    namesToFilter = allBrandNames.filter(n => allWorldBrands.has(n));
+
+  if (activeWorldIdx >= 0) {
+    const worldName = worlds[activeWorldIdx].name;
+    namesToFilter = namesToFilter.filter(n => brands[n].aesthetics && brands[n].aesthetics.includes(worldName));
   }
 
   let results = namesToFilter.filter(name => {
     const b = brands[name];
     if (!b) return false;
     if (price && b.price !== price) return false;
-    if (cat && b.category !== cat) return false;
-    if (size && b.size !== size) return false;
     if (origin && b.origin !== origin) return false;
+    if (vibe && (!b.vibeTags || !b.vibeTags.includes(vibe))) return false;
+    if (moment && (!b.lifeMoment || !b.lifeMoment.includes(moment))) return false;
+    if (stage && (!b.lifeStage || !b.lifeStage.includes(stage))) return false;
+    if (tier && b.curationTier !== tier) return false;
     if (q) {
-      const haystack = [name, b.vibe, b.origin, b.category, ...b.tags, ...b.related].join(' ').toLowerCase();
+      const haystack = [name, b.vibe, b.origin, ...(b.tags||[]), ...(b.vibeTags||[]), ...(b.lifeMoment||[]), ...(b.aesthetics||[])].join(' ').toLowerCase();
       return haystack.includes(q);
     }
     return true;
@@ -1197,10 +1295,10 @@ function getFiltered() {
     switch(sort) {
       case 'name': return a.localeCompare(bName);
       case 'name-desc': return bName.localeCompare(a);
-      case 'price-asc': return priceOrder[aB.price] - priceOrder[bB.price];
-      case 'price-desc': return priceOrder[bB.price] - priceOrder[aB.price];
-      case 'founded': return bB.founded - aB.founded;
-      case 'founded-asc': return aB.founded - bB.founded;
+      case 'price-asc': return (priceOrder[aB.price]||0) - (priceOrder[bB.price]||0);
+      case 'price-desc': return (priceOrder[bB.price]||0) - (priceOrder[aB.price]||0);
+      case 'founded': return (bB.founded||0) - (aB.founded||0);
+      case 'founded-asc': return (aB.founded||0) - (bB.founded||0);
       default: return 0;
     }
   });
@@ -1213,9 +1311,19 @@ function renderBrandCard(name) {
   const flag = FLAGS[b.origin] || '';
   const priceClass = b.price === 'Luxury' ? 'price-luxury' : b.price === 'Mid' ? 'price-mid' : 'price-budget';
   const priceLabel = b.price === 'Budget' ? 'Under $100' : b.price === 'Mid' ? '$100-500' : '$500+';
-  const status = b.founded >= 2014 ? 'Rising' : 'Established';
-  const statusClass = status === 'Rising' ? 'status-badge-rising' : 'status-badge-established';
   const initials = name.replace(/[^A-Z]/g,'').slice(0,2) || name.slice(0,2).toUpperCase();
+  
+  let tierHtml = '';
+  if (b.curationTier === 'Codex Pick') {
+    tierHtml = '<span class="tier-badge tier-codex-pick">Codex Pick</span>';
+  } else if (b.curationTier === 'Cultural Staple') {
+    tierHtml = '<span class="tier-badge tier-cultural-staple">Staple</span>';
+  }
+
+  const aestheticName = b.aesthetics && b.aesthetics[0] ? b.aesthetics[0] : '';
+  const aestheticHtml = aestheticName ? `<span class="aesthetic-badge">${aestheticName}</span>` : '';
+  const vibeChips = (b.vibeTags || []).map(t => `<span class="vibe-chip">${t}</span>`).join('');
+  const locationDisplay = b.hq || b.origin;
 
   return `<div class="brand-card">
     <div class="card-image">
@@ -1223,24 +1331,19 @@ function renderBrandCard(name) {
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <div class="card-image-fallback" style="display:none; background:linear-gradient(135deg,#D4C5A9,#E8DCC8);">${initials}</div>
       <div class="card-image-overlay"></div>
+      ${aestheticHtml}
       <span class="price-badge ${priceClass}">${b.price} \u00B7 ${priceLabel}</span>
-      <span class="status-badge-img ${statusClass}">${status}</span>
     </div>
     <div class="card-body">
       <div class="card-top">
         <div>
-          <div class="brand-name">${name}</div>
-          <div class="brand-origin"><span class="flag">${flag}</span> ${b.origin} \u00B7 Est. ${b.founded}</div>
+          <div class="brand-name">${name}${tierHtml}</div>
+          <div class="brand-origin"><span class="flag">${flag}</span> ${locationDisplay} \u00B7 Est. ${b.founded}</div>
         </div>
       </div>
       <p class="vibe">\u201C${b.vibe}\u201D</p>
-      <div class="card-meta">
-        <span class="meta-chip">${b.category}</span>
-        <span class="meta-chip">${b.size} sizing</span>
-      </div>
-      <div class="card-tags">${b.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-vibes">${vibeChips}</div>
       <div class="card-footer">
-        <div class="related">If you love this, try <strong>${b.related[0]}</strong>${b.related[1] ? ' & <strong>' + b.related[1] + '</strong>' : ''}</div>
         <a class="shop-link" href="${b.url}" target="_blank" rel="noopener">Shop</a>
       </div>
     </div>
@@ -1256,28 +1359,12 @@ function renderCards() {
 
   if (!results.length) { grid.style.display = 'none'; empty.style.display = 'block'; return; }
   grid.style.display = ''; empty.style.display = 'none';
-
-  const wb = getWorldBrands();
-  const resultSet = new Set(results);
-
-  // If world selected + showing all subs + no text search, group by L2
-  if (wb && wb.grouped && !document.getElementById('searchInput').value) {
-    let html = '';
-    wb.subs.forEach(sub => {
-      const subBrands = sub.brands.filter(n => resultSet.has(n));
-      if (subBrands.length === 0) return;
-      html += `<div class="l2-section-header"><h3>${sub.name}</h3><p>${sub.desc}</p></div>`;
-      subBrands.forEach(n => { html += renderBrandCard(n); });
-    });
-    grid.innerHTML = html;
-  } else {
-    grid.innerHTML = results.map(n => renderBrandCard(n)).join('');
-  }
+  grid.innerHTML = results.map(n => renderBrandCard(n)).join('');
 }
 
-// ===== SLIDER & PILL FILTER LOGIC =====
+// ===== PRICE SLIDER =====
 const priceSteps = ['', 'Budget', 'Mid', 'Luxury'];
-const priceLabels = ['All Prices', 'Budget (under $100)', 'Mid ($100–500)', 'Luxury ($500+)'];
+const priceLabels = ['All Prices', 'Budget (under $100)', 'Mid ($100\u2013500)', 'Luxury ($500+)'];
 let currentPriceStep = 0;
 
 function setPriceSlider(step, skipRender) {
@@ -1289,14 +1376,12 @@ function setPriceSlider(step, skipRender) {
   thumb.style.opacity = step === 0 ? '0' : '1';
   document.getElementById('priceLabel').textContent = step === 0 ? '' : priceLabels[step];
   document.getElementById('filterPrice').value = priceSteps[step];
-  // Update label highlights
   document.querySelectorAll('.price-labels span').forEach(s => {
     s.classList.toggle('active', parseInt(s.dataset.val) === step);
   });
   if (!skipRender) { renderCards(); updateFilterCount(); }
 }
 
-// Price slider drag
 (function initPriceSlider() {
   const track = document.getElementById('priceTrack');
   const thumb = document.getElementById('priceThumb');
@@ -1310,26 +1395,11 @@ function setPriceSlider(step, skipRender) {
   thumb.addEventListener('mousedown', e => { dragging = true; e.preventDefault(); });
   document.addEventListener('mousemove', e => { if (dragging) setPriceSlider(getStep(e)); });
   document.addEventListener('mouseup', () => dragging = false);
-  // Touch support
   thumb.addEventListener('touchstart', e => { dragging = true; e.preventDefault(); });
   document.addEventListener('touchmove', e => { if (dragging) setPriceSlider(getStep(e.touches[0])); });
   document.addEventListener('touchend', () => dragging = false);
   setPriceSlider(0, true);
 })();
-
-function setCategoryFilter(btn) {
-  document.querySelectorAll('#categoryPills .pill-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('filterCategory').value = btn.dataset.val;
-  renderCards(); updateFilterCount();
-}
-
-function setSizeFilter(btn) {
-  document.querySelectorAll('#sizePills .pill-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('filterSize').value = btn.dataset.val;
-  renderCards(); updateFilterCount();
-}
 
 function setOriginFilter(btn) {
   document.querySelectorAll('#originScroll .origin-pill').forEach(b => b.classList.remove('active'));
@@ -1341,9 +1411,11 @@ function setOriginFilter(btn) {
 function updateFilterCount() {
   let count = 0;
   if (document.getElementById('filterPrice').value) count++;
-  if (document.getElementById('filterCategory').value) count++;
-  if (document.getElementById('filterSize').value) count++;
   if (document.getElementById('filterOrigin').value) count++;
+  if (document.getElementById('filterVibe').value) count++;
+  if (document.getElementById('filterMoment').value) count++;
+  if (document.getElementById('filterStage').value) count++;
+  if (document.getElementById('filterTier').value) count++;
   const badge = document.getElementById('filterCount');
   badge.textContent = count;
   badge.classList.toggle('visible', count > 0);
@@ -1352,12 +1424,15 @@ function updateFilterCount() {
 function clearFilters() {
   document.getElementById('searchInput').value = '';
   setPriceSlider(0, true);
-  document.querySelectorAll('#categoryPills .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
-  document.getElementById('filterCategory').value = '';
-  document.querySelectorAll('#sizePills .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
-  document.getElementById('filterSize').value = '';
   document.querySelectorAll('#originScroll .origin-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
   document.getElementById('filterOrigin').value = '';
+  ['vibePills','momentPills','stagePills','tierPills'].forEach(id => {
+    document.querySelectorAll('#' + id + ' .tag-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+  });
+  document.getElementById('filterVibe').value = '';
+  document.getElementById('filterMoment').value = '';
+  document.getElementById('filterStage').value = '';
+  document.getElementById('filterTier').value = '';
   updateFilterCount();
   clearWorldFilter();
 }
@@ -1383,7 +1458,6 @@ renderCards();
     if (localStorage.getItem('bc100_cookies') !== null) {
       document.getElementById('cookieBanner').classList.add('hidden');
       if (localStorage.getItem('bc100_cookies') === 'declined') {
-        // Disable GA if declined
         window['ga-disable-G-M84DX16EL1'] = true;
       }
     }
@@ -1403,43 +1477,9 @@ function declineCookies() {
 
 // ===== LEGAL MODALS =====
 const legalContent = {
-  privacy: `<h2>Privacy Policy</h2>
-    <p><strong>Last updated:</strong> April 2, 2026</p>
-    <h3>Information We Collect</h3>
-    <p>Brand Codex 100 collects anonymous usage data through Google Analytics, including page views, session duration, device type, and general geographic location. We do not collect personally identifiable information unless you voluntarily contact us.</p>
-    <h3>How We Use Information</h3>
-    <p>We use analytics data solely to understand how visitors interact with our site and to improve the user experience. We do not sell, share, or rent your data to third parties.</p>
-    <h3>Cookies</h3>
-    <p>We use cookies for analytics purposes. You can manage your cookie preferences using the banner displayed on your first visit, or by adjusting your browser settings.</p>
-    <h3>Third-Party Links</h3>
-    <p>Our site contains links to external brand websites. We are not responsible for the privacy practices of these third-party sites.</p>
-    <h3>Contact</h3>
-    <p>If you have questions about this policy, please contact us at <a href="mailto:hello@brandcodex100.com">hello@brandcodex100.com</a>.</p>`,
-
-  terms: `<h2>Terms of Use</h2>
-    <p><strong>Last updated:</strong> April 2, 2026</p>
-    <h3>Acceptance of Terms</h3>
-    <p>By accessing Brand Codex 100, you agree to these terms. If you do not agree, please do not use this site.</p>
-    <h3>Use of Content</h3>
-    <p>All content on this site, including text, design, and curation, is the property of Brand Codex 100. You may not reproduce, distribute, or modify this content without written permission.</p>
-    <h3>Disclaimer</h3>
-    <p>Brand Codex 100 is an independent editorial directory. We are not affiliated with, endorsed by, or sponsored by any of the brands listed. Brand information, pricing tiers, and descriptions are based on publicly available information and editorial judgment.</p>
-    <h3>Limitation of Liability</h3>
-    <p>Brand Codex 100 is provided "as is" without warranties of any kind. We are not liable for any damages arising from your use of this site or reliance on its content.</p>
-    <h3>Changes to Terms</h3>
-    <p>We may update these terms at any time. Continued use of the site constitutes acceptance of updated terms.</p>`,
-
-  cookies: `<h2>Cookie Policy</h2>
-    <p><strong>Last updated:</strong> April 2, 2026</p>
-    <h3>What Are Cookies</h3>
-    <p>Cookies are small text files stored on your device when you visit a website. They help us understand how you use our site.</p>
-    <h3>Cookies We Use</h3>
-    <p><strong>Analytics cookies (Google Analytics):</strong> These help us measure traffic and understand how visitors navigate our site. They collect anonymous data such as pages visited, time spent, and general location.</p>
-    <p><strong>Preference cookies:</strong> These remember your cookie consent choice so we don't ask you again on every visit.</p>
-    <h3>Managing Cookies</h3>
-    <p>You can accept or decline cookies using our consent banner. You can also clear cookies at any time through your browser settings. Declining cookies will disable Google Analytics tracking on this site.</p>
-    <h3>Contact</h3>
-    <p>Questions? Reach us at <a href="mailto:hello@brandcodex100.com">hello@brandcodex100.com</a>.</p>`
+  privacy: `<h2>Privacy Policy</h2><p><strong>Last updated:</strong> April 7, 2026</p><h3>Information We Collect</h3><p>Brand Codex 100 collects anonymous usage data through Google Analytics. We do not collect personally identifiable information unless you voluntarily contact us.</p><h3>How We Use Information</h3><p>We use analytics data solely to understand how visitors interact with our site. We do not sell, share, or rent your data to third parties.</p><h3>Cookies</h3><p>We use cookies for analytics purposes. You can manage your cookie preferences using the banner displayed on your first visit.</p><h3>Third-Party Links</h3><p>Our site contains links to external brand websites. We are not responsible for the privacy practices of these third-party sites.</p><h3>Contact</h3><p>Questions? Contact us at <a href="mailto:hello@brandcodex100.com">hello@brandcodex100.com</a>.</p>`,
+  terms: `<h2>Terms of Use</h2><p><strong>Last updated:</strong> April 7, 2026</p><h3>Acceptance of Terms</h3><p>By accessing Brand Codex 100, you agree to these terms.</p><h3>Use of Content</h3><p>All content on this site is the property of Brand Codex 100. You may not reproduce, distribute, or modify this content without written permission.</p><h3>Disclaimer</h3><p>Brand Codex 100 is an independent editorial directory. We are not affiliated with any of the brands listed.</p><h3>Limitation of Liability</h3><p>Brand Codex 100 is provided "as is" without warranties of any kind.</p><h3>Changes to Terms</h3><p>We may update these terms at any time. Continued use constitutes acceptance.</p>`,
+  cookies: `<h2>Cookie Policy</h2><p><strong>Last updated:</strong> April 7, 2026</p><h3>What Are Cookies</h3><p>Cookies are small text files stored on your device when you visit a website.</p><h3>Cookies We Use</h3><p><strong>Analytics cookies (Google Analytics):</strong> Help us measure traffic and understand how visitors navigate our site.</p><p><strong>Preference cookies:</strong> Remember your cookie consent choice.</p><h3>Managing Cookies</h3><p>You can accept or decline cookies using our consent banner. Declining cookies will disable Google Analytics tracking.</p><h3>Contact</h3><p>Questions? Reach us at <a href="mailto:hello@brandcodex100.com">hello@brandcodex100.com</a>.</p>`
 };
 
 function openLegal(type) {
