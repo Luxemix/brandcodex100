@@ -60,8 +60,7 @@
   .site-header {
     background: var(--text);
     color: white;
-    padding: 48px 0 40px;
-    text-align: center;
+    padding: 20px 0;
     position: relative;
     overflow: hidden;
   }
@@ -72,6 +71,83 @@
     background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 50%, #1A1A2E 100%);
   }
   .header-content { position: relative; z-index: 1; }
+  .header-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .logo-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .logo-mark {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    color: var(--text);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: white;
+  }
+  .logo-sub {
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .search-wrapper {
+    position: relative;
+    flex: 1;
+    max-width: 420px;
+  }
+  .search-wrapper .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: rgba(255,255,255,0.45);
+    pointer-events: none;
+  }
+  .search-wrapper input {
+    width: 100%;
+    padding: 10px 16px 10px 38px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.88rem;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .search-wrapper input::placeholder { color: rgba(255,255,255,0.4); }
+  .search-wrapper input:focus {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+  }
   .site-header h1 {
     font-family: 'Playfair Display', serif;
     font-size: 2.8rem;
@@ -792,6 +868,9 @@
 
   @media (max-width: 860px) {
     .site-header h1 { font-size: 2rem; }
+    .header-inner { flex-direction: column; gap: 12px; text-align: center; }
+    .logo-group { justify-content: center; }
+    .search-wrapper { max-width: 100%; }
     .brand-grid { grid-template-columns: 1fr; }
     .list-view .brand-card { grid-template-columns: 1fr; }
     .list-view .card-image { height: 200px; }
@@ -888,7 +967,7 @@
 </style>
 </head>
 <body>
-<header>
+<header class="site-header">
   <div class="header-inner">
     <div class="logo-group">
       <div class="logo-mark">BC</div>
