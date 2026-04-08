@@ -886,12 +886,12 @@
   /* === NEW FILTER SECTIONS === */
   .tag-filter-section { margin-bottom: 1rem; }
   .tag-filter-section h4 {
-    font-family: var(--font-sans);
+    font-family: 'Inter', sans-serif;
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     margin-bottom: 0.5rem;
   }
   .tag-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
@@ -902,13 +902,13 @@
     font-weight: 500;
     border: 1px solid var(--border);
     background: var(--bg);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
   }
-  .tag-pill:hover { border-color: var(--gold); color: var(--gold); }
-  .tag-pill.active { background: var(--gold); color: white; border-color: var(--gold); }
+  .tag-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .tag-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
   .tier-badge {
     display: inline-block;
     padding: 0.2rem 0.5rem;
@@ -925,8 +925,8 @@
     color: white;
   }
   .tier-cultural-staple {
-    background: var(--surface);
-    color: var(--text-secondary);
+    background: var(--tag-bg);
+    color: var(--text-muted);
     border: 1px solid var(--border);
   }
   .aesthetic-badge {
@@ -947,6 +947,7 @@
     flex-wrap: wrap;
     gap: 0.3rem;
     margin-top: 0.4rem;
+    margin-bottom: 12px;
   }
   .vibe-chip {
     padding: 0.15rem 0.45rem;
@@ -954,7 +955,7 @@
     font-size: 0.6rem;
     font-weight: 500;
     background: rgba(201, 169, 110, 0.1);
-    color: var(--gold);
+    color: var(--accent);
     border: 1px solid rgba(201, 169, 110, 0.2);
   }
   .filter-divider {
@@ -962,6 +963,341 @@
     height: 1px;
     background: var(--border);
     margin: 0.8rem 0;
+  }
+
+  /* === BRIDGING: New HTML class names → styles === */
+
+  /* Stats bar: HTML uses .stat-num, CSS had .stat-number */
+  .stat-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* Worlds section: HTML uses .worlds-section, .worlds-header */
+  .worlds-section {
+    margin-bottom: 32px;
+    padding: 0 24px;
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .worlds-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .worlds-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .carousel-nav {
+    display: flex;
+    gap: 8px;
+  }
+  .carousel-nav button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+  .carousel-nav button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* World banner: HTML uses .world-banner, .world-banner-inner, .close-banner */
+  .world-banner {
+    display: none;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-top: 16px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .world-banner.visible { display: block; }
+  .world-banner-inner h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .world-banner-inner p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .close-banner {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .close-banner:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Filters: HTML uses .filters-header, .filters-title, .filter-badge, .clear-btn */
+  .filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .filters-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .filters-title svg { color: var(--text-muted); }
+  .filter-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+  .clear-btn {
+    background: none;
+    border: 1.5px dashed var(--border);
+    border-radius: 99px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px 16px;
+    transition: all 0.2s;
+  }
+  .clear-btn:hover { border-color: #E57373; color: #E57373; }
+
+  /* Filter row */
+  .filter-row {
+    margin-bottom: 16px;
+  }
+
+  /* Origin filter: HTML uses .origin-filter instead of .origin-scroll */
+  .origin-filter {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 2px 0 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-light) transparent;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  .origin-filter::-webkit-scrollbar { height: 4px; }
+  .origin-filter::-webkit-scrollbar-track { background: transparent; }
+  .origin-filter::-webkit-scrollbar-thumb { background: var(--accent-light); border-radius: 99px; }
+
+  /* Sort bar: HTML uses .result-info, .result-sub, .sort-controls */
+  .sort-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 24px;
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+  }
+  .result-info {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .result-info span { color: var(--accent); }
+  .result-sub { font-weight: 400; color: var(--text-muted); font-size: 0.82rem; }
+  .sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sort-controls select {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .sort-controls select:hover,
+  .sort-controls select:focus { border-color: var(--accent); }
+
+  /* Brand grid: needs container layout */
+  .brand-grid {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+
+  /* Footer: HTML <footer> without .site-footer class */
+  footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.55);
+    padding: 40px 0 28px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+  footer .footer-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  footer .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: white;
+    font-weight: 600;
+  }
+  footer .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+  footer .footer-links a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: color 0.2s;
+  }
+  footer .footer-links a:hover { color: var(--accent); }
+  footer .footer-note {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    width: 100%;
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Cookie banner: HTML uses .cookie-btn.accept/.decline */
+  .cookie-btn.accept { background: var(--accent); color: var(--text); }
+  .cookie-btn.accept:hover { background: #b8983f; }
+  .cookie-btn.decline { background: rgba(255,255,255,0.12); color: white; }
+  .cookie-btn.decline:hover { background: rgba(255,255,255,0.2); }
+
+  /* Legal modal: HTML uses .legal-modal, .legal-modal-content, .legal-close */
+  .legal-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+  }
+  .legal-modal.active { display: flex; }
+  .legal-modal-content {
+    background: white;
+    border-radius: var(--radius);
+    max-width: 640px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 40px;
+    position: relative;
+  }
+  .legal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none; border: none;
+    font-size: 1.5rem; cursor: pointer;
+    color: var(--text-muted);
+  }
+  .legal-modal-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  .legal-modal-content p, .legal-modal-content li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+  .legal-modal-content h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+
+  /* Filters section also needs container-like spacing when not inside .container */
+  .filters-section {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Empty state button */
+  .empty-state button {
+    margin-top: 12px;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .empty-state button:hover { background: #b8983f; }
+
+  /* Mobile: footer responsive */
+  @media (max-width: 860px) {
+    footer .footer-inner { flex-direction: column; text-align: center; }
+    footer .footer-links { justify-content: center; }
+    .sort-bar { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .carousel-nav button { width: 30px; height: 30px; }
   }
 
 </style>
