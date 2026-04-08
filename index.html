@@ -117,36 +117,11 @@
     text-transform: uppercase;
     margin-top: 1px;
   }
-  .search-wrapper {
-    position: relative;
-    flex: 1;
-    max-width: 420px;
-  }
-  .search-wrapper .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    color: rgba(255,255,255,0.45);
-    pointer-events: none;
-  }
-  .search-wrapper input {
-    width: 100%;
-    padding: 10px 16px 10px 38px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    color: white;
-    font-size: 0.88rem;
-    outline: none;
-    transition: all 0.2s;
-  }
-  .search-wrapper input::placeholder { color: rgba(255,255,255,0.4); }
-  .search-wrapper input:focus {
-    background: rgba(255,255,255,0.15);
-    border-color: rgba(255,255,255,0.3);
+  .header-tagline {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
   }
   .site-header h1 {
     font-family: 'Playfair Display', serif;
@@ -868,9 +843,9 @@
 
   @media (max-width: 860px) {
     .site-header h1 { font-size: 2rem; }
-    .header-inner { flex-direction: column; gap: 12px; text-align: center; }
+    .header-inner { flex-direction: column; gap: 8px; text-align: center; }
     .logo-group { justify-content: center; }
-    .search-wrapper { max-width: 100%; }
+    .header-tagline { display: none; }
     .brand-grid { grid-template-columns: 1fr; }
     .list-view .brand-card { grid-template-columns: 1fr; }
     .list-view .card-image { height: 200px; }
@@ -1312,10 +1287,7 @@
         <div class="logo-sub">The Aesthetic Index</div>
       </div>
     </div>
-    <div class="search-wrapper">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="searchInput" placeholder="Search brands, vibes, tags...">
-    </div>
+    <div class="header-tagline">Discover 113 curated brands across 10 aesthetic worlds</div>
   </div>
 </header>
 
@@ -1345,12 +1317,12 @@
 </section>
 
 <section class="filters-section">
-  <div class="filters-header">
-    <span class="filters-title">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-      Filters <span class="filter-badge" id="filterCount">0</span>
-    </span>
-    <button class="clear-btn" onclick="clearFilters()">Clear all</button>
+  <div class="filters-top">
+    <div class="search-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search brands, tags, vibes...">
+    </div>
+    <div class="result-count"><span id="totalBrandCount">113</span> brands</div>
   </div>
 
   <input type="hidden" id="filterPrice" value="">
@@ -1362,45 +1334,61 @@
   <input type="hidden" id="filterStage" value="">
   <input type="hidden" id="filterTier" value="">
 
-  <div class="filter-row">
-    <div class="price-slider-wrap">
-      <div class="price-track" id="priceTrack">
-        <div class="price-track-fill" id="priceTrackFill"></div>
-        <div class="price-thumb" id="priceThumb"></div>
+  <div class="filter-groups">
+    <div class="filter-group">
+      <label>Price Tier</label>
+      <div class="price-slider-wrap">
+        <div class="price-track" id="priceTrack">
+          <div class="price-track-fill" id="priceTrackFill"></div>
+          <div class="price-thumb" id="priceThumb"></div>
+        </div>
+        <div class="price-labels">
+          <span data-val="0" class="active" onclick="setPriceSlider(0)">All</span>
+          <span data-val="1" onclick="setPriceSlider(1)">Budget</span>
+          <span data-val="2" onclick="setPriceSlider(2)">Mid</span>
+          <span data-val="3" onclick="setPriceSlider(3)">Luxury</span>
+        </div>
+        <div class="price-current" id="priceLabel"></div>
       </div>
-      <div class="price-labels">
-        <span data-val="0" class="active" onclick="setPriceSlider(0)">All</span>
-        <span data-val="1" onclick="setPriceSlider(1)">Budget</span>
-        <span data-val="2" onclick="setPriceSlider(2)">Mid</span>
-        <span data-val="3" onclick="setPriceSlider(3)">Luxury</span>
-      </div>
-      <div class="price-label-display" id="priceLabel"></div>
+    </div>
+
+    <div class="filter-group">
+      <label>Vibe</label>
+      <div class="pill-group" id="vibePills"></div>
+    </div>
+
+    <div class="filter-group">
+      <label>Life Moment</label>
+      <div class="pill-group" id="momentPills"></div>
+    </div>
+
+    <div class="filter-group">
+      <label>Life Stage</label>
+      <div class="pill-group" id="stagePills"></div>
     </div>
   </div>
 
-  <div class="tag-filter-section">
-    <h4>Vibe</h4>
-    <div class="tag-pills" id="vibePills"></div>
+  <div class="filter-groups" style="margin-top: 16px;">
+    <div class="filter-group">
+      <label>Curation Tier</label>
+      <div class="pill-group" id="tierPills"></div>
+    </div>
+
+    <div class="filter-group" style="flex: 2;">
+      <label>Origin</label>
+      <div class="origin-scroll-wrap">
+        <div class="origin-scroll" id="originScroll"></div>
+        <div class="origin-fade right"></div>
+      </div>
+    </div>
+
+    <div class="filter-group" style="flex: 0; align-self: flex-end;">
+      <button class="clear-filters" onclick="clearFilters()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Clear all
+      </button>
+    </div>
   </div>
-
-  <div class="tag-filter-section">
-    <h4>Life Moment</h4>
-    <div class="tag-pills" id="momentPills"></div>
-  </div>
-
-  <div class="tag-filter-section">
-    <h4>Life Stage</h4>
-    <div class="tag-pills" id="stagePills"></div>
-  </div>
-
-  <div class="tag-filter-section">
-    <h4>Curation Tier</h4>
-    <div class="tag-pills" id="tierPills"></div>
-  </div>
-
-  <div class="filter-divider"></div>
-
-  <div class="origin-filter" id="originScroll"></div>
 </section>
 
 <div class="sort-bar">
@@ -1607,8 +1595,8 @@ originScroll.innerHTML = `<button class="origin-pill active" data-val="" onclick
 
 function populateTagFilter(containerId, values, filterType) {
   const container = document.getElementById(containerId);
-  container.innerHTML = `<span class="tag-pill active" data-val="" onclick="setTagFilter('${filterType}', this)">All</span>` +
-    values.map(v => `<span class="tag-pill" data-val="${v}" onclick="setTagFilter('${filterType}', this)">${v}</span>`).join('');
+  container.innerHTML = `<span class="pill-btn active" data-val="" onclick="setTagFilter('${filterType}', this)">All</span>` +
+    values.map(v => `<span class="pill-btn" data-val="${v}" onclick="setTagFilter('${filterType}', this)">${v}</span>`).join('');
 }
 
 const vibeValues = ["Chill", "Culture Mix", "Indie Find", "Main Character", "Moody", "Playful", "Polished", "Sustainable"];
@@ -1624,7 +1612,7 @@ populateTagFilter('tierPills', tierValues, 'tier');
 function setTagFilter(type, btn) {
   const containerId = type === 'vibe' ? 'vibePills' : type === 'moment' ? 'momentPills' : type === 'stage' ? 'stagePills' : 'tierPills';
   const filterId = type === 'vibe' ? 'filterVibe' : type === 'moment' ? 'filterMoment' : type === 'stage' ? 'filterStage' : 'filterTier';
-  document.querySelectorAll(`#${containerId} .tag-pill`).forEach(b => b.classList.remove('active'));
+  document.querySelectorAll(`#${containerId} .pill-btn`).forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(filterId).value = btn.dataset.val;
   renderCards(); updateFilterCount();
@@ -1842,7 +1830,7 @@ function clearFilters() {
   document.querySelectorAll('#originScroll .origin-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
   document.getElementById('filterOrigin').value = '';
   ['vibePills','momentPills','stagePills','tierPills'].forEach(id => {
-    document.querySelectorAll('#' + id + ' .tag-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+    document.querySelectorAll('#' + id + ' .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
   });
   document.getElementById('filterVibe').value = '';
   document.getElementById('filterMoment').value = '';
