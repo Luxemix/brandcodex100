@@ -146,14 +146,48 @@
   .stats-bar {
     display: flex;
     justify-content: center;
-    gap: 48px;
-    padding: 24px 0;
+    gap: 20px;
+    padding: 28px 24px;
     border-bottom: 1px solid var(--border);
     margin-bottom: 32px;
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 32px;
   }
-  .stat { text-align: center; }
-  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
-  .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 2px; }
+  .stat {
+    text-align: center;
+    flex: 1;
+    max-width: 220px;
+    padding: 0 16px;
+    position: relative;
+  }
+  .stat + .stat::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background: var(--border);
+  }
+  .stat-num, .stat-number {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    display: block;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
 
   /* ===== L1 CAROUSEL ===== */
   .worlds-carousel-section {
@@ -942,12 +976,7 @@
 
   /* === BRIDGING: New HTML class names → styles === */
 
-  /* Stats bar: HTML uses .stat-num, CSS had .stat-number */
-  .stat-num {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--accent);
-  }
+  /* Stats bar: .stat-num alias handled in main stats-bar section above */
 
   /* Worlds section: HTML uses .worlds-section, .worlds-header */
   .worlds-section {
