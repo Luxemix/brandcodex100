@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Codex 100 — Image Curator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --bg: #FAF9F6;
+  --card-bg: #FFFFFF;
+  --text: #1A1A2E;
+  --text-muted: #6B6B7B;
+  --accent: #C9A96E;
+  --accent-light: #E8DCC8;
+  --border: #EDE9E1;
+  --tag-bg: #F3F0EA;
+  --selected: #2E7D32;
+  --selected-bg: #E8F5E9;
+  --warning: #F57C00;
+  --warning-light: #FFE0B2;
+  --shadow: 0 2px 16px rgba(26,26,46,0.06);
+  --shadow-hover: 0 8px 32px rgba(26,26,46,0.12);
+  --radius: 16px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* HEADER */
+.site-header {
+  background: var(--text);
+  color: white;
+  padding: 40px 0 36px;
+  text-align: center;
+  position: relative;
+}
+.site-header::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 50%, #1A1A2E 100%);
+}
+.header-content { position: relative; z-index: 1; }
+.site-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; font-weight: 600; letter-spacing: 0.04em;
+}
+.site-header h1 span { color: var(--accent); }
+.site-header .tagline {
+  font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.6);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px;
+}
+.site-header .subtitle {
+  font-size: 0.92rem; color: rgba(255,255,255,0.45);
+  margin-top: 10px; font-style: italic;
+  font-family: 'Playfair Display', serif;
+}
+
+.container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+
+/* PROGRESS BAR */
+.progress-section {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  position: sticky; top: 0; background: var(--bg); z-index: 100;
+}
+.progress-bar-wrap {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.progress-bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--selected)); border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.progress-text {
+  font-size: 0.82rem; font-weight: 600; color: var(--text-muted); white-space: nowrap;
+}
+.progress-controls {
+  display: flex; gap: 10px; align-items: center;
+}
+.filter-toggle {
+  padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  background: var(--card-bg); color: var(--text-muted);
+  font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+}
+.filter-toggle.active { border-color: var(--accent); color: var(--accent); background: rgba(201,169,110,0.06); }
+.export-btn {
+  padding: 10px 24px; border: none; border-radius: 10px;
+  background: var(--accent); color: white; font-family: 'Inter', sans-serif;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.export-btn:hover { background: #B8944E; transform: translateY(-1px); }
+.export-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* TAB NAV */
+.tab-nav {
+  display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500;
+  background: var(--card-bg); color: var(--text-muted); cursor: pointer;
+  transition: all 0.2s; position: relative;
+}
+.tab-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(201,169,110,0.06); }
+.tab-btn .tab-check {
+  display: none; position: absolute; top: -5px; right: -5px;
+  width: 16px; height: 16px; border-radius: 50%; background: var(--selected);
+  color: white; font-size: 10px; line-height: 16px; text-align: center;
+}
+.tab-btn.done .tab-check { display: block; }
+
+/* SECTION */
+.picker-section { display: none; margin-bottom: 40px; }
+.picker-section.active { display: block; }
+
+.section-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+}
+.section-color {
+  width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+}
+.section-info h2 {
+  font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600;
+}
+.section-info p {
+  font-size: 0.85rem; color: var(--text-muted); font-style: italic;
+}
+
+/* LANE BANNER SUBSECTION */
+.subsection {
+  margin-bottom: 36px; padding-bottom: 32px; border-bottom: 1px solid var(--border);
+}
+.subsection:last-child { border-bottom: none; }
+.subsection h3 {
+  font-size: 0.95rem; font-weight: 600; margin-bottom: 12px;
+}
+.sub-label {
+  font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;
+}
+
+/* BANNER PICKER */
+.banner-picker {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.banner-preview {
+  width: 120px; height: 80px; border-radius: 10px; overflow: hidden;
+  border: 2px solid var(--border); flex-shrink: 0; background: var(--tag-bg);
+}
+.banner-preview img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.banner-actions {
+  flex: 1;
+}
+.banner-search {
+  display: flex; gap: 8px;
+}
+.search-input {
+  flex: 1; padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; background: var(--card-bg);
+  outline: none; transition: border-color 0.2s;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-btn {
+  padding: 9px 18px; border: 1.5px solid var(--accent); border-radius: 8px;
+  background: rgba(201,169,110,0.08); color: var(--accent);
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.search-btn:hover { background: rgba(201,169,110,0.15); }
+
+/* BRANDS GRID */
+.brands-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px;
+}
+
+.brand-card {
+  border: 1.5px solid var(--border); border-radius: 12px; padding: 16px;
+  background: var(--card-bg); transition: all 0.2s;
+}
+.brand-card:hover { border-color: var(--accent-light); box-shadow: var(--shadow-hover); }
+.brand-card.needs-image { border-color: var(--warning-light); background: rgba(245,124,0,0.02); }
+
+.brand-header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  margin-bottom: 12px;
+}
+.brand-info h4 {
+  font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600;
+  margin-bottom: 2px;
+}
+.brand-meta {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.brand-meta a {
+  font-size: 0.72rem; color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid transparent; transition: all 0.2s;
+}
+.brand-meta a:hover { border-bottom-color: var(--accent); }
+
+.brand-status {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 0.78rem; font-weight: 600; padding: 4px 8px;
+  border-radius: 6px; white-space: nowrap;
+}
+.brand-status.has-image {
+  background: var(--selected-bg); color: var(--selected);
+}
+.brand-status.needs-image {
+  background: var(--warning-light); color: var(--warning);
+}
+
+/* BRAND IMAGE PREVIEW */
+.brand-current-img {
+  width: 100%; height: 140px; border-radius: 10px; overflow: hidden;
+  border: 1.5px solid var(--border); background: var(--tag-bg);
+  margin-bottom: 12px; position: relative;
+}
+.brand-current-img img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+/* SEARCH SECTION */
+.brand-search-section {
+  margin-bottom: 12px;
+}
+.brand-search-input {
+  width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: 'Inter', sans-serif; font-size: 0.80rem; background: var(--card-bg);
+  outline: none; transition: border-color 0.2s; margin-bottom: 8px;
+}
+.brand-search-input:focus { border-color: var(--accent); }
+
+.brand-search-btn {
+  width: 100%; padding: 8px 12px; border: 1.5px solid var(--accent); border-radius: 8px;
+  background: rgba(201,169,110,0.08); color: var(--accent);
+  font-family: 'Inter', sans-serif; font-size: 0.80rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+}
+.brand-search-btn:hover { background: rgba(201,169,110,0.15); }
+
+/* URL PASTE SECTION */
+.url-paste-section {
+  margin-bottom: 12px;
+  padding: 10px; background: var(--tag-bg); border-radius: 8px;
+}
+.url-paste-input {
+  width: 100%; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 6px;
+  font-family: 'Inter', sans-serif; font-size: 0.75rem; background: var(--card-bg);
+  outline: none; transition: border-color 0.2s; margin-bottom: 6px;
+}
+.url-paste-input:focus { border-color: var(--accent); }
+.url-paste-label {
+  font-size: 0.70rem; color: var(--text-muted); margin-bottom: 4px; display: block;
+}
+
+/* IMAGE GRID */
+.brand-image-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+}
+.brand-image-option {
+  position: relative; border-radius: 10px; overflow: hidden;
+  border: 2px solid transparent; cursor: pointer;
+  transition: all 0.25s ease; background: var(--card-bg);
+}
+.brand-image-option:hover { border-color: var(--accent-light); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.brand-image-option.selected { border-color: var(--selected); }
+.brand-image-option.selected::after {
+  content: '✓'; position: absolute; top: 4px; right: 4px;
+  width: 24px; height: 24px; border-radius: 50%; background: var(--selected);
+  color: white; font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.brand-image-option img {
+  width: 100%; height: 100px; object-fit: cover; display: block;
+}
+
+/* EXPORT MODAL */
+.modal-overlay {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(26,26,46,0.5); z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: var(--card-bg); border-radius: var(--radius); padding: 32px;
+  max-width: 700px; width: 90%; max-height: 80vh; overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(26,26,46,0.2);
+}
+.modal h2 {
+  font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 16px;
+}
+.modal pre {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; font-size: 0.78rem; overflow-x: auto; line-height: 1.5;
+  max-height: 400px; overflow-y: auto;
+}
+.modal-actions {
+  display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;
+}
+.modal-actions button {
+  padding: 10px 20px; border-radius: 8px; font-family: 'Inter', sans-serif;
+  font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+}
+.copy-btn { border: 1.5px solid var(--accent); background: var(--accent); color: white; }
+.close-btn { border: 1.5px solid var(--border); background: var(--card-bg); color: var(--text); }
+
+/* INFO BOX */
+.info-box {
+  font-size: 0.72rem; color: var(--text-muted); padding: 10px 14px;
+  background: rgba(201,169,110,0.06); border-radius: 8px;
+  border-left: 3px solid var(--accent); margin-bottom: 24px;
+}
+.info-box a { color: var(--accent); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .brands-grid { grid-template-columns: 1fr; }
+  .tab-nav { gap: 4px; }
+  .tab-btn { padding: 6px 12px; font-size: 0.72rem; }
+  .progress-bar-wrap { flex-direction: column; }
+  .progress-controls { width: 100%; justify-content: space-between; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-content">
+    <h1>Brand Codex <span>100</span></h1>
+    <div class="tagline">Image Curator — Aesthetic Lanes Edition</div>
+    <div class="subtitle">Curate hero images for brands &amp; banners for each aesthetic lane</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="info-box">
+    <strong>How it works:</strong> Select lane tabs, pick banner images, then curate individual brand hero images.
+    Search Unsplash or paste custom URLs from brand press pages. Export curated selections as JSON.
+    Photos via <a href="https://unsplash.com" target="_blank">Unsplash</a> (free to use).
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-bar-wrap">
+      <div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+      <div class="progress-text" id="progressText">0/113 brands · 0/10 lanes</div>
+      <div class="progress-controls">
+        <button class="filter-toggle" id="filterBtn" onclick="toggleFilter()">Show all</button>
+        <button class="export-btn" id="exportBtn" onclick="exportSelections()">Export Selections</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tab-nav" id="tabNav"></nav>
+
+  <div id="sectionsContainer"></div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>Your Curated Selections</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">
+      Copy this JSON to use in your directory. All images are from Unsplash (free to use).
+    </p>
+    <pre id="exportOutput"></pre>
+    <div class="modal-actions">
+      <button class="close-btn" onclick="closeModal()">Close</button>
+      <button class="copy-btn" onclick="copyExport()">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// LANE DATA & BRAND MAPPING
+// ============================================================
+const lanes = [
+  {
+    name: "Quiet Luxury",
+    color: "#8B7D6B",
+    searchTerms: "quiet luxury fashion minimal",
+    brands: ["The Row", "Khaite", "Lemaire", "Totême", "Jil Sander", "A.P.C.", "Vince", "Loulou Studio", "Ille de Cocos", "Nanushka", "Stouls", "Ami Paris", "Auralee", "Arch The"]
+  },
+  {
+    name: "Clean Girl",
+    color: "#B5B5B5",
+    searchTerms: "clean girl aesthetic outfit",
+    brands: ["COS", "Everlane", "Uniqlo", "ASOS", "Aritzia Babaton", "Dissh", "& Other Stories", "Arket", "Ganni", "Reformation", "Reiss", "Sandro", "Maje"]
+  },
+  {
+    name: "Parisian Chic",
+    color: "#B5968A",
+    searchTerms: "parisian fashion effortless",
+    brands: ["Sézane", "Rouje", "Musier Paris", "Isabel Marant", "Jacquemus", "Ba&sh", "Claudie Pierlot", "Ami Paris", "Totême", "The Frankie Shop", "Rixo", "Maison Kitsuné"]
+  },
+  {
+    name: "Romantic Feminine",
+    color: "#C4A882",
+    searchTerms: "romantic feminine dress floral",
+    brands: ["Dôen", "LoveShackFancy", "Christy Dawn", "Selkie", "Sandy Liang", "Zimmermann", "Free People", "Ulla Johnson", "Reformation", "Spell", "With Jéan", "Fillyboo", "Sister Jane", "Sleeper", "House of CB"]
+  },
+  {
+    name: "Cool Girl Streetwear",
+    color: "#6A6A6A",
+    searchTerms: "streetwear fashion women",
+    brands: ["Aimé Leon Dore", "Stüssy", "Awake NY", "Corteiz", "Ganni", "Nike (Women's)", "Pangaia", "Telfar", "The Frankie Shop", "Brain Dead", "Wales Bonner"]
+  },
+  {
+    name: "Going Out",
+    color: "#D4A574",
+    searchTerms: "going out dress nightlife",
+    brands: ["Are You Am I", "House of CB", "Cult Gaia", "Danielle Guizio", "I.AM.GIA", "Retrofête", "Miaou", "Poster Girl", "Mirror Palais", "For Love & Lemons"]
+  },
+  {
+    name: "Dark Romance",
+    color: "#4A3F3F",
+    searchTerms: "dark fashion editorial gothic",
+    brands: ["Rick Owens", "Ann Demeulemeester", "Mugler", "Simone Rocha", "Noir Kei Ninomiya", "Shushu/Tong"]
+  },
+  {
+    name: "Eclectic Maximalist",
+    color: "#C4566A",
+    searchTerms: "bold colorful fashion maximalist",
+    brands: ["Schiaparelli", "Dries Van Noten", "Marni", "Collina Strada", "Ulla Johnson", "Stine Goya", "Saks Potts", "La DoubleJ", "Rachel Comey", "Marine Serre", "Chopova Lowena", "Batsheva", "Farm Rio", "Alemais", "Bode", "Molly Goddard"]
+  },
+  {
+    name: "Coastal / Boho",
+    color: "#6A9EB5",
+    searchTerms: "coastal fashion beach style",
+    brands: ["Faithfull the Brand", "Zimmermann", "Spell", "Tigerlily", "Sir the Label", "Matteau", "Joslin", "Aje", "Bondi Born", "Agua Bendita", "Paloma Wool"]
+  },
+  {
+    name: "Athletic Luxe",
+    color: "#5C8A7A",
+    searchTerms: "luxury athleisure activewear",
+    brands: ["Alo Yoga", "Sporty & Rich", "Adanola", "Girlfriend Collective", "Varley"]
+  }
+];
+
+// Brands that already have curated images (35 total)
+const curatedBrands = new Set([
+  "& Other Stories", "A.P.C.", "Aesther Ekme", "Alo Yoga", "Aritzia Babaton", "ASOS", "Christy Dawn",
+  "COS", "Dissh", "Dôen", "Everlane", "Free People", "Ganni", "Hereu", "Ille de Cocos", "Isabel Marant",
+  "Jil Sander", "Khaite", "Lemaire", "Loulou Studio", "LoveShackFancy", "Musier Paris", "Nanushka",
+  "Reformation", "Rouje", "Sandy Liang", "Schiaparelli", "Sézane", "Sporty & Rich", "Stouls",
+  "The Row", "Totême", "Uniqlo", "Vince", "Zimmermann"
+]);
+
+// ============================================================
+// CURRENT IMAGES FROM INDEX.HTML
+// ============================================================
+const currentBrandImages = {
+  "& Other Stories": "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&h=500&fit=crop",
+  "A.P.C.": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=600&h=500&fit=crop",
+  "ASOS": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&h=500&fit=crop",
+  "Adanola": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",
+  "Aesther Ekme": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&h=500&fit=crop",
+  "Agua Bendita": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Aimé Leon Dore": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Aje": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Alemais": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Alo Yoga": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=500&fit=crop",
+  "Ami Paris": "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",
+  "Arch The": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",
+  "Are You Am I": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",
+  "Aritzia Babaton": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=500&fit=crop",
+  "Arket": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",
+  "Auralee": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Awake NY": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Ba&sh": "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",
+  "Baserange": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",
+  "Batsheva": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Bode": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Brain Dead": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "COS": "https://plus.unsplash.com/premium_photo-1764601209691-7bbdc1456641?w=600&h=500&fit=crop",
+  "Chopova Lowena": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Christy Dawn": "https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=600&h=500&fit=crop",
+  "Cider": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Collina Strada": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Commission": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Corteiz": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Cult Gaia": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Damson Madder": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Danielle Guizio": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",
+  "Deiji Studios": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",
+  "Destree": "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",
+  "Dissh": "https://images.unsplash.com/photo-1520466809213-7b9a56adcd45?w=600&h=500&fit=crop",
+  "Dôen": "https://images.unsplash.com/photo-1648971627285-f4d0478b7f47?w=600&h=500&fit=crop",
+  "Edikted": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Esse Studios": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",
+  "Everlane": "https://plus.unsplash.com/premium_photo-1726750926760-2e31bfdaded2?w=600&h=500&fit=crop",
+  "Faithfull the Brand": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Farm Rio": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Fiorucci": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "For Love & Lemons": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Frankie Collective": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Free People": "https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=600&h=500&fit=crop",
+  "Ganni": "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&h=500&fit=crop",
+  "Hereu": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&h=500&fit=crop",
+  "House of CB": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "I.AM.GIA": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Ille de Cocos": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=500&fit=crop",
+  "Isabel Marant": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=500&fit=crop",
+  "Jacquemus": "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",
+  "Jil Sander": "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&h=500&fit=crop",
+  "Khaite": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&h=500&fit=crop",
+  "Kith Women": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",
+  "La DoubleJ": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "LaQuan Smith": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",
+  "Lazy Oaf": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Lemaire": "https://images.unsplash.com/photo-1508427953056-b00b8d78ebf5?w=600&h=500&fit=crop",
+  "Loulou Studio": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=500&fit=crop",
+  "LoveShackFancy": "https://plus.unsplash.com/premium_photo-1763392945516-9a9743ce9fdf?w=600&h=500&fit=crop",
+  "Madhappy": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Maison Cleo": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Maje": "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",
+  "Marni": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Matteau": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Miaou": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Mirror Palais": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Molly Goddard": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Museum of Peace & Quiet": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Musier Paris": "https://images.unsplash.com/photo-1645963053605-25f01c33ca02?w=600&h=500&fit=crop",
+  "Monot": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",
+  "Nana Jacqueline": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Nanushka": "https://images.unsplash.com/photo-1536992266094-82847e1fd431?w=600&h=500&fit=crop",
+  "Needle & Thread": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Nensi Dojaka": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",
+  "Odd Muse": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Online Ceramics": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Orseund Iris": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",
+  "Paloma Wool": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Pangaia": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",
+  "Peachy Den": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Petite Mendigote": "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",
+  "Poster Girl": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&h=500&fit=crop",
+  "Rachel Comey": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Rat & Boa": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Realisation Par": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Reformation": "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&h=500&fit=crop",
+  "Rixo": "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=500&fit=crop",
+  "Rouje": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&h=500&fit=crop",
+  "Sandy Liang": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=500&fit=crop",
+  "Schiaparelli": "https://images.unsplash.com/photo-1770777351893-4a71409517a3?w=600&h=500&fit=crop",
+  "Selkie": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Show Me Your Mumu": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Sir The Label": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Sleeper": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Spell": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Sporty & Rich": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=500&fit=crop",
+  "Stine Goya": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Stouls": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=500&fit=crop",
+  "Studio Nicholson": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Stüssy": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "Sézane": "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=600&h=500&fit=crop",
+  "The Frankie Shop": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=500&fit=crop",
+  "The Row": "https://images.unsplash.com/photo-1544957992-20514f595d6f?w=600&h=500&fit=crop",
+  "Tigerlily": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=500&fit=crop",
+  "Totême": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=500&fit=crop",
+  "Ulla Johnson": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=500&fit=crop",
+  "Uniqlo": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&h=500&fit=crop",
+  "Vince": "https://images.unsplash.com/photo-1506152983158-b4a74a01c721?w=600&h=500&fit=crop",
+  "Wales Bonner": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&h=500&fit=crop",
+  "With Jéan": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop",
+  "Zimmermann": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&h=500&fit=crop"
+};
+
+// ============================================================
+// BRAND WEBSITES (from index.html)
+// ============================================================
+const brandWebsites = {
+  "The Row": "therow.com",
+  "Khaite": "khaite.com",
+  "Lemaire": "lemaire.fr",
+  "Totême": "toteme.com",
+  "Jil Sander": "jilsander.com",
+  "A.P.C.": "apc-us.com",
+  "Vince": "vince.com",
+  "COS": "cos.com",
+  "Everlane": "everlane.com",
+  "Uniqlo": "uniqlo.com",
+  "ASOS": "asos.com",
+  "Aritzia Babaton": "aritzia.com",
+  "Dissh": "dissh.com.au",
+  "& Other Stories": "stories.com",
+  "Ganni": "ganni.com",
+  "Reformation": "thereformation.com",
+  "Sézane": "sezane.com",
+  "Rouje": "rouje.com",
+  "Musier Paris": "musier-paris.com",
+  "Isabel Marant": "isabelmarant.com",
+  "Dôen": "shopdoen.com",
+  "LoveShackFancy": "loveshackfancy.com",
+  "Christy Dawn": "christydawn.com",
+  "Sandy Liang": "sandyliang.info",
+  "Zimmermann": "zimmermann.com",
+  "Free People": "freepeople.com",
+  "Aimé Leon Dore": "aimeleondore.com",
+  "Stüssy": "stussy.com",
+  "Alo Yoga": "aloyoga.com",
+  "Sporty & Rich": "sportyandrich.com",
+  "Schiaparelli": "schiaparelli.com",
+  "Nanushka": "nanushka.com",
+  "Stouls": "stouls.com",
+  "Loulou Studio": "louloustudio.com",
+  "Jacquemus": "jacquemus.com",
+  "Adanola": "adanola.com",
+  "Rick Owens": "rickowens.eu",
+  "Mugler": "mugler.com"
+};
+
+// Safe ID helper — brand names have spaces, &, accents etc.
+function safeId(name) {
+  return name.replace(/[^a-zA-Z0-9]/g, '_');
+}
+
+function getBrandWebsite(brandName) {
+  return brandWebsites[brandName] || null;
+}
+
+function getBrandUrl(brandName) {
+  const website = getBrandWebsite(brandName);
+  if (website) return `https://${website}`;
+  return `https://www.google.com/search?q=${encodeURIComponent(brandName + " official site")}`;
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  selectedLane: 0,
+  laneBanners: {},
+  brandImages: {},
+  filterNeedsImage: false
+};
+
+// ============================================================
+// INITIALIZE
+// ============================================================
+function init() {
+  renderTabs();
+  renderSections();
+  state.selectedLane = 0;
+  showLane(0);
+  updateProgress();
+}
+
+// ============================================================
+// TAB RENDERING
+// ============================================================
+function renderTabs() {
+  const container = document.getElementById('tabNav');
+  container.innerHTML = lanes.map((lane, idx) => {
+    const doneClass = state.laneBanners[lane.name] ? 'done' : '';
+    return `
+      <button class="tab-btn ${idx === 0 ? 'active' : ''} ${doneClass}"
+              onclick="showLane(${idx})">
+        ${lane.name}
+        <span class="tab-check">✓</span>
+      </button>
+    `;
+  }).join('');
+}
+
+function showLane(idx) {
+  state.selectedLane = idx;
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.picker-section').forEach((sec, i) => {
+    sec.classList.toggle('active', i === idx);
+  });
+  // Auto-load Unsplash results for brands in this lane (staggered to avoid rate limit)
+  autoLoadLaneBrands(idx);
+}
+
+let autoLoadedLanes = new Set();
+function autoLoadLaneBrands(laneIdx) {
+  if (autoLoadedLanes.has(laneIdx)) return; // already loaded
+  autoLoadedLanes.add(laneIdx);
+  const lane = lanes[laneIdx];
+  lane.brands.forEach((brandName, i) => {
+    // Stagger API calls by 300ms each to avoid rate limiting
+    setTimeout(() => {
+      const grid = document.getElementById(`imageGrid_${safeId(brandName)}`);
+      if (grid && grid.children.length === 0) {
+        searchBrandImages(brandName);
+      }
+    }, i * 300);
+  });
+}
+
+// ============================================================
+// SECTIONS RENDERING
+// ============================================================
+function renderSections() {
+  const container = document.getElementById('sectionsContainer');
+  container.innerHTML = lanes.map((lane, idx) => `
+    <div class="picker-section ${idx === 0 ? 'active' : ''}">
+      <div class="section-header">
+        <div class="section-color" style="background: ${lane.color}"></div>
+        <div class="section-info">
+          <h2>${lane.name}</h2>
+          <p>${lane.brands.length} brands in this lane</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3>Lane Banner Image</h3>
+        <p class="sub-label">Featured hero image for this aesthetic lane carousel</p>
+        ${renderLaneBanner(lane)}
+      </div>
+
+      <div class="subsection">
+        <h3>Brand Hero Images</h3>
+        <p class="sub-label">Curate images for each brand in this lane</p>
+        <div class="brands-grid">
+          ${lane.brands.map(brandName => renderBrandCard(brandName, lane)).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderLaneBanner(lane) {
+  const selected = state.laneBanners[lane.name] || '';
+  const previewImg = selected ? `<img src="${selected}" alt="${lane.name} banner">` : '';
+
+  const sid = safeId(lane.name);
+  return `
+    <div class="banner-picker">
+      <div class="banner-preview">${previewImg}</div>
+      <div class="banner-actions">
+        <div class="banner-search">
+          <input type="text" class="search-input" id="bannerSearch_${sid}"
+                 value="${lane.searchTerms}" placeholder="Search terms...">
+          <button class="search-btn" onclick="searchBannerImages('${lane.name}')">Search</button>
+        </div>
+        <div id="bannerGrid_${sid}" style="margin-top: 8px;"></div>
+      </div>
+    </div>
+  `;
+}
+
+function renderBrandCard(brandName, lane) {
+  const isCurated = curatedBrands.has(brandName);
+  const status = isCurated ? 'has-image' : 'needs-image';
+  const statusText = isCurated ? '✅ Has curated' : '⚠️ Needs image';
+  const selected = state.brandImages[brandName] || '';
+  const website = getBrandUrl(brandName);
+  const pressUrl = website.includes('google.com') ? website : (website.endsWith('/') ? website + 'press' : website + '/press');
+
+  return `
+    <div class="brand-card ${status}">
+      <div class="brand-header">
+        <div class="brand-info">
+          <h4>${brandName}</h4>
+          <div class="brand-meta">
+            <a href="${website}" target="_blank">website</a>
+            <a href="${pressUrl}" target="_blank">press</a>
+          </div>
+        </div>
+        <div class="brand-status ${status}">
+          ${statusText}
+        </div>
+      </div>
+
+      <div class="brand-current-img" id="currentImg_${safeId(brandName)}">
+        ${currentBrandImages[brandName] ? `<img src="${currentBrandImages[brandName]}" alt="${brandName}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+        <div style="position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.6);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;">Current image</div>` : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:0.78rem;">No image yet</div>'}
+      </div>
+
+      <div class="brand-search-section">
+        <input type="text" class="brand-search-input" id="searchInput_${safeId(brandName)}"
+               value="${brandName} ${lane.searchTerms}" placeholder="Search terms...">
+        <button class="brand-search-btn" onclick="searchBrandImages(\`${brandName.replace(/`/g,'')}\`)">Search Unsplash</button>
+      </div>
+
+      <div class="url-paste-section">
+        <label class="url-paste-label">Or paste custom URL:</label>
+        <input type="text" class="url-paste-input" id="customUrl_${safeId(brandName)}"
+               placeholder="https://unsplash.com/photos/...">
+        <button class="brand-search-btn" onclick="pasteCustomUrl(\`${brandName.replace(/`/g,'')}\`)" style="padding: 6px 12px; font-size: 0.75rem;">
+          Use This URL
+        </button>
+      </div>
+
+      <div class="brand-image-grid" id="imageGrid_${safeId(brandName)}">
+        <!-- Loaded images go here -->
+      </div>
+
+      ${selected ? `<div style="margin-top: 8px; padding: 8px; background: var(--selected-bg); border-radius: 6px; font-size: 0.75rem; color: var(--selected); font-weight: 600;">✓ Selected: ${selected.substring(0, 50)}...</div>` : ''}
+    </div>
+  `;
+}
+
+// ============================================================
+// SEARCH FUNCTIONS
+// ============================================================
+function searchBannerImages(laneName) {
+  const sid = safeId(laneName);
+  const input = document.getElementById(`bannerSearch_${sid}`);
+  const terms = input ? input.value : laneName;
+  fetchUnsplashImages(terms || laneName, 4, (images) => {
+    const grid = document.getElementById(`bannerGrid_${sid}`);
+    if (!grid) return;
+    grid.innerHTML = images.map(img => `
+      <div class="brand-image-option ${state.laneBanners[laneName] === img.url ? 'selected' : ''}"
+           onclick="selectLaneBanner('${laneName}', '${img.url}')">
+        <img src="${img.url}" alt="banner">
+      </div>
+    `).join('');
+  });
+}
+
+function searchBrandImages(brandName) {
+  const sid = safeId(brandName);
+  const input = document.getElementById(`searchInput_${sid}`);
+  const terms = input ? input.value : brandName;
+  fetchUnsplashImages(terms || brandName, 4, (images) => {
+    const grid = document.getElementById(`imageGrid_${sid}`);
+    if (!grid) return;
+    grid.innerHTML = images.map(img => `
+      <div class="brand-image-option ${state.brandImages[brandName] === img.url ? 'selected' : ''}"
+           onclick="selectBrandImage(\`${brandName.replace(/`/g,'')}\`, '${img.url}')">
+        <img src="${img.url}" alt="${brandName}">
+      </div>
+    `).join('');
+  });
+}
+
+function pasteCustomUrl(brandName) {
+  const input = document.getElementById(`customUrl_${safeId(brandName)}`);
+  const url = input.value.trim();
+  if (url) {
+    selectBrandImage(brandName, url);
+    input.value = '';
+  }
+}
+
+// ============================================================
+// UNSPLASH API (free, no auth needed for basic searches)
+// ============================================================
+function fetchUnsplashImages(query, count, callback) {
+  const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=${count}&client_id=X7xW9_PrZnBh7CxPh61gXGPw-xvFKGRZnFZLdJN0tMc`;
+
+  fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      const images = (data.results || []).map(img => ({
+        url: `${img.urls.regular}?w=500&h=400&fit=crop`,
+        credit: img.user.name,
+        id: img.id
+      }));
+      callback(images);
+    })
+    .catch(err => {
+      console.error('Unsplash API error:', err);
+      callback([]);
+    });
+}
+
+// ============================================================
+// SELECTION HANDLERS
+// ============================================================
+function selectLaneBanner(laneName, url) {
+  state.laneBanners[laneName] = url;
+  const tabs = document.querySelectorAll('.tab-btn');
+  const laneIdx = lanes.findIndex(l => l.name === laneName);
+  if (state.laneBanners[laneName]) {
+    tabs[laneIdx].classList.add('done');
+  }
+  updateProgress();
+
+  const sid = safeId(laneName);
+  // Re-render the banner preview
+  const gridEl = document.getElementById(`bannerGrid_${sid}`);
+  if (gridEl) {
+    const preview = gridEl.parentElement.querySelector('.banner-preview');
+    if (preview) preview.innerHTML = `<img src="${url}" alt="${laneName} banner">`;
+
+    // Update grid selection
+    gridEl.querySelectorAll('.brand-image-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    if (event && event.target) {
+      const clicked = event.target.closest('.brand-image-option');
+      if (clicked) clicked.classList.add('selected');
+    }
+  }
+}
+
+function selectBrandImage(brandName, url) {
+  state.brandImages[brandName] = url;
+  updateProgress();
+
+  const sid = safeId(brandName);
+
+  // Update card display
+  const grid = document.getElementById(`imageGrid_${sid}`);
+  if (grid) {
+    grid.querySelectorAll('.brand-image-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    if (event && event.target) {
+      const clicked = event.target.closest('.brand-image-option');
+      if (clicked) clicked.classList.add('selected');
+    }
+  }
+
+  // Update preview in card
+  const preview = document.getElementById(`currentImg_${sid}`);
+  if (preview) {
+    preview.innerHTML = `<img src="${url}" alt="${brandName}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+    <div style="position:absolute;bottom:4px;left:4px;background:rgba(46,125,50,0.85);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;">New selection</div>`;
+  }
+}
+
+// ============================================================
+// FILTER & PROGRESS
+// ============================================================
+function toggleFilter() {
+  state.filterNeedsImage = !state.filterNeedsImage;
+  const btn = document.getElementById('filterBtn');
+  btn.classList.toggle('active', state.filterNeedsImage);
+  btn.textContent = state.filterNeedsImage ? 'Show needs-image only' : 'Show all';
+
+  document.querySelectorAll('.brand-card').forEach(card => {
+    const show = !state.filterNeedsImage || card.classList.contains('needs-image');
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+function updateProgress() {
+  const brandCount = Object.keys(state.brandImages).length;
+  const laneCount = Object.keys(state.laneBanners).length;
+  const percent = Math.round((brandCount / 113) * 100);
+
+  document.getElementById('progressFill').style.width = percent + '%';
+  document.getElementById('progressText').textContent = `${brandCount}/113 brands · ${laneCount}/10 lanes`;
+  document.getElementById('exportBtn').disabled = brandCount === 0 && laneCount === 0;
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function exportSelections() {
+  const output = {
+    brandImages: state.brandImages,
+    laneBanners: state.laneBanners,
+    exportedAt: new Date().toISOString()
+  };
+
+  document.getElementById('exportOutput').textContent = JSON.stringify(output, null, 2);
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function copyExport() {
+  const text = document.getElementById('exportOutput').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
