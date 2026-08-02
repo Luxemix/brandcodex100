@@ -1371,6 +1371,15 @@
     .carousel-nav button { width: 30px; height: 30px; }
   }
 
+  /* THE DROP SIGNUP (matches brand pages) */
+  .signup{background:linear-gradient(135deg,#1A1A2E 0%,#2D2D4A 100%);border-radius:16px;color:#fff;padding:40px 32px;margin:56px auto;max-width:860px;text-align:center}
+  .signup h2{font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:8px}
+  .signup p{color:#cfcfe0;font-size:.95rem;max-width:46ch;margin:0 auto 18px}
+  .signup .kit-slot{max-width:420px;margin:0 auto}
+  @media (max-width:640px){.signup{margin:40px 16px;padding:32px 20px}}
+  /* World banner -> directory link */
+  .awb-link{display:none;margin-top:10px;color:var(--accent);font-weight:600;font-size:.9rem;text-decoration:none;border-bottom:1px solid var(--accent)}
+  .awb-link:hover{opacity:.8}
 </style>
 </head>
 <body>
@@ -1407,6 +1416,7 @@
     <div class="world-banner-inner">
       <h3 id="awbTitle"></h3>
       <p id="awbDesc"></p>
+      <a id="awbLink" class="awb-link" href="/brands/">Browse the full brand guide &rarr;</a>
     </div>
     <button class="close-banner" onclick="clearWorldFilter()">&times;</button>
   </div>
@@ -1513,6 +1523,15 @@
   <p>No brands match your filters.</p>
   <button onclick="clearFilters()">Reset filters</button>
 </div>
+
+<section class="signup" id="signup">
+  <h2>The Drop</h2>
+  <p>One aesthetic-obsessed email a week. Rising brands, real picks, zero filler.</p>
+  <div class="kit-slot">
+      <!-- Kit form: "Brand Codex 100" (uid 7ab3aede58). Managed in Kit — never hand-edit or rebuild. -->
+      <script async data-uid="7ab3aede58" src="https://luxemix.kit.com/7ab3aede58/index.js"></script>
+  </div>
+</section>
 
 <footer>
   <div class="footer-inner">
@@ -1784,6 +1803,9 @@ function selectWorld(idx) {
   const banner = document.getElementById('worldBanner');
   document.getElementById('awbTitle').textContent = w.name;
   document.getElementById('awbDesc').textContent = w.fullDesc;
+  // Live brand-guide worlds link out to the /brands/ directory
+  var awbLink = document.getElementById('awbLink');
+  if (awbLink) awbLink.style.display = ['Quiet Luxury','Clean Girl','Coastal / Boho'].includes(w.name) ? 'inline-block' : 'none';
   banner.classList.add('visible');
   renderCards();
   if (window.posthog) posthog.capture('world_selected', { world_name: w.name });
