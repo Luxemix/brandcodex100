@@ -1916,12 +1916,30 @@ function renderBrandCard(name, idx) {
       <p class="vibe">\u201C${b.vibe}\u201D</p>
       <div class="card-vibes">${vibeChips}</div>
       <div class="card-footer">
-        <a class="shop-link" href="${b.url}" target="_blank" rel="noopener"
-           onclick="if(window.posthog)posthog.capture('brand_click',{brand:'${name.replace(/'/g,"\\'")}',price_tier:'${b.price}',origin:'${b.origin}',aesthetic:'${aestheticName}',position:${idx}})">Shop</a>
+        ${CODEX_PAGES[name] ? `<a class="shop-link" href="${CODEX_PAGES[name]}">In the Codex &rarr;</a>` : ''}
+        ${b.url && b.url !== '#' ? `<a class="shop-link" href="${b.url}" target="_blank" rel="noopener"
+           onclick="if(window.posthog)posthog.capture('brand_click',{brand:'${name.replace(/'/g,"\\'")}',price_tier:'${b.price}',origin:'${b.origin}',aesthetic:'${aestheticName}',position:${idx}})">Shop</a>` : ''}
       </div>
     </div>
   </div>`;
 }
+
+const CODEX_PAGES = {
+  "Christy Dawn":"/brands/christy-dawn.html",
+  "D\u00f4en":"/brands/doen.html",
+  "Faithfull the Brand":"/brands/faithfull-the-brand.html",
+  "Reformation":"/brands/reformation.html",
+  "Spell":"/brands/spell.html",
+  "S\u00e9zane":"/brands/sezane.html",
+  "The Row":"/brands/the-row.html",
+  "Tot\u00eame":"/brands/toteme.html",
+  "Vince":"/brands/vince.html",
+  "Cleobella":"/brands/cleobella.html",
+  "Jenni Kayne":"/brands/jenni-kayne.html",
+  "Madewell":"/brands/madewell.html",
+  "Quince":"/brands/quince.html",
+  "Soeur":"/brands/soeur.html"
+};
 
 function renderCards() {
   const results = getFiltered();
