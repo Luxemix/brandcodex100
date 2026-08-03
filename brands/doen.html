@@ -15,7 +15,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap">
-<!-- GA4: consent-gated deferred loader inserted at the end of the page body — same pattern as the homepage -->
+<script>
+// ===== DEFERRED ANALYTICS (same G-M84DX16EL1 property + consent behavior as homepage) =====
+(function() {
+  let loaded = false;
+  function loadGA() {
+    if (loaded) return;
+    loaded = true;
+    try {
+      if (localStorage.getItem('bc100_cookies') === 'declined') {
+        window['ga-disable-G-M84DX16EL1'] = true;
+      }
+    } catch(e) {}
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-M84DX16EL1', { anonymize_ip: true });
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-M84DX16EL1';
+    document.head.appendChild(s);
+  }
+  const trigger = () => loadGA();
+  ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, trigger, { once: true, passive: true });
+  });
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadGA, { timeout: 4000 });
+  } else {
+    setTimeout(loadGA, 2500);
+  }
+})();
+</script>
 <style>
   :root {
     --bg:#FAF9F6; --card-bg:#FFFFFF; --text:#1A1A2E; --text-muted:#6B6B7B;
@@ -75,17 +107,10 @@
   .signup .kit-slot{max-width:420px;margin:0 auto}
   footer{border-top:1px solid var(--border);margin-top:56px;padding:26px 24px;text-align:center;font-size:.78rem;color:var(--text-muted)}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-  /* COOKIE BANNER (same pattern as homepage) */
-  .cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--text);color:rgba(255,255,255,.8);padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:20px;font-size:.82rem;z-index:9999;box-shadow:0 -4px 20px rgba(0,0,0,.15);transition:transform .4s ease}
-  .cookie-banner.hidden{transform:translateY(100%);pointer-events:none}
-  .cookie-banner a{color:var(--accent);text-decoration:underline}
-  .cookie-btn{padding:8px 22px;border:none;border-radius:6px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
-  .cookie-btn.accept{background:var(--accent);color:var(--text)}
-  .cookie-btn.accept:hover{background:#b8983f}
-  .cookie-btn.decline{background:rgba(255,255,255,.12);color:#fff}
-  .cookie-btn.decline:hover{background:rgba(255,255,255,.2)}
-  @media (max-width:640px){.cookie-banner{flex-direction:column;gap:12px;text-align:center;padding:12px 14px;font-size:.78rem}}
-  @media (hover:none) and (pointer:coarse){.cookie-btn{min-height:40px}}
+  .ig-embeds{margin:52px 0 8px}
+  .ig-embeds h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:6px}
+  .ig-embeds .sub{color:var(--text-muted);font-size:.9rem;margin-bottom:20px}
+  .ig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;align-items:start}
 </style>
 </head>
 <body>
@@ -135,75 +160,28 @@
       <a class="adj-card" href="/brands/spell.html"><div class="n">Spell</div><div class="a">Coastal / Boho · Mid-range</div></a>
     </div>
   </section>
+  <section class="ig-embeds">
+    <h2>On Instagram</h2>
+    <p class="sub">Recent posts from Dôen.</p>
+    <div class="ig-grid">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DUbB7Z2FJZ1/" data-instgrm-version="14" style="margin:0;max-width:540px;min-width:240px;width:100%"><a href="https://www.instagram.com/p/DUbB7Z2FJZ1/" target="_blank" rel="noopener">View this post on Instagram</a></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Dbggg3hHRNJ/" data-instgrm-version="14" style="margin:0;max-width:540px;min-width:240px;width:100%"><a href="https://www.instagram.com/p/Dbggg3hHRNJ/" target="_blank" rel="noopener">View this post on Instagram</a></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Da_TRaWS3F-/" data-instgrm-version="14" style="margin:0;max-width:540px;min-width:240px;width:100%"><a href="https://www.instagram.com/p/Da_TRaWS3F-/" target="_blank" rel="noopener">View this post on Instagram</a></blockquote>
+    </div>
+  </section>
   <section class="signup">
     <h2>The Drop</h2>
     <p>One aesthetic-obsessed email a week. Rising brands, real picks, zero filler.</p>
     <div class="kit-slot">
-      <!-- Kit form: "Brand Codex 100" (uid 7ab3aede58). Managed in Kit — never hand-edit or rebuild. -->
-      <script async data-uid="7ab3aede58" src="https://luxemix.kit.com/7ab3aede58/index.js"></script>
+      <!-- ============================================= -->
+      <!-- PASTE KIT (ConvertKit) FORM EMBED CODE HERE   -->
+      <!-- Do not rebuild this form by hand — the embed  -->
+      <!-- is load-bearing. Style the container only.    -->
+      <!-- ============================================= -->
     </div>
   </section>
 </main>
 <footer>Brand Codex 100 &middot; The Aesthetic Index &middot; <a href="/">brandcodex100.com</a></footer>
-<div class="cookie-banner" id="cookieBanner">
-  <span>We use cookies for analytics. <a href="/">Learn more</a></span>
-  <div>
-    <button class="cookie-btn decline" onclick="declineCookies()">Decline</button>
-    <button class="cookie-btn accept" onclick="acceptCookies()">Accept</button>
-  </div>
-</div>
-<script>
-// ===== COOKIE CONSENT (choice shared with homepage via bc100_cookies) =====
-(function() {
-  try {
-    if (localStorage.getItem('bc100_cookies') !== null) {
-      document.getElementById('cookieBanner').classList.add('hidden');
-      if (localStorage.getItem('bc100_cookies') === 'declined') {
-        window['ga-disable-G-M84DX16EL1'] = true;
-      }
-    }
-  } catch(e) {}
-})();
-// ===== DEFERRED GA4 (same loader as homepage; respects decline) =====
-(function() {
-  let loaded = false;
-  function loadGA() {
-    if (loaded) return;
-    loaded = true;
-    try {
-      if (localStorage.getItem('bc100_cookies') === 'declined') {
-        window['ga-disable-G-M84DX16EL1'] = true;
-      }
-    } catch(e) {}
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', 'G-M84DX16EL1', { anonymize_ip: true });
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-M84DX16EL1';
-    document.head.appendChild(s);
-  }
-  const trigger = () => loadGA();
-  ['pointerdown','keydown','scroll','touchstart'].forEach(evt => {
-    window.addEventListener(evt, trigger, { once: true, passive: true });
-  });
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(loadGA, { timeout: 4000 });
-  } else {
-    setTimeout(loadGA, 2500);
-  }
-})();
-function acceptCookies() {
-  try { localStorage.setItem('bc100_cookies', 'accepted'); } catch(e) {}
-  document.getElementById('cookieBanner').classList.add('hidden');
-}
-function declineCookies() {
-  try { localStorage.setItem('bc100_cookies', 'declined'); } catch(e) {}
-  window['ga-disable-G-M84DX16EL1'] = true;
-  document.getElementById('cookieBanner').classList.add('hidden');
-}
-</script>
+<script async src="https://www.instagram.com/embed.js"></script>
 </body>
 </html>
