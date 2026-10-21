@@ -417,9 +417,9 @@
     window.addEventListener(evt, trigger, { once: true, passive: true });
   });
   if ('requestIdleCallback' in window) {
-    requestIdleCallback(loadGA, { timeout: 4000 });
+    loadGA(); // Office Hours: load right away so short visits from shared links are counted
   } else {
-    setTimeout(loadGA, 2500);
+    loadGA();
   }
 })();
 function acceptCookies() {
@@ -431,6 +431,103 @@ function declineCookies() {
   window['ga-disable-G-M84DX16EL1'] = true;
   document.getElementById('cookieBanner').classList.add('hidden');
 }
+</script>
+<script>
+// ===== OFFICE HOURS TRACKING (GA4 custom events) =====
+(function(){
+  function track(name, params){
+    try{
+      params = params || {}; params.page = 'office_hours';
+      if (typeof window.gtag === 'function') { window.gtag('event', name, params); }
+      else { (window._bcQ = window._bcQ || []).push([name, params]); }
+    }catch(e){}
+  }
+  // flush anything queued before GA finished loading
+  var flush = setInterval(function(){
+    if (typeof window.gtag === 'function') {
+      (window._bcQ || []).forEach(function(e){ window.gtag('event', e[0], e[1]); });
+      window._bcQ = []; clearInterval(flush);
+    }
+  }, 500);
+  setTimeout(function(){ clearInterval(flush); }, 30000);
+
+  // 1. Shop clicks (button, photo, or name tile) — the money event
+  document.addEventListener('click', function(ev){
+    var a = ev.target.closest('a.ww-shop, a.ww-photo, a.ww-thumb'); if(!a) return;
+    var card = a.closest('.ww-card'); if(!card) return;
+    track('shop_click', {
+      brand: card.querySelector('h3').textContent.trim(),
+      rank: parseInt(card.querySelector('.ww-rank').textContent,10),
+      price_tier: parseInt(card.dataset.tier,10),
+      link_type: a.classList.contains('ww-shop') ? 'button' : 'image',
+      link_url: a.href, transport_type: 'beacon'
+    });
+  }, true);
+
+  // 2. Price slider — sent once the person stops dragging
+  var lo=document.getElementById('wwMin'), hi=document.getElementById('wwMax'), t;
+  function sendFilter(){
+    clearTimeout(t);
+    t=setTimeout(function(){
+      track('price_filter', { min_tier:+lo.value, max_tier:+hi.value,
+        results: document.querySelectorAll('.ww-card:not([hidden])').length });
+    }, 800);
+  }
+  if(lo&&hi){ lo.addEventListener('change',sendFilter); hi.addEventListener('change',sendFilter); }
+
+  // 3. Carousel — arrow clicks, and which looks actually got seen
+  ['wwPrev','wwNext'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.addEventListener('click',function(){ track('carousel_arrow',{direction:id==='wwNext'?'next':'prev'}); });
+  });
+  var seenLooks={}, maxLook=0;
+  if('IntersectionObserver' in window){
+    var reel=document.getElementById('wwTrack');
+    var lookObs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var i=[].indexOf.call(reel.children,e.target)+1;
+        if(seenLooks[i]) return; seenLooks[i]=1;
+        if(i>maxLook) maxLook=i;
+        track('look_view',{look_number:i, look_name:e.target.querySelector('img').alt});
+      });
+    },{root:reel,threshold:0.6});
+    [].forEach.call(reel.children,function(s){ lookObs.observe(s); });
+
+    // 4. Which brand cards people scrolled to
+    var cardObs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return; cardObs.unobserve(e.target);
+        track('brand_view',{ brand:e.target.querySelector('h3').textContent.trim(),
+          rank:parseInt(e.target.querySelector('.ww-rank').textContent,10),
+          price_tier:parseInt(e.target.dataset.tier,10) });
+      });
+    },{threshold:0.5});
+    document.querySelectorAll('.ww-card').forEach(function(c){ cardObs.observe(c); });
+  }
+
+  // 5. Scroll depth 25/50/75/100
+  var marks=[25,50,75,100], hit={};
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement, pct=Math.round((h.scrollTop+window.innerHeight)/h.scrollHeight*100);
+    marks.forEach(function(m){ if(pct>=m&&!hit[m]){ hit[m]=1; track('scroll_depth',{percent:m}); } });
+  },{passive:true});
+
+  // 6. Newsletter signup (Kit form submit)
+  document.addEventListener('submit',function(ev){
+    var f=ev.target;
+    if(f && (f.matches('[data-uid], .formkit-form') || f.closest('.kit-slot'))) track('newsletter_signup',{form:'Brand Codex 100'});
+  },true);
+
+  // 7. Time on page when they leave
+  var start=Date.now();
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='hidden'){
+      track('page_exit',{ seconds_on_page:Math.round((Date.now()-start)/1000),
+        looks_seen:Object.keys(seenLooks).length, transport_type:'beacon' });
+    }
+  });
+})();
 </script>
 </body>
 </html>
