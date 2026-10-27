@@ -35,7 +35,7 @@ function renderWorlds() {
 function brandCard(brand) {
   const [cover, ink] = colors[brand.worlds[0]] || ['#e5ded2','#594d3f'];
   return `<article class="brand-card" data-record="${esc(brand.id)}">
-    <div class="brand-cover" style="--cover:${cover};--cover-ink:${ink}"><span class="cover-label">${esc(brand.worlds.join(' · '))}</span><h3 class="brand-title">${esc(brand.name)}</h3></div>
+    <div class="brand-cover ${brand.image ? 'has-photo' : ''}" style="--cover:${cover};--cover-ink:${ink}">${brand.image ? `<img class="brand-photo" src="${safeLink(brand.image)}" alt="Existing style reference for ${esc(brand.name)}; not a brand product photo" width="600" height="500" loading="lazy" decoding="async">` : ''}<span class="cover-label">${esc(brand.worlds.join(' · '))}</span><div class="cover-title"><h3 class="brand-title">${esc(brand.name)}</h3><span class="photo-caption">${brand.image ? 'Style reference' : 'Photo to come'}</span></div></div>
     <div class="brand-body"><div class="brand-meta"><span>${esc(brand.location || 'Explore the collection')}</span><span class="price-badge ${brand.priceVerified ? '' : 'pending'}">${priceLabel(brand)}</span></div>
     <p class="brand-description">${esc(brand.description)}</p><div class="tags">${tags(brand.tags['Product strengths'].slice(0, 3))}</div>
     ${brand.name === 'Ille de Cocos' ? '<p class="status-note">Current shop availability unconfirmed</p>' : ''}
@@ -47,6 +47,11 @@ function renderIndex() {
   renderWorlds();
   $('#brand-grid').className = 'brand-grid ' + (view === 'grid' ? '' : view);
   $('#brand-grid').innerHTML = results.map(brandCard).join('');
+  document.querySelectorAll('.brand-photo').forEach(img => img.addEventListener('error', () => {
+    const cover = img.closest('.brand-cover');
+    img.remove(); cover.classList.remove('has-photo');
+    cover.querySelector('.photo-caption').textContent = 'Photo to come';
+  }, {once: true}));
   $('#result-count').textContent = `${results.length} ${results.length === 1 ? 'brand' : 'brands'}${Object.values(filters).some(Boolean) ? ' matching your filters' : ' to explore'}`;
   $('#empty-state').hidden = results.length !== 0;
   $('#filter-chips').innerHTML = Object.entries(filters).filter(([,value]) => value).map(([key,value]) => `<button type="button" class="filter-chip" data-remove="${key}" aria-label="Remove ${esc(value)} filter">${esc(value)} ×</button>`).join('') + (Object.values(filters).some(Boolean) ? '<button type="button" class="filter-chip clear-chip" data-reset>Clear all</button>' : '');
