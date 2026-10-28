@@ -1,0 +1,67 @@
+.preview-notice{display:flex;justify-content:center;gap:24px;padding:10px 20px;background:#eee8dc;color:#363246;font-size:12px;line-height:1.5}
+.preview-notice a{text-underline-offset:3px}
+main{max-width:1040px;padding-top:32px}
+.ww-hero{padding-bottom:24px}
+.ww-browse{position:sticky;top:0;z-index:20;background:var(--bg);padding:12px 0 10px;margin-bottom:20px;border-bottom:1px solid var(--border)}
+.ww-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end}
+.ww-jump{display:grid;gap:5px;font-size:12px;font-weight:600;color:var(--text-muted)}
+.ww-jump select{width:100%;min-width:0;min-height:48px;padding:10px 36px 10px 14px;font:500 15px Inter,sans-serif;color:var(--text);background:white;border:1px solid #d6cfbf;border-radius:8px}
+.ww-price-toggle{min-height:48px;min-width:154px;padding:10px 18px;border:1px solid #d6cfbf;border-radius:8px;background:white;color:var(--text);font:600 14px Inter,sans-serif;cursor:pointer}
+.ww-price-toggle::after{content:' ▾'}
+.ww-price-toggle[aria-expanded=true]::after{content:' ▴'}
+.ww-price-toggle[aria-expanded=true]{border-color:var(--accent);background:#f5efe4}
+.ww-browse-status{font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+#wwPricePanel{padding:8px 0 10px}
+#wwPricePanel[hidden]{display:none}
+.ww-filter{margin:0;padding:14px 18px 10px;box-shadow:none}
+.ww-range,.ww-range input{height:44px}
+.ww-track,.ww-fill{top:20px}
+.ww-range input::-webkit-slider-thumb{width:26px;height:26px}
+.ww-range input::-moz-range-thumb{width:26px;height:26px}
+.ww-reset{display:block;margin:8px 0 0 auto;min-height:44px;padding:8px 12px;border:0;background:transparent;color:var(--text);font:500 13px Inter,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.ww-carousel{width:100%;margin-left:0;border-radius:var(--radius-sm);overflow:hidden}
+.ww-reel{padding:0;gap:10px}
+.ww-slide{height:280px;width:auto}
+.ww-slide img{width:auto;height:100%;object-fit:contain}
+.ww-scale{margin:20px 0 12px}
+.ww-list{gap:18px}
+.ww-card{display:grid;grid-template-columns:28px minmax(260px,320px) minmax(0,1fr);gap:18px;padding:24px;align-items:start;scroll-margin-top:calc(var(--browse-height,110px) + 18px)}
+.ww-rank{padding-top:3px}
+.ww-ig,.ww-photo{position:relative;width:100%;max-width:320px;min-width:0;overflow:hidden}
+.ww-ig .instagram-media{max-width:100%!important;min-width:260px!important}
+.ww-body{min-width:0}
+.ww-top{gap:12px;align-items:flex-start}
+.ww-top h3{font-size:1.55rem;line-height:1.25}
+.ww-dollars{white-space:nowrap;padding-top:4px}
+.ww-meta{gap:8px;margin-top:12px}
+.ww-origin{flex-basis:100%}
+.ww-why{line-height:1.7;margin-top:16px}
+.ww-foot{flex-direction:column;align-items:flex-start;gap:14px;margin-top:20px}
+.ww-shop{display:inline-flex;justify-content:center;align-items:center;min-height:48px;min-width:190px;padding:12px 20px;background:var(--text);color:white;border:0;border-radius:8px;text-decoration:none;line-height:1.4}
+.ww-shop:hover{color:white;background:#35354c}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #a97830;outline-offset:4px}
+.ww-card h3:focus{outline:0}
+.preview-footer{font-size:12px;margin-bottom:8px}
+@media(max-width:760px){
+  main{padding:24px 16px 28px}
+  .preview-notice{justify-content:space-between;gap:12px;padding:8px 16px;font-size:11px}
+  .ww-browse{margin-bottom:16px}
+  .ww-tools{gap:10px;grid-template-columns:minmax(0,1fr) auto}
+  .ww-price-toggle{min-width:118px;padding:10px;font-size:13px}
+  .ww-jump select{font-size:16px;padding-left:10px}
+  .ww-slide{height:220px;width:auto}
+  .ww-slide img{width:auto;height:220px;object-fit:contain}
+  .ww-card{grid-template-columns:24px minmax(0,1fr);gap:12px;padding:18px}
+  .ww-rank{grid-column:1;grid-row:1;font-size:1.4rem}
+  .ww-body{display:contents}
+  .ww-top{grid-column:2;grid-row:1;align-items:center}
+  .ww-top h3{font-size:1.4rem}
+  .ww-dollars{font-size:12px;padding:0}
+  .ww-meta{grid-column:1/-1;grid-row:2;margin:0}
+  .ww-card .ww-ig,.ww-card .ww-photo{grid-column:1/-1;grid-row:3;order:0;max-width:100%;width:100%}
+  .ww-why{grid-column:1/-1;grid-row:4;margin:0}
+  .ww-foot{grid-column:1/-1;grid-row:5;margin:0;gap:12px;align-items:stretch}
+  .ww-shop{width:100%;min-width:0}
+  .ww-ig .instagram-media{min-width:0!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
