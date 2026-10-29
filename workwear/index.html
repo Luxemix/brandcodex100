@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap">
-<!-- GA4: consent-gated deferred loader inserted at the end of the page body — same pattern as the homepage -->
+<!-- Office Hours: existing GA4 tracking retained below. -->
 <style>
   :root {
     --bg:#FAF9F6; --card-bg:#FFFFFF; --text:#1A1A2E; --text-muted:#6B6B7B;
@@ -154,6 +154,75 @@
   .ww-note{font-size:.75rem;color:var(--text-muted);margin-top:16px}
   @media (max-width:560px){.ww-card{padding:16px;gap:12px;flex-wrap:wrap}.ww-rank{font-size:1.3rem}.ww-thumb{flex:0 0 84px;height:104px}.ww-body{flex:1 1 180px}}
 </style>
+<style>
+.preview-notice{display:flex;justify-content:center;gap:24px;padding:10px 20px;background:#eee8dc;color:#363246;font-size:12px;line-height:1.5}
+.preview-notice a{text-underline-offset:3px}
+main{max-width:1040px;padding-top:32px}
+.ww-hero{padding-bottom:24px}
+.ww-browse{position:sticky;top:0;z-index:20;background:var(--bg);padding:12px 0 10px;margin-bottom:20px;border-bottom:1px solid var(--border)}
+.ww-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end}
+.ww-jump{display:grid;gap:5px;font-size:12px;font-weight:600;color:var(--text-muted)}
+.ww-jump select{width:100%;min-width:0;min-height:48px;padding:10px 36px 10px 14px;font:500 15px Inter,sans-serif;color:var(--text);background:white;border:1px solid #d6cfbf;border-radius:8px}
+.ww-price-toggle{min-height:48px;min-width:154px;padding:10px 18px;border:1px solid #d6cfbf;border-radius:8px;background:white;color:var(--text);font:600 14px Inter,sans-serif;cursor:pointer}
+.ww-price-toggle::after{content:' ▾'}
+.ww-price-toggle[aria-expanded=true]::after{content:' ▴'}
+.ww-price-toggle[aria-expanded=true]{border-color:var(--accent);background:#f5efe4}
+.ww-browse-status{font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+#wwPricePanel{padding:8px 0 10px}
+#wwPricePanel[hidden]{display:none}
+.ww-filter{margin:0;padding:14px 18px 10px;box-shadow:none}
+.ww-range,.ww-range input{height:44px}
+.ww-track,.ww-fill{top:20px}
+.ww-range input::-webkit-slider-thumb{width:26px;height:26px}
+.ww-range input::-moz-range-thumb{width:26px;height:26px}
+.ww-reset{display:block;margin:8px 0 0 auto;min-height:44px;padding:8px 12px;border:0;background:transparent;color:var(--text);font:500 13px Inter,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.ww-carousel{width:100%;margin-left:0;border-radius:var(--radius-sm);overflow:hidden}
+.ww-reel{padding:0;gap:10px}
+.ww-slide{height:280px;width:auto}
+.ww-slide img{width:auto;height:100%;object-fit:contain}
+.ww-scale{margin:20px 0 12px}
+.ww-list{gap:18px}
+.ww-card{display:grid;grid-template-columns:28px minmax(260px,320px) minmax(0,1fr);gap:18px;padding:24px;align-items:start;scroll-margin-top:calc(var(--browse-height,110px) + 18px)}
+.ww-rank{padding-top:3px}
+.ww-ig,.ww-photo{position:relative;width:100%;max-width:320px;min-width:0;overflow:hidden}
+.ww-ig .instagram-media{max-width:100%!important;min-width:260px!important}
+.ww-body{min-width:0}
+.ww-top{gap:12px;align-items:flex-start}
+.ww-top h3{font-size:1.55rem;line-height:1.25}
+.ww-dollars{white-space:nowrap;padding-top:4px}
+.ww-meta{gap:8px;margin-top:12px}
+.ww-origin{flex-basis:100%}
+.ww-why{line-height:1.7;margin-top:16px}
+.ww-foot{flex-direction:column;align-items:flex-start;gap:14px;margin-top:20px}
+.ww-shop{display:inline-flex;justify-content:center;align-items:center;min-height:48px;min-width:190px;padding:12px 20px;background:#427a9d;color:white;border:0;border-radius:8px;text-decoration:none;line-height:1.4}
+.ww-shop:hover{color:white;background:#356481}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #a97830;outline-offset:4px}
+.ww-card h3:focus{outline:0}
+.preview-footer{font-size:12px;margin-bottom:8px}
+@media(max-width:760px){
+  main{padding:24px 16px 28px}
+  .preview-notice{justify-content:space-between;gap:12px;padding:8px 16px;font-size:11px}
+  .ww-browse{margin-bottom:16px}
+  .ww-tools{gap:10px;grid-template-columns:minmax(0,1fr) auto}
+  .ww-price-toggle{min-width:118px;padding:10px;font-size:13px}
+  .ww-jump select{font-size:16px;padding-left:10px}
+  .ww-slide{height:220px;width:auto}
+  .ww-slide img{width:auto;height:220px;object-fit:contain}
+  .ww-card{grid-template-columns:24px minmax(0,1fr);gap:12px;padding:18px}
+  .ww-rank{grid-column:1;grid-row:1;font-size:1.4rem}
+  .ww-body{display:contents}
+  .ww-top{grid-column:2;grid-row:1;align-items:center}
+  .ww-top h3{font-size:1.4rem}
+  .ww-dollars{font-size:12px;padding:0}
+  .ww-meta{grid-column:1/-1;grid-row:2;margin:0}
+  .ww-card .ww-ig,.ww-card .ww-photo{grid-column:1/-1;grid-row:3;order:0;max-width:100%;width:100%}
+  .ww-why{grid-column:1/-1;grid-row:4;margin:0}
+  .ww-foot{grid-column:1/-1;grid-row:5;margin:0;gap:12px;align-items:stretch}
+  .ww-shop{width:100%;min-width:0}
+  .ww-ig .instagram-media{min-width:0!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -169,6 +238,27 @@
     <h1>Office Hours</h1>
     <p>Fourteen brands that make getting dressed for work the easy part — ranked from the splurge to the steal.</p>
   </section>
+  <section class="ww-browse" aria-label="Browse the workwear edit">
+    <div class="ww-tools">
+      <label class="ww-jump" for="wwBrandJump">Jump to a brand
+        <select id="wwBrandJump"><option value="">Choose a brand</option></select>
+      </label>
+      <button id="wwPriceToggle" class="ww-price-toggle" type="button" aria-expanded="true" aria-controls="wwPricePanel" disabled>Price · All</button>
+    </div>
+    <div id="wwPricePanel">
+  <section class="ww-filter" aria-label="Filter by price">
+    <div class="ww-filter-top"><b>Price range</b><span class="ww-count" id="wwCount">Showing all 14</span></div>
+    <div class="ww-range">
+      <div class="ww-track"></div><div class="ww-fill" id="wwFill"></div>
+      <input type="range" id="wwMin" min="1" max="5" step="1" value="1" aria-label="Lowest price tier">
+      <input type="range" id="wwMax" min="1" max="5" step="1" value="5" aria-label="Highest price tier">
+    </div>
+    <div class="ww-ticks" id="wwTicks"><span>$</span><span>$$</span><span>$$$</span><span>$$$$</span><span>$$$$$</span></div>
+  </section>
+      <button id="wwReset" class="ww-reset" type="button">Reset price range</button>
+    </div>
+    <p id="wwBrowseStatus" class="ww-browse-status" role="status">14 brands · Splurge to steal</p>
+  </section>
   <section class="ww-carousel" aria-label="Office Hours looks">
     <div class="ww-reel" id="wwTrack" tabindex="0">
       <figure class="ww-slide"><img src="/workwear/look-1.jpg" alt="Happy hour: taupe zip jacket, wide black trousers, blue flats" width="1400" height="788"></figure>
@@ -182,15 +272,7 @@
     <button class="ww-arrow prev" id="wwPrev" aria-label="Previous looks">&larr;</button>
     <button class="ww-arrow next" id="wwNext" aria-label="Next looks">&rarr;</button>
   </section>
-  <section class="ww-filter" aria-label="Filter by price">
-    <div class="ww-filter-top"><b>Price range</b><span class="ww-count" id="wwCount">Showing all 14</span></div>
-    <div class="ww-range">
-      <div class="ww-track"></div><div class="ww-fill" id="wwFill"></div>
-      <input type="range" id="wwMin" min="1" max="5" step="1" value="1" aria-label="Lowest price tier">
-      <input type="range" id="wwMax" min="1" max="5" step="1" value="5" aria-label="Highest price tier">
-    </div>
-    <div class="ww-ticks" id="wwTicks"><span>$</span><span>$$</span><span>$$$</span><span>$$$$</span><span>$$$$$</span></div>
-  </section>
+
   <div class="ww-scale"><span>&uarr; Splurge</span><span>Steal &darr;</span></div>
   <section class="ww-list">
     <article class="ww-card" data-tier="5">
@@ -372,6 +454,75 @@
   </section>
 </main>
 <footer>Brand Codex 100 &middot; The Aesthetic Index &middot; <a href="/">brandcodex100.com</a></footer>
+<script>
+(() => {
+  'use strict';
+  const cards = [...document.querySelectorAll('.ww-card')];
+  const browse = document.querySelector('.ww-browse');
+  const select = document.getElementById('wwBrandJump');
+  const toggle = document.getElementById('wwPriceToggle');
+  const panel = document.getElementById('wwPricePanel');
+  const status = document.getElementById('wwBrowseStatus');
+  const low = document.getElementById('wwMin');
+  const high = document.getElementById('wwMax');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const sizeToolbar = () => document.documentElement.style.setProperty('--browse-height', `${browse.getBoundingClientRect().height}px`);
+  cards.forEach(card => {
+    const heading = card.querySelector('h3');
+    card.id = `brand-${heading.textContent.trim().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/g, '')}`;
+    heading.tabIndex = -1;
+  });
+  function updateControls() {
+    const current = select.value;
+    const visible = cards.filter(card => !card.hidden);
+    select.replaceChildren(new Option('Choose a brand', ''));
+    visible.forEach(card => {
+      select.add(new Option(`${card.querySelector('h3').textContent.trim()} · ${'$'.repeat(+card.dataset.tier)}`, card.id));
+    });
+    select.value = visible.some(card => card.id === current) ? current : '';
+    const a = +low.value;
+    const b = +high.value;
+    const label = a === 1 && b === 5 ? 'All' : a === b ? '$'.repeat(a) : `${'$'.repeat(a)}–${'$'.repeat(b)}`;
+    toggle.textContent = `Price · ${label}`;
+    status.textContent = `${visible.length === 14 ? '14 brands' : `${visible.length} of 14 brands`} · Splurge to steal`;
+    sizeToolbar();
+  }
+  function setPanel(open) {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    sizeToolbar();
+  }
+  function jumpTo(card) {
+    setPanel(false);
+    card.scrollIntoView({behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start'});
+    card.querySelector('h3').focus({preventScroll: true});
+    history.replaceState(null, '', `#${card.id}`);
+  }
+  toggle.disabled = false;
+  setPanel(false);
+  toggle.addEventListener('click', () => setPanel(panel.hidden));
+  select.addEventListener('change', () => {
+    const card = cards.find(item => item.id === select.value);
+    if (card && !card.hidden) jumpTo(card);
+  });
+  [low, high].forEach(input => input.addEventListener('input', updateControls));
+  document.getElementById('wwReset').addEventListener('click', () => {
+    low.value = '1';
+    high.value = '5';
+    low.dispatchEvent(new Event('input', {bubbles: true}));
+  });
+  browse.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !panel.hidden) {
+      setPanel(false);
+      toggle.focus();
+    }
+  });
+  updateControls();
+  if ('ResizeObserver' in window) new ResizeObserver(sizeToolbar).observe(browse);
+  const linkedCard = cards.find(card => `#${card.id}` === location.hash);
+  if (linkedCard) jumpTo(linkedCard);
+})();
+</script>
 <div class="cookie-banner" id="cookieBanner">
   <span>We use cookies for analytics. <a href="/">Learn more</a></span>
   <div>
@@ -395,6 +546,7 @@
 (function() {
   let loaded = false;
   function loadGA() {
+    if (!/^(www\.)?brandcodex100\.com$/.test(location.hostname)) return;
     if (loaded) return;
     loaded = true;
     try {
@@ -531,3 +683,4 @@ function declineCookies() {
 </script>
 </body>
 </html>
+
