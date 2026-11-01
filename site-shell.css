@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+:root{--bc-paper:#faf9f6;--bc-ink:#1a1a2e;--bc-muted:#68666d;--bc-brass:#9a7847;--bc-line:#dedbd3;--bc-soft:#f0ede6}
+.codex-header{background:var(--bc-paper);color:var(--bc-ink);padding:24px 5%;display:flex;align-items:center;justify-content:space-between;gap:28px;border-bottom:1px solid var(--bc-line);font-family:'DM Sans',Arial,sans-serif}
+.codex-wordmark{font:500 26px/1.1 'Playfair Display',Georgia,serif;letter-spacing:-.025em;text-decoration:none;color:var(--bc-ink)}
+.codex-wordmark span{display:block;font:400 9px/1.5 'DM Sans',Arial,sans-serif;text-transform:uppercase;letter-spacing:.17em;color:var(--bc-muted);margin-top:8px}
+.codex-header nav{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.codex-header nav a{font:400 13px/1.5 'DM Sans',Arial,sans-serif;text-decoration:none;color:var(--bc-ink);padding:12px 0;border-bottom:2px solid transparent}
+.codex-header nav a[aria-current]{border-color:var(--bc-brass)}
+.codex-header a:focus-visible,.codex-footer a:focus-visible,.outfit-picks a:focus-visible{outline:3px solid var(--bc-brass);outline-offset:4px}
+.directory-home .hero{grid-template-columns:1fr auto;gap:30px;padding-top:32px;padding-bottom:28px}
+.directory-home h1{font-size:clamp(42px,4.5vw,60px)}
+.directory-home .hero-copy>p:not(.eyebrow){max-width:480px;margin:18px 0 0;font-size:14px}
+.hero-summary{text-align:right;align-self:end;font:400 12px/1.7 'DM Sans',Arial,sans-serif;color:var(--bc-muted)}
+.hero-summary b{display:block;font-size:30px;font-weight:500;color:var(--bc-ink)}
+.directory-home .brand-grid:not(.compact):not(.list){grid-template-columns:repeat(4,minmax(0,1fr))}
+.outfit-picks{max-width:1360px;margin:auto;padding:32px 5% 42px;border-top:1px solid var(--bc-line);scroll-margin-top:24px}
+.outfit-pick{max-width:560px;padding:24px;border:1px solid var(--bc-line);border-radius:8px;background:#fff;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.outfit-pick .eyebrow{margin:0}.outfit-pick h3{font-size:28px}.outfit-pick p:not(.eyebrow){font-size:13px;line-height:1.7;color:var(--bc-muted);margin:0}.outfit-pick a{font:500 13px/1.5 'DM Sans',Arial,sans-serif;text-underline-offset:4px}
+.codex-footer{display:block;margin:0;padding:28px 5% 24px;border-top:1px solid var(--bc-line);background:var(--bc-paper);color:var(--bc-ink);text-align:left;font-family:'DM Sans',Arial,sans-serif}
+.codex-footer-top{max-width:1224px;margin:auto;display:grid;grid-template-columns:1fr minmax(280px,440px);align-items:center;gap:40px}
+.codex-footer-brand p{font-size:11px;color:var(--bc-muted);line-height:1.8;margin:12px 0 0}.codex-footer .codex-wordmark{font-size:23px}
+.codex-signup{margin:0;padding:0;background:none;border:0;text-align:left}.codex-signup h2{font:500 14px/1.5 'DM Sans',Arial,sans-serif;color:var(--bc-ink);letter-spacing:0;margin:0 0 8px}
+.codex-signup .kit-slot{max-width:440px;margin:0}.codex-signup .formkit-form{margin:0!important}
+.codex-footer-bottom{max-width:1224px;margin:22px auto 0;font-size:11px;color:var(--bc-muted)}.codex-footer-bottom .footer-links{display:flex;flex-wrap:wrap;gap:14px}.codex-footer-bottom a{color:inherit}
+#directory{scroll-margin-top:24px}
+@media(min-width:1500px){.codex-header,.codex-footer{padding-left:max(5%,calc((100% - 1224px)/2));padding-right:max(5%,calc((100% - 1224px)/2))}}
+@media(max-width:1000px){.directory-home .brand-grid:not(.compact):not(.list){grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.codex-header{flex-wrap:wrap;padding:20px 5% 10px;gap:15px}.codex-header nav{width:100%;gap:28px}.codex-header nav a{font-size:12px}.directory-home .hero{grid-template-columns:1fr;padding-top:28px}.directory-home h1{font-size:42px}.hero-summary{text-align:left;display:flex;align-items:baseline;gap:10px}.hero-summary b{font-size:22px}.directory-home .brand-grid:not(.compact):not(.list){grid-template-columns:repeat(2,minmax(0,1fr))}.outfit-picks{padding-top:28px;padding-bottom:32px}.outfit-pick{padding:20px;width:100%}.codex-footer-top{grid-template-columns:1fr;gap:24px}.codex-signup .kit-slot{max-width:100%}.codex-footer-bottom{margin-top:20px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+html{scroll-behavior:auto}
+@media(max-width:700px){.directory-home .worlds{margin-right:0;padding-right:0}}
