@@ -5,6 +5,13 @@ const esc = logic.escape;
 const $ = selector => document.querySelector(selector);
 const params = new URLSearchParams(location.search);
 let filters = logic.readFilters(params, catalog);
+try {
+  const saved = JSON.parse(sessionStorage.getItem('bc_aritzia_return') || 'null');
+  if (saved?.url === location.pathname + location.search + location.hash) {
+    filters.q = saved.query || '';
+    sessionStorage.removeItem('bc_aritzia_return');
+  }
+} catch {}
 let view = ['grid', 'compact', 'list'].includes(params.get('view')) ? params.get('view') : 'grid';
 let sort = ['name', 'price-up', 'price-down'].includes(params.get('sort')) ? params.get('sort') : 'name';
 let searchTimer;
@@ -82,6 +89,14 @@ function sampleTable(sample) {
 function showBrand(id) {
   const brand = catalog.brands.find(item => item.id === id);
   if (!brand) return;
+  if (id === 'aritzia') {
+    const from = location.pathname + location.search + location.hash;
+    try {
+      sessionStorage.setItem('bc_aritzia_return', JSON.stringify({url: from, query: filters.q}));
+    } catch {}
+    location.assign('/brands/aritzia/?from=' + encodeURIComponent(from));
+    return;
+  }
   const pricing = brand.priceVerified ? `<p><strong>${esc(brand.priceTier)} · $${Number(brand.median).toLocaleString('en-US')} sample median</strong></p><p>Price sample checked: ${esc(brand.checked)}. This describes a five-style sample, not every item or today’s stock.</p>${brand.priceSample.length ? sampleTable(brand.priceSample) : `<p>The five-style sample was checked on the date above.</p>`}` : `<p><strong>Price under review</strong></p><p>${esc(brand.exception?.reason || 'A comparable current clothing sample is not yet verified.')}</p>${brand.exception?.operating_status ? `<p>${esc(brand.exception.operating_status)}</p>` : ''}`;
   $('#dialog-content').innerHTML = `<p class="eyebrow">${esc(brand.worlds.join(' · '))}</p><h2 id="dialog-title">${esc(brand.name)}</h2><p class="lede">${esc(brand.description)}</p><div class="profile-facts"><span><b>Location</b>${esc(brand.location || 'Not recorded')}</span><span><b>Founded</b>${esc(brand.founded || 'Not recorded')}</span></div><div class="profile-tags">${Object.entries(brand.tags).map(([field,values]) => `<section><h3>${esc(field)}</h3><div class="tags">${values.length ? tags(values) : '<span class="quiet">Not specified</span>'}</div></section>`).join('')}</div><details class="profile-pricing"><summary>How this price tier was checked</summary>${pricing}</details><div class="profile-links"><a class="button" href="${safeLink(brand.website)}" target="_blank" rel="noopener noreferrer">${(brand.name === 'Ille de Cocos' || brand.websiteUnconfirmed) ? 'Recorded website · availability unconfirmed' : 'Visit official website'} ↗</a></div>`;
   $('#brand-dialog').showModal();

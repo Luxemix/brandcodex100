@@ -8,7 +8,12 @@
   let choice = null;
   try { choice = localStorage.getItem('bc100_cookies'); } catch {}
   let loaded = false;
-  function safePage() { const url = new URL(location.href); url.searchParams.delete('q'); return url.href; }
+  function safePage() {
+    const url = new URL(location.href);
+    url.searchParams.delete('q');
+    url.searchParams.delete('from');
+    return url.href;
+  }
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };
   window['ga-disable-' + measurement] = choice === 'declined';
@@ -63,6 +68,7 @@ window.bcInitPosthog = function () {
 
 const pageUrl = new URL(location.href);
 pageUrl.searchParams.delete('q');
+pageUrl.searchParams.delete('from');
 posthog.capture('$pageview', {$current_url: pageUrl.href});
 };
 window.bcStartAnalytics();
