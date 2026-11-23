@@ -67,3 +67,6 @@ main{padding:38px 36px 48px}.eyebrow{font-size:11px;letter-spacing:.16em;text-tr
 .lookbook-context .brand-link { font-size: 12px; }
 
 .profile-details{margin-top:28px;border-top:1px solid #dedbd3;padding-top:18px;font-size:14px}.profile-details summary{cursor:pointer}.profile-details h3{font-size:14px;margin-top:22px}.profile-details li{margin:8px 0}
+
+.lookbook-thumbnails{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:22px 0 14px}
+.lookbook-thumbnails img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover}
